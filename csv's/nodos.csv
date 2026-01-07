@@ -1,0 +1,36 @@
+id_nodo;nombre;latitud;longitud
+0;Avenida Campos de Deportes & Irarrázaval;-33,4537667;-70,6089069
+1;Avenida Campos de Deportes & José Domingo Cañas;-33,4567491;-70,6094491
+2;Avenida Campos de Deportes & Suárez Mujica;-33,460214;-70,6098438
+3;Avenida Campos de Deportes & Grecia;-33,46201;-70,6101424
+4;Avenida Campos de Deportes & Eduardo Castillo Velasco;-33,4578666;-70,6094483
+5;Avenida Campos de Deportes & Dublé Almeyda;-33,4551993;-70,6091471
+6;Dublé Almeyda & Monseñor Eyzaguirre;-33,4547071;-70,6137942
+7;Dublé Almeyda & Pedro de Valdivia;-33,4556262;-70,6052114
+8;Dublé Almeyda & Los Tres Antonios;-33,4559043;-70,6026957
+9;Eduardo Castillo Velasco & Dr. Johow;-33,4592565;-70,593921
+10;Eduardo Castillo Velasco & José Pedro Alessandri;-33,4591078;-70,5980568
+11;Eduardo Castillo Velasco & Los Tres Antonios;-33,458513;-70,603103
+12;Eduardo Castillo Velasco & Pedro de Valdivia;-33,4582517;-70,6056243
+13;Exequiel Fernández & Capitán Orella;-33,4526948;-70,6049689
+14;Exequiel Fernández & Irarrázaval;-33,4547267;-70,5997511
+15;Exequiel Fernández & José Domingo Cañas;-33,4577649;-70,5998607
+16;Exequiel Fernández & Juán Gomez Millas;-33,4617041;-70,6001313
+17;Irarrázaval & José Pedro Alessandri;-33,4548493;-70,5979552
+18;Irarrázaval & Los Tres Antonios;-33,4543519;-70,6024684
+19;Irarrázaval & Pedro de Valdivia;-33,4541791;-70,6049732
+20;Irarrázaval & Manuel Montt;-33,4532591;-70,6124562
+21;José Pedro Alessandri & Cervantes;-33,4684149;-70,5984277
+22;José Pedro Alessandri & José Domingo Cañas;-33,4579416;-70,597879
+23;José Pedro Alessandri & Juán Gomez Millas;-33,461773;-70,5981848
+24;José Pedro Alessandri & Las Palmeras;-33,4684149;-70,5984277
+25;José Pedro Alessandri & Grecia;-33,464487;-70,5983438
+26;José Pedro Alessandri & Dublé Almeyda;-33,4566438;-70,5978312
+27;Pedro de Valdivia & Simón Bolivar;-33,4503758;-70,6052628
+28;Pedro de Valdivia & José Domingo Cañas;-33,457172;-70,6053719
+29;Pedro de Valdivia & Dr. Luis Bisquert;-33,4655132;-70,6067398
+30;Pedro de Valdivia & Grecia;-33,4621851;-70,606112
+31;José Domingo Cañas & Los Tres Antonios;-33,457436;-70,6029312
+32;José Domingo Cañas & Monseñor Eyzaguirre;-33,4562474;-70,6140292
+33;Los Tres Antonios & Grecia;-33,4632295;-70,6038614
+34;Exequiel Fernández & Grecia;-33,4646632;-70,6002706
