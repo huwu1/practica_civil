@@ -1,0 +1,17 @@
+# --- Django ---
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media/
+
+# --- Entornos Virtuales (¡Lo más importante!) ---
+myenv/
+venv/
+env/
+.env
+
+# --- Sistema Operativo ---
+.DS_Store
