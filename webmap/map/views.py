@@ -5,9 +5,30 @@ from .models import Arcs, Nodes
 
 def traffic_data_api(request):
     features = []
+
+    # PARA LOS NODOS
+
+    nodos = Nodes.objects.all()
+
+    for nodo in nodos:
+        features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [float(nodo.latitud), float(nodo.longitud)]
+            },
+            "properties": {
+                "id": nodo.id_nodo,
+                "nombre": nodo.nombre
+            }
+
+        })   
+
+    # PARA LOS ARCOS:
     
     # Recorremos cada arco para construir la línea
     # select_related es para optimizar y traer los nodos de una sola vez
+    # (trae el dato foráneo altiro)
     arcos = Arcs.objects.select_related('id_nodo1', 'id_nodo2').all()
 
     for arco in arcos:
@@ -33,6 +54,7 @@ def traffic_data_api(request):
                 }
             }
             features.append(feature)
+            
         except Exception as e:
             print(f"Error en arco {arco.id}: {e}")
             continue
