@@ -15,7 +15,8 @@ def traffic_data_api(request):
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [float(nodo.longitud), float(nodo.latitud)]
+                "coordinates": [float(str(nodo.longitud).replace(',', '.')), 
+                                float(str(nodo.latitud).replace(',', '.'))]
             },
             "properties": {
                 "id": nodo.id_nodo,
@@ -34,8 +35,8 @@ def traffic_data_api(request):
         try:
             # 1. Obtenemos las coordenadas de inicio y fin
             # OJO: GeoJSON usa el orden [Longitud, Latitud] (al revés de Google)
-            start_coord = [float(arco.id_nodo1.longitud), float(arco.id_nodo1.latitud)]
-            end_coord   = [float(arco.id_nodo2.longitud), float(arco.id_nodo2.latitud)]
+            start_coord = [float(str(arco.id_nodo1.longitud).replace(',', '.')), float((str(arco.id_nodo1.latitud).replace(',', '.')))]
+            end_coord   = [float(str(arco.id_nodo2.longitud).replace(',', '.')), float((str(arco.id_nodo2.latitud).replace(',', '.')))]
 
             # 2. Creamos el objeto GeoJSON para este tramo
             feature = {
@@ -46,7 +47,8 @@ def traffic_data_api(request):
                 },
                 "properties": {
                     "id": arco.id_arco,
-                    "calle": arco.main_street,
+                    "calle_principal": arco.main_street,
+                    "sentido": arco.sentido,
                     # Aquí envías el dato para colorear (ej: nivel de congestión)
                     # Si no tienes el dato aún, pon un valor de prueba como 1
                     "nivel_congestion": -1  

@@ -2,13 +2,13 @@
     <head>
         <title>Mapa de Congestión</title>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-        <script src='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js'></script>
-        <link href='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.css' rel='stylesheet' />
+        <script src='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js'></script> <!-- mapbox-->
+        <link href='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.css' rel='stylesheet' /> <!-- mapbox-->
         <style>
             body { margin: 0; padding: 0; }
             #map { position: absolute; top: 0; bottom:0; width: 100%;}
         </style>
-    </head>
+    </head> 
     <body>
         <div id="map"></div>
         <script>
@@ -16,8 +16,8 @@
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/dark-v11',
-                center: [-70.6693, -33.4489], // Santiago
-                zoom: 13 // Zoom nivel calle/barrio
+                center: [-70.60288828863801, -33.45724800174789],
+                zoom: 14.5
             });
             
             // para añadir marcadores:
@@ -53,8 +53,9 @@
                         'line-cap': 'round'
                     },
                     paint: {
-                    'line-color': '#888', // Color gris
-                        'line-width': 3       // Grosor de la línea
+                    'line-color': '#D3D3D3', // Color gris
+                        'line-width': 4,       // Grosor de la línea
+                        'line-offset': 4
                     }
                 });
 
@@ -70,6 +71,39 @@
                         }
                     });
             });
+
+                // 1. Crear una instancia del Popup (pero aún no lo mostramos)
+                const popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: false
+                });
+
+                // 2. Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
+                map.on('mouseenter', 'capa-aristas', (e) => {
+                    // Cambiar el cursor a una manito para indicar que es interactivo
+                    map.getCanvas().style.cursor = 'pointer';
+
+                    // Obtener las coordenadas donde está el mouse
+                    const coordinates = e.lngLat;
+                    
+                    // Obtener las propiedades del tramo (asegúrate que tu API mande 'id_arco')
+                    // Si en tu GeoJSON el campo se llama 'id', cámbialo abajo.
+                    const propiedades = e.features[0].properties;
+                    const idTramo = propiedades.id; 
+                    const calle = propiedades.calle_principal;
+                    const sentido = propiedades.sentido;
+
+                    // Configurar el HTML del popup y mostrarlo
+                    popup.setLngLat(coordinates)
+                        .setHTML(`<strong>ID: ${idTramo}</strong><br>Calle: ${calle}<br>Sentido: ${sentido}`)
+                        .addTo(map);
+                });
+
+                // 3. Evento: Cuando el mouse SALE de la línea
+                map.on('mouseleave', 'capa-aristas', () => {
+                    map.getCanvas().style.cursor = ''; // Restaurar cursor
+                    popup.remove(); // Quitar el popup
+                });
         </script>
     </body>
 </html>

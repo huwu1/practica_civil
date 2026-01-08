@@ -3,8 +3,8 @@ from django.db import models
 class Nodes(models.Model):
     id_nodo = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    latitud = models.DecimalField(max_digits=22, decimal_places=16)
-    longitud = models.DecimalField(max_digits=22, decimal_places=16)
+    latitud = models.FloatField()
+    longitud = models.FloatField()
 
     def __str__(self):
         return f"{self.id_nodo}: {self.latitud}, {self.longitud}"
@@ -27,6 +27,7 @@ class DatoTrafico(models.Model):
     fecha_hora = models.DateTimeField()
     velocidad = models.FloatField()
     nivel_congestion = models.IntegerField()
+
 
 
 
