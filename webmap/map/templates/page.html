@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>Mapa de Congestión</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <script src='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.css' rel='stylesheet' />
+        <style>
+            body { margin: 0; padding: 0; }
+            #map { position: absolute; top: 0; bottom:0; width: 100%;}
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/dark-v11',
+                center: [-70.6693, -33.4489], // Santiago
+                zoom: 13 // Zoom nivel calle/barrio
+            });
+            
+            // para añadir marcadores:
+
+            // const marker1 = new mapboxgl.Marker({
+            // color:  'green'  |
+            // rotation: 45     |--> características
+            // ...              |
+            // })
+            // .setLngLat([x, y]) -> ubicacion
+            // .addTo(map); -> se añade
+
+            // controles (zoom, direccion norte, etc)
+            map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+            map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+            map.on('load', () => {
+
+                // 1. La fuente es la misma de antes (tu API actualizada)
+                map.addSource('mis-datos-red', {
+                    type: 'geojson',
+                    data: '/api/traffic-data/' 
+                });
+
+                // 2. CAPA DE LÍNEAS (ARISTAS)
+                // Mapbox buscará automáticamente las geometrías "LineString" en tu API
+                map.addLayer({
+                    id: 'capa-aristas',
+                    type: 'line',         // <--- Tipo 'line' para las aristas
+                    source: 'mis-datos-red',
+                    layout: {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    paint: {
+                    'line-color': '#888', // Color gris
+                        'line-width': 3       // Grosor de la línea
+                    }
+                });
+
+                // 3. CAPA DE PUNTOS (NODOS)
+                // Mapbox buscará automáticamente las geometrías "Point"
+                map.addLayer({
+                    id: 'capa-nodos',
+                    type: 'circle',
+                    source: 'mis-datos-red', // <--- ¡Misma fuente!
+                    paint: {
+                        'circle-radius': 6,
+                        'circle-color': '#FF0000'
+                        }
+                    });
+            });
+        </script>
+    </body>
+</html>

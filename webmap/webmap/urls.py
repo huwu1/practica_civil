@@ -21,4 +21,5 @@ from map import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/traffic-data/', views.traffic_data_api, name='traffic_api'),
+    path('ver-mapa/', views.vista_pantalla_mapa, name='ver_mapa'),
 ]

@@ -18,20 +18,15 @@ class Arcs(models.Model):
     to_intersection = models.CharField(max_length=100)
     id_nodo1 = models.ForeignKey(Nodes, on_delete=models.CASCADE, related_name='arcos_origen')
     id_nodo2 = models.ForeignKey(Nodes, on_delete=models.CASCADE, related_name='arcos_destino')
-    
-    #puntos = models.JSONField() 
 
     def __str__(self):
         return f"Arco de {self.id_nodo1_id} a {self.id_nodo2_id}"
-    # Varios arcos pueden apuntar a la misma intersección (11)
 
 class DatoTrafico(models.Model):
-    # Datos (Dinámicos)
     #interseccion = models.ForeignKey(Interseccion, related_name='datos', on_delete=models.CASCADE)
     fecha_hora = models.DateTimeField()
     velocidad = models.FloatField()
     nivel_congestion = models.IntegerField()
 
-    # Un solo dato para la intersección 11
 
 
