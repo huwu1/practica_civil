@@ -29,13 +29,16 @@ def traffic_data_api(request):
 
 
 
-    # PARA LOS ARCOS:
+    # PARA LOS ARCOS Y PARA LOS DATOS DE TRÁFICO (van de la mano):
     
     # select_related es para optimizar y traer los nodos de una sola vez
     # ("trae" el dato foráneo altiro)
-    arcos = Arcs.objects.select_related('id_nodo1', 'id_nodo2').all()
+    datos = Traffic.objects.select_related('id_arco__id_nodo1', 'id_arco__id_nodo2').all()
 
-    for arco in arcos:
+    for dato in datos:
+
+        arco = dato.id_arco
+
         # 1. Obtenemos las coordenadas de inicio y fin
         # OJO: GeoJSON usa el orden [Longitud, Latitud] (al revés de Google)
         start_coord = [float(str(arco.id_nodo1.longitud).replace(',', '.')), float((str(arco.id_nodo1.latitud).replace(',', '.')))]
@@ -52,20 +55,13 @@ def traffic_data_api(request):
                 "id": arco.id_arco,
                 "calle_principal": arco.calle_principal,
                 "sentido": arco.sentido,
-                # Aquí envías el dato para colorear (ej: nivel de congestión)
-                # Si no tienes el dato aún, pon un valor de prueba como 1
-                "nivel_congestion": -1  
+                "dia": dato.dia,
+                "hora": dato.hora,
+                "congestion": dato.nivel_congestion
             }
         }
 
         features.append(feature)
-
-    # PARA LOS DATOS TEMPORALES:
-
-    #datos = Traffic.objects.select_related('id_arco__id_nodo1', 'id_arco__id_nodo2').all()
-
-    #for dato in datos:
-    #    arco
 
     # 3. Empaquetamos todo
     geojson = {
