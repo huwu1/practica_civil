@@ -12,10 +12,10 @@ class Nodes(models.Model):
 class Arcs(models.Model): 
     id_arco = models.IntegerField(primary_key=True)
     interseccion = models.IntegerField()
-    main_street = models.CharField(max_length=100)
+    calle_principal = models.CharField(max_length=100)
     sentido = models.CharField(max_length=100)
-    from_intersection = models.CharField(max_length=100)
-    to_intersection = models.CharField(max_length=100)
+    desde_interseccion = models.CharField(max_length=100)
+    hasta_interseccion = models.CharField(max_length=100)
     id_nodo1 = models.ForeignKey(Nodes, on_delete=models.CASCADE, related_name='arcos_origen')
     id_nodo2 = models.ForeignKey(Nodes, on_delete=models.CASCADE, related_name='arcos_destino')
 
@@ -23,14 +23,19 @@ class Arcs(models.Model):
         return f"Arco de {self.id_nodo1_id} a {self.id_nodo2_id}"
 
 class Traffic(models.Model):
-    main_street = models.CharField(max_length=100)
+    calle_principal = models.CharField(max_length=100)
     id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
     sentido = models.CharField(max_length=100)
-    from_intersection = models.CharField(max_length=100)
-    to_intersection = models.CharField(max_length=100)
-    intersección = models.IntegerField()
-    day_name = models.CharField(max_length=100, primary_key=True)
+    desde_interseccion = models.CharField(max_length=100)
+    hasta_interseccion = models.CharField(max_length=100)
+    n_interseccion = models.IntegerField()
+    dia = models.CharField(max_length=100)
     hora = models.TimeField()
+    plan = models.CharField(max_length=100)
+    tiempo = models.FloatField()
+    velocidad = models.FloatField()
+    tiempo_entre_largo = models.FloatField()
+    DCA = models.FloatField()
     nivel_congestion = models.IntegerField(null=True, blank=True)
 
 

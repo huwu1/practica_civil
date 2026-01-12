@@ -1,4 +1,4 @@
-id_arco;interseccion;main_street;sentido;from_intersection;to_intersection;id_nodo1_id;id_nodo2_id
+id_arco;intersection;calle_principal;sentido;desde_interseccion;hasta_interseccion;id_nodo1_id;id_nodo2_id
 1;6;Avenida Campos de Deportes;NS;Irarrázaval;Dublé Almeyda;1;5
 2;11;Avenida Campos de Deportes;NS;Dublé Almeyda;José Domingo Cañas;5;2
 3;16;Avenida Campos de Deportes;NS;José Domingo Cañas;Eduardo Castillo Velasco;2;4

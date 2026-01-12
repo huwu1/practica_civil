@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.http import JsonResponse
-from .models import Arcs, Nodes
+from .models import Arcs, Nodes, Traffic
 
 def traffic_data_api(request):
     features = []
@@ -11,7 +11,7 @@ def traffic_data_api(request):
     nodos = Nodes.objects.all()
 
     for nodo in nodos:
-        features.append({
+        feature = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -23,7 +23,11 @@ def traffic_data_api(request):
                 "nombre": nodo.nombre
             }
 
-        })   
+        }
+
+        features.append(feature)
+
+
 
     # PARA LOS ARCOS:
     
@@ -32,33 +36,36 @@ def traffic_data_api(request):
     arcos = Arcs.objects.select_related('id_nodo1', 'id_nodo2').all()
 
     for arco in arcos:
-        try:
-            # 1. Obtenemos las coordenadas de inicio y fin
-            # OJO: GeoJSON usa el orden [Longitud, Latitud] (al revés de Google)
-            start_coord = [float(str(arco.id_nodo1.longitud).replace(',', '.')), float((str(arco.id_nodo1.latitud).replace(',', '.')))]
-            end_coord   = [float(str(arco.id_nodo2.longitud).replace(',', '.')), float((str(arco.id_nodo2.latitud).replace(',', '.')))]
+        # 1. Obtenemos las coordenadas de inicio y fin
+        # OJO: GeoJSON usa el orden [Longitud, Latitud] (al revés de Google)
+        start_coord = [float(str(arco.id_nodo1.longitud).replace(',', '.')), float((str(arco.id_nodo1.latitud).replace(',', '.')))]
+        end_coord   = [float(str(arco.id_nodo2.longitud).replace(',', '.')), float((str(arco.id_nodo2.latitud).replace(',', '.')))]
 
-            # 2. Creamos el objeto GeoJSON para este tramo
-            feature = {
-                "type": "Feature",
-                "geometry": {
-                    "type": "LineString", # Es una línea
-                    "coordinates": [start_coord, end_coord]
-                },
-                "properties": {
-                    "id": arco.id_arco,
-                    "calle_principal": arco.main_street,
-                    "sentido": arco.sentido,
-                    # Aquí envías el dato para colorear (ej: nivel de congestión)
-                    # Si no tienes el dato aún, pon un valor de prueba como 1
-                    "nivel_congestion": -1  
-                }
+        # 2. Creamos el objeto GeoJSON para este tramo
+        feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString", # Es una línea
+                "coordinates": [start_coord, end_coord]
+            },
+            "properties": {
+                "id": arco.id_arco,
+                "calle_principal": arco.calle_principal,
+                "sentido": arco.sentido,
+                # Aquí envías el dato para colorear (ej: nivel de congestión)
+                # Si no tienes el dato aún, pon un valor de prueba como 1
+                "nivel_congestion": -1  
             }
-            features.append(feature)
+        }
 
-        except Exception as e:
-            print(f"Error en arco {arco.id}: {e}")
-            continue
+        features.append(feature)
+
+    # PARA LOS DATOS TEMPORALES:
+
+    #datos = Traffic.objects.select_related('id_arco__id_nodo1', 'id_arco__id_nodo2').all()
+
+    #for dato in datos:
+    #    arco
 
     # 3. Empaquetamos todo
     geojson = {
