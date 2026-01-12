@@ -41,7 +41,7 @@
             /* Para Chrome, Safari, Edge */
             #slider::-webkit-slider-runnable-track {
                 width: 100%;
-                height: 20px;/
+                height: 20px;
                 cursor: pointer;
                 background:rgba(0, 0, 0, 0.05);
                 border-radius: 6px;
@@ -117,18 +117,25 @@
             const display = document.getElementById('hora-label');
             const diaSelect = document.getElementById('dia-select');
 
+            // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
+
+            // Día seleccionado
             let diaActual = diaSelect.value;
 
+            // Función para transformar la cantidad de minutos que lleva el slider acumulados 
+            // en el formato TimeField() de los datos
             function getHora(minutosInput) {
                 const h = Math.floor(minutosInput / 60);
                 const m = minutosInput % 60;
 
                 const hStr = h.toString().padStart(2, '0');
                 const mStr = m.toString().padStart(2, '0');
-                return `${hStr}:${mStr}:00`; // formato TimeField()
+                return `${hStr}:${mStr}:00`; // formato TimeField() (06:00:00)
             }
-
+            
+            // Función para displayear lo que corresponda según el slider y el día seleccionado
+            // a través de filtros literales
             function actualizarMapa() {
                 const hora = getHora(minutosTotales);
 
@@ -142,17 +149,21 @@
                     map.setFilter('capa-aristas', filtro);
                 }
                 
+                // Para actualizar la hora mostrada x el slider
                 const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
                 const mVis = (minutosTotales % 60).toString().padStart(2, '0');
                 display.innerText = `${hVis}:${mVis}`;
             }
 
             // Listeners: Cuando el usuario toca algo
+
+            // Hora
             slider.addEventListener('input', (e) => {
                 minutosTotales = parseInt(e.target.value);
                 actualizarMapa();
             });
 
+            // Día
             diaSelect.addEventListener('change', (e) => {
                 diaActual = e.target.value;
                 actualizarMapa();
@@ -164,7 +175,7 @@
 
             map.on('load', () => {
 
-                // 1. La fuente es la misma de antes (tu API actualizada)
+                // 1. La fuente es la misma de antes
                 map.addSource('datos-red', {
                     type: 'geojson',
                     data: '/api/traffic-data/' 
@@ -173,7 +184,7 @@
                 // 2. CAPA DE LÍNEAS (ARISTAS) con los colores dinámicos
                 map.addLayer({
                     id: 'capa-aristas',
-                    type: 'line',         // <--- Tipo 'line' para las aristas
+                    type: 'line',    
                     source: 'datos-red',
                     layout: {
                         'line-join': 'round',
@@ -199,7 +210,6 @@
                 actualizarMapa();
 
                 // 3. CAPA DE PUNTOS (NODOS)
-                // Mapbox buscará automáticamente las geometrías "Point"
                 map.addLayer({
                     id: 'capa-nodos',
                     type: 'circle',
@@ -212,7 +222,7 @@
                     });
             });
 
-                // 1. Crear una instancia del Popup (pero aún no lo mostramos)
+                // 1. Crear una instancia del Popup
                 const popup = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: false
@@ -220,14 +230,14 @@
 
                 // 2. Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
                 map.on('mouseenter', 'capa-aristas', (e) => {
+
                     // Cambiar el cursor a una manito para indicar que es interactivo
                     map.getCanvas().style.cursor = 'pointer';
 
                     // Obtener las coordenadas donde está el mouse
                     const coordinates = e.lngLat;
                     
-                    // Obtener las propiedades del tramo (asegúrate que tu API mande 'id_arco')
-                    // Si en tu GeoJSON el campo se llama 'id', cámbialo abajo.
+                    // Obtener las propiedades del tramo 
                     const propiedades = e.features[0].properties;
                     const idTramo = propiedades.id; 
                     const calle = propiedades.calle_principal;
@@ -254,8 +264,8 @@
 
                 // 3. Evento: Cuando el mouse SALE de la línea
                 map.on('mouseleave', 'capa-aristas', () => {
-                    map.getCanvas().style.cursor = ''; // Restaurar cursor
-                    popup.remove(); // Quitar el popup
+                    map.getCanvas().style.cursor = '';
+                    popup.remove();
                 });
         </script>
     </body>

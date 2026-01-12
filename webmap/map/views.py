@@ -48,7 +48,7 @@ def traffic_data_api(request):
         feature = {
             "type": "Feature",
             "geometry": {
-                "type": "LineString", # Es una línea
+                "type": "LineString",
                 "coordinates": [start_coord, end_coord]
             },
             "properties": {

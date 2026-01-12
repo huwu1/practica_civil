@@ -1,5 +1,6 @@
 from django.db import models
 
+# Nodos con sus coordenadas
 class Nodes(models.Model):
     id_nodo = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -9,6 +10,7 @@ class Nodes(models.Model):
     def __str__(self):
         return f"{self.id_nodo}: {self.latitud}, {self.longitud}"
 
+# Arcos; conexiones entre dos nodos
 class Arcs(models.Model): 
     id_arco = models.IntegerField(primary_key=True)
     interseccion = models.IntegerField()
@@ -22,6 +24,7 @@ class Arcs(models.Model):
     def __str__(self):
         return f"Arco de {self.id_nodo1_id} a {self.id_nodo2_id}"
 
+# Cada arco con información relevante cada 15 minutos
 class Traffic(models.Model):
     id = models.IntegerField(primary_key=True)
     calle_principal = models.CharField(max_length=100)
