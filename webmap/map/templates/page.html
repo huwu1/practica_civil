@@ -196,12 +196,12 @@
                         'line-color': [
                             'match',
                             ['get', 'congestion'],
-                                1, '#FEEBE7',
-                                2, '#FCC6BB',
-                                3, '#FAA18F',
-                                4, '#F87C63',
-                                5, '#F54927',
-                                6, '#F4320B',
+                                1, '#31C950',
+                                2, '#9AE630',
+                                3, '#FFDF20',
+                                4, '#FF692A',
+                                5, '#E7180B',
+                                6, '#CC00CC',
                                 '#D3D3D3'
                             ],
                     }
@@ -256,7 +256,8 @@
                                     Sentido: ${sentido}<br>
                                     Tiempo: ${tiempo}<br>
                                     Velocidad: ${velocidad}<br>
-                                    Tiempo/Largo : ${tiempo_entre_largo}<br>
+                                    Tiempo/Largo: ${tiempo_entre_largo}<br>
+                                    Congestion: ${congestion}<br>
                             </div>
                         `)
                         .addTo(map);
