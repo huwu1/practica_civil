@@ -58,10 +58,39 @@
                 border-radius: 5px;
             }
 
-            /* Leyenda de Colores */
-            .legend { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; }
-            .legend-item { display: flex; align-items: center; }
-            .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; }
+            .map-overlay-legend {
+                    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                    position: absolute;
+                    bottom: 30px;  
+                    right: 10px;   
+                    width: 175px;
+                    background-color: #fff;
+                    padding: 10px;
+                    border-radius: 10px;
+                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
+                    z-index: 100;
+                }
+
+                .map-overlay-legend h3 {
+                    margin: 0 0 10px;
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                .legend-item {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 5px;
+                    color: #555;
+                }
+
+                .dot {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                }
 
         </style>
     </head> 
@@ -87,20 +116,18 @@
                 <h2>Hora: <label id="hora-label">06:30</label></h2>
                 <input id="slider" type="range" min="390" max="1310" step="15" value="0">
 
-                <!--
-                <div class="legend">
-                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Flujo libre</div>
-                    <div class="legend-item"><div class="dot" style="background:#FFB30F;"></div>Interacción sin congestión</div>
-                    <div class="legend-item"><div class="dot" style="background:#E71D36;"></div>Congestión tolerable</div>
-                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Congestión alta</div>
-                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Saturado</div>
-                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Saturación extrema</div>
-                </div>
-                -->
-
             </div>
 
+        </div>
 
+        <div class="map-overlay-legend">
+            <h3>Niveles de Congestión</h3>
+            <div class="legend-item"><div class="dot" style="background:#31C950;"></div>Flujo libre</div>
+            <div class="legend-item"><div class="dot" style="background:#9AE630;"></div>Interacción sin congestión</div>
+            <div class="legend-item"><div class="dot" style="background:#FFDF20;"></div>Congestión tolerable</div>
+            <div class="legend-item"><div class="dot" style="background:#FF8904;"></div>Congestión alta</div>
+            <div class="legend-item"><div class="dot" style="background:#E7180B;"></div>Saturado</div>
+            <div class="legend-item"><div class="dot" style="background:#CC00CC;"></div>Saturación extrema</div>
         </div>
 
         <script>
