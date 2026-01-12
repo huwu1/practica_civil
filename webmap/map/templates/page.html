@@ -27,41 +27,41 @@
                 font-size: 14px; 
                 font-weight: bold;
                 
-            }
-            
+            }    
 
             /* Estilos para el contenedor del slider para darle espacio */
             #slider {
-                /* Aumenta el ancho total del slider para que llene el contenedor */
                 width: 100%;
-                /* Un poco de margen arriba y abajo */
                 margin: 5px 0;
-                /* Elimina los estilos por defecto del navegador para poder personalizarlo */
                 -webkit-appearance: none;
                 appearance: none;
-                /* Fondo transparente */
                 background: rgb(200, 188, 188);
             }
 
             /* Para Chrome, Safari, Edge */
             #slider::-webkit-slider-runnable-track {
                 width: 100%;
-                height: 20px; /* <-- ¡AQUÍ CONTROLAS EL ANCHO DE LA LÍNEA! Auméntalo a tu gusto */
+                height: 20px;/
                 cursor: pointer;
-                background:rgba(0, 0, 0, 0.05); /* Color de la barra */
-                border-radius: 6px; /* Bordes redondeados */
+                background:rgba(0, 0, 0, 0.05);
+                border-radius: 6px;
             }    
             
             /* El Cuadrado Negro (Thumb) */
             #slider::-webkit-slider-thumb {
                 -webkit-appearance: none;
-                height: 30px;    /* <--- ¡IMPORTANTE! Debe ser IGUAL a la altura del track (30px) */
-                width: 45px;     /* Ancho del manejador (hazlo más ancho si quieres que sea fácil de agarrar) */
-                background: #111; /* Negro */
+                height: 30px;   
+                width: 45px;    
+                background: #111;
                 cursor: grab;
-                margin-top: -5px; /* Al tener la misma altura, el margen es 0 */
-                border-radius: 5px; /* Bordes redondeados del cuadrado */
+                margin-top: -5px; 
+                border-radius: 5px;
             }
+
+            /* Leyenda de Colores */
+            .legend { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; }
+            .legend-item { display: flex; align-items: center; }
+            .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; }
 
         </style>
     </head> 
@@ -72,21 +72,35 @@
         <div class="map-overlay top">
             <div class="map-overlay-inner">
                 <div class="selector-dia-container">
-                    <label for="dia-select">Día:</label>
+                    <label for="dia-select">Día de la semana:</label>
                     <select id="dia-select">
-                        <option value="Lunes">Lunes</option>
-                        <option value="Martes">Martes</option>
-                        <option value="Miércoles">Miércoles</option>
-                        <option value="Jueves">Jueves</option>
-                        <option value="Viernes">Viernes</option>
-                        <option value="Sábado">Sábado</option>
-                        <option value="Domingo">Domingo</option>
+                        <option value="Monday">Lunes</option>
+                        <option value="Tuesday">Martes</option>
+                        <option value="Wednesday">Miércoles</option>
+                        <option value="Thursday">Jueves</option>
+                        <option value="Friday">Viernes</option>
+                        <option value="Saturday">Sábado</option>
+                        <option value="Sunday">Domingo</option>
                     </select>
                 </div>
 
                 <h2>Hora: <label id="hora-label">06:30</label></h2>
-                <input id="slider" type="range" min="0" max="1425" step="15" value="0">
+                <input id="slider" type="range" min="390" max="1310" step="15" value="0">
+
+                <!--
+                <div class="legend">
+                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Flujo libre</div>
+                    <div class="legend-item"><div class="dot" style="background:#FFB30F;"></div>Interacción sin congestión</div>
+                    <div class="legend-item"><div class="dot" style="background:#E71D36;"></div>Congestión tolerable</div>
+                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Congestión alta</div>
+                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Saturado</div>
+                    <div class="legend-item"><div class="dot" style="background:#2DC4B2;"></div>Saturación extrema</div>
+                </div>
+                -->
+
             </div>
+
+
         </div>
 
         <script>
@@ -97,16 +111,52 @@
                 center: [-70.60317798251957, -33.45911872061706],  
                 zoom: 14.5
             });
-            
-            // para añadir marcadores:
 
-            // const marker1 = new mapboxgl.Marker({
-            // color:  'green'  |
-            // rotation: 45     |--> características
-            // ...              |
-            // })
-            // .setLngLat([x, y]) -> ubicacion
-            // .addTo(map); -> se añade
+            // Referencias a los controles HTML
+            const slider = document.getElementById('slider');
+            const display = document.getElementById('hora-label');
+            const diaSelect = document.getElementById('dia-select');
+
+            let minutosTotales = parseInt(slider.value);
+            let diaActual = diaSelect.value;
+
+            function getHora(minutosInput) {
+                const h = Math.floor(minutosInput / 60);
+                const m = minutosInput % 60;
+
+                const hStr = h.toString().padStart(2, '0');
+                const mStr = m.toString().padStart(2, '0');
+                return `${hStr}:${mStr}:00`; // formato TimeField()
+            }
+
+            function actualizarMapa() {
+                const hora = getHora(minutosTotales);
+
+                const filtro = [
+                    'all',
+                    ['==', ['get', 'dia'], diaActual],
+                    ['==', ['get', 'hora'], hora],
+                ];
+
+                if (map.getLayer('capa-aristas')) {
+                    map.setFilter('capa-aristas', filtro);
+                }
+                
+                const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
+                const mVis = (minutosTotales % 60).toString().padStart(2, '0');
+                display.innerText = `${hVis}:${mVis}`;
+            }
+
+            // Listeners: Cuando el usuario toca algo
+            slider.addEventListener('input', (e) => {
+                minutosTotales = parseInt(e.target.value);
+                actualizarMapa();
+            });
+
+            diaSelect.addEventListener('change', (e) => {
+                diaActual = e.target.value;
+                actualizarMapa();
+            });
 
             // controles (zoom, direccion norte, etc)
             map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
@@ -115,34 +165,46 @@
             map.on('load', () => {
 
                 // 1. La fuente es la misma de antes (tu API actualizada)
-                map.addSource('mis-datos-red', {
+                map.addSource('datos-red', {
                     type: 'geojson',
                     data: '/api/traffic-data/' 
                 });
 
-                // 2. CAPA DE LÍNEAS (ARISTAS)
-                // Mapbox buscará automáticamente las geometrías "LineString" en tu API
+                // 2. CAPA DE LÍNEAS (ARISTAS) con los colores dinámicos
                 map.addLayer({
                     id: 'capa-aristas',
                     type: 'line',         // <--- Tipo 'line' para las aristas
-                    source: 'mis-datos-red',
+                    source: 'datos-red',
                     layout: {
                         'line-join': 'round',
                         'line-cap': 'round'
                     },
                     paint: {
-                    'line-color': '#D3D3D3', // Color gris
-                        'line-width': 3,       // Grosor de la línea
-                        'line-offset': 5
+                        'line-width': 3,     
+                        'line-offset': 5,
+                        'line-color': [
+                            'match',
+                            ['get', 'congestion'],
+                                1, '#FEEBE7',
+                                2, '#FCC6BB',
+                                3, '#FAA18F',
+                                4, '#F87C63',
+                                5, '#F54927',
+                                6, '#F4320B',
+                                '#D3D3D3'
+                            ],
                     }
                 });
+
+                actualizarMapa();
 
                 // 3. CAPA DE PUNTOS (NODOS)
                 // Mapbox buscará automáticamente las geometrías "Point"
                 map.addLayer({
                     id: 'capa-nodos',
                     type: 'circle',
-                    source: 'mis-datos-red', // <--- ¡Misma fuente!
+                    source: 'datos-red',
+                    filter: ['==', '$type', 'Point'],
                     paint: {
                         'circle-radius': 7,
                         'circle-color': '#FF0000'
@@ -170,10 +232,23 @@
                     const idTramo = propiedades.id; 
                     const calle = propiedades.calle_principal;
                     const sentido = propiedades.sentido;
+                    const tiempo = propiedades.tiempo;
+                    const velocidad = propiedades.velocidad;
+                    const tiempo_entre_largo = propiedades.tiempo_entre_largo;
+                    const congestion = propiedades.congestion;
 
                     // Configurar el HTML del popup y mostrarlo
                     popup.setLngLat(coordinates)
-                        .setHTML(`<strong>ID: ${idTramo}</strong><br>Calle: ${calle}<br>Sentido: ${sentido}`)
+                        .setHTML(`
+                            <div style= "text-align: left; line-height: 1.5;">
+                                <strong>ID: ${idTramo}</strong><br>
+                                    Calle: ${calle}<br>
+                                    Sentido: ${sentido}<br>
+                                    Tiempo: ${tiempo}<br>
+                                    Velocidad: ${velocidad}<br>
+                                    Tiempo/Largo : ${tiempo_entre_largo}<br>
+                            </div>
+                        `)
                         .addTo(map);
                 });
 

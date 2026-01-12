@@ -23,7 +23,7 @@ class Arcs(models.Model):
         return f"Arco de {self.id_nodo1_id} a {self.id_nodo2_id}"
 
 class Traffic(models.Model):
-    id = models.IntegerField(primary_key=True)  
+    id = models.IntegerField(primary_key=True)
     calle_principal = models.CharField(max_length=100)
     id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
     sentido = models.CharField(max_length=100)

@@ -56,8 +56,12 @@ def traffic_data_api(request):
                 "calle_principal": arco.calle_principal,
                 "sentido": arco.sentido,
                 "dia": dato.dia,
-                "hora": dato.hora,
-                "congestion": dato.nivel_congestion
+                "hora": str(dato.hora),
+                "plan": dato.plan,
+                "tiempo": dato.tiempo,
+                "velocidad": dato.velocidad,
+                "tiempo_entre_largo": dato.tiempo_entre_largo,
+                "congestion": dato.nivel_congestion,
             }
         }
 
