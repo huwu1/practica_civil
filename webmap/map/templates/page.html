@@ -7,16 +7,93 @@
         <style>
             body { margin: 0; padding: 0; }
             #map { position: absolute; top: 0; bottom:0; width: 100%;}
+
+            .map-overlay {
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                position: absolute;
+                width: 25%;
+                top: 0;
+                left: 0;
+                padding: 10px;
+                z-index: 100;
+            }
+            .map-overlay .map-overlay-inner {
+                background-color: #fff;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
+                border-radius: 10px;
+                padding: 10px;
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 14px; 
+                font-weight: bold;
+                
+            }
+
+            /* Estilos para el contenedor del slider para darle espacio */
+            #slider {
+                /* Aumenta el ancho total del slider para que llene el contenedor */
+                width: 100%;
+                /* Un poco de margen arriba y abajo */
+                margin: 5px 0;
+                /* Elimina los estilos por defecto del navegador para poder personalizarlo */
+                -webkit-appearance: none;
+                appearance: none;
+                /* Fondo transparente */
+                background: rgb(200, 188, 188);
+            }
+
+            /* Para Chrome, Safari, Edge */
+            #slider::-webkit-slider-runnable-track {
+                width: 100%;
+                height: 20px; /* <-- ¡AQUÍ CONTROLAS EL ANCHO DE LA LÍNEA! Auméntalo a tu gusto */
+                cursor: pointer;
+                background:rgba(0, 0, 0, 0.05); /* Color de la barra */
+                border-radius: 6px; /* Bordes redondeados */
+            }    
+            
+            /* El Cuadrado Negro (Thumb) */
+            #slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                height: 30px;    /* <--- ¡IMPORTANTE! Debe ser IGUAL a la altura del track (30px) */
+                width: 45px;     /* Ancho del manejador (hazlo más ancho si quieres que sea fácil de agarrar) */
+                background: #111; /* Negro */
+                cursor: grab;
+                margin-top: -5px; /* Al tener la misma altura, el margen es 0 */
+                border-radius: 5px; /* Bordes redondeados del cuadrado */
+            }
+
         </style>
     </head> 
     <body>
+        
         <div id="map"></div>
+
+        <div class="map-overlay top">
+            <div class="map-overlay-inner">
+                <div class="selector-dia-container">
+                    <label for="dia-select">Día:</label>
+                    <select id="dia-select">
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sábado">Sábado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                </div>
+
+                <h2>Hora: <label id="hora-label">0</label>:00</h2>
+                <input id="slider" type="range" min="0" max="23" step="1" value="0">
+            </div>
+        </div>
+
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/dark-v11',
-                center: [-70.60288828863801, -33.45724800174789],
+                center: [-70.60317798251957, -33.45911872061706],  
                 zoom: 14.5
             });
             
@@ -54,8 +131,8 @@
                     },
                     paint: {
                     'line-color': '#D3D3D3', // Color gris
-                        'line-width': 4,       // Grosor de la línea
-                        'line-offset': 4
+                        'line-width': 3,       // Grosor de la línea
+                        'line-offset': 5
                     }
                 });
 
@@ -66,7 +143,7 @@
                     type: 'circle',
                     source: 'mis-datos-red', // <--- ¡Misma fuente!
                     paint: {
-                        'circle-radius': 6,
+                        'circle-radius': 7,
                         'circle-color': '#FF0000'
                         }
                     });

@@ -22,11 +22,16 @@ class Arcs(models.Model):
     def __str__(self):
         return f"Arco de {self.id_nodo1_id} a {self.id_nodo2_id}"
 
-class DatoTrafico(models.Model):
-    #interseccion = models.ForeignKey(Interseccion, related_name='datos', on_delete=models.CASCADE)
-    fecha_hora = models.DateTimeField()
-    velocidad = models.FloatField()
-    nivel_congestion = models.IntegerField()
+class Traffic(models.Model):
+    main_street = models.CharField(max_length=100)
+    id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
+    sentido = models.CharField(max_length=100)
+    from_intersection = models.CharField(max_length=100)
+    to_intersection = models.CharField(max_length=100)
+    intersección = models.IntegerField()
+    day_name = models.CharField(max_length=100, primary_key=True)
+    hora = models.TimeField()
+    nivel_congestion = models.IntegerField(null=True, blank=True)
 
 
 
