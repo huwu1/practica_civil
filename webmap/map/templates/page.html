@@ -11,7 +11,7 @@
             .map-overlay {
                 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
                 position: absolute;
-                width: 25%;
+                width: 25%; 
                 top: 0;
                 left: 0;
                 padding: 10px;
@@ -96,40 +96,41 @@
     </head> 
     <body>
         
-        <div id="map"></div>
+        <div id="map">
 
-        <div class="map-overlay top">
-            <div class="map-overlay-inner">
-                <div class="selector-dia-container">
-                    <label for="dia-select">Día de la semana:</label>
-                    <select id="dia-select">
-                        <option value="Monday">Lunes</option>
-                        <option value="Tuesday">Martes</option>
-                        <option value="Wednesday">Miércoles</option>
-                        <option value="Thursday">Jueves</option>
-                        <option value="Friday">Viernes</option>
-                        <option value="Saturday">Sábado</option>
-                        <option value="Sunday">Domingo</option>
-                    </select>
+            <div class="map-overlay top">
+                <div class="map-overlay-inner">
+                    <div class="selector-dia-container">
+                        <label for="dia-select">Día de la semana:</label>
+                        <select id="dia-select">
+                            <option value="Monday">Lunes</option>
+                            <option value="Tuesday">Martes</option>
+                            <option value="Wednesday">Miércoles</option>
+                            <option value="Thursday">Jueves</option>
+                            <option value="Friday">Viernes</option>
+                            <option value="Saturday">Sábado</option>
+                            <option value="Sunday">Domingo</option>
+                        </select>
+                    </div>
+
+                    <h2>Hora: <label id="hora-label">06:30</label></h2>
+                    <input id="slider" type="range" min="390" max="1310" step="15" value="0">
+
                 </div>
-
-                <h2>Hora: <label id="hora-label">06:30</label></h2>
-                <input id="slider" type="range" min="390" max="1310" step="15" value="0">
 
             </div>
 
-        </div>
-
-        <div class="map-overlay-legend">
-            <h3>Niveles de Congestión</h3>
-            <div class="legend-item"><div class="dot" style="background:#31C950;"></div>Flujo libre</div>
-            <div class="legend-item"><div class="dot" style="background:#9AE630;"></div>Interacción sin congestión</div>
-            <div class="legend-item"><div class="dot" style="background:#FFDF20;"></div>Congestión tolerable</div>
-            <div class="legend-item"><div class="dot" style="background:#FF8904;"></div>Congestión alta</div>
-            <div class="legend-item"><div class="dot" style="background:#E7180B;"></div>Saturado</div>
-            <div class="legend-item"><div class="dot" style="background:#CC00CC;"></div>Saturación extrema</div>
-        </div>
-
+            <div class="map-overlay-legend">
+                <h3>Niveles de Congestión</h3>
+                <div class="legend-item"><div class="dot" style="background:#31C950;"></div>Flujo libre</div>
+                <div class="legend-item"><div class="dot" style="background:#9AE630;"></div>Interacción sin congestión</div>
+                <div class="legend-item"><div class="dot" style="background:#FFDF20;"></div>Congestión tolerable</div>
+                <div class="legend-item"><div class="dot" style="background:#FF8904;"></div>Congestión alta</div>
+                <div class="legend-item"><div class="dot" style="background:#E7180B;"></div>Saturado</div>
+                <div class="legend-item"><div class="dot" style="background:#CC00CC;"></div>Saturación extrema</div>
+            
+            </div>
+        </div>    
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
             const map = new mapboxgl.Map({
