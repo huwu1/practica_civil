@@ -61,7 +61,7 @@ def traffic_data_api(request):
                 "tiempo": dato.tiempo,
                 "velocidad": dato.velocidad,
                 "tiempo_entre_largo": dato.tiempo_entre_largo,
-                "congestion": dato.nivel_congestion,
+                "nivel_congestion": dato.nivel_congestion,
             }
         }
 

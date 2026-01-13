@@ -101,16 +101,27 @@
             <div class="map-overlay top">
                 <div class="map-overlay-inner">
                     <div class="selector-dia-container">
-                        <label for="dia-select">Día de la semana:</label>
-                        <select id="dia-select">
-                            <option value="Monday">Lunes</option>
-                            <option value="Tuesday">Martes</option>
-                            <option value="Wednesday">Miércoles</option>
-                            <option value="Thursday">Jueves</option>
-                            <option value="Friday">Viernes</option>
-                            <option value="Saturday">Sábado</option>
-                            <option value="Sunday">Domingo</option>
-                        </select>
+                        <div class="control-group">
+                            <label for="dia-select">Día de la semana:</label>
+                            <select id="dia-select">
+                                <option value="Monday">Lunes</option>
+                                <option value="Tuesday">Martes</option>
+                                <option value="Wednesday">Miércoles</option>
+                                <option value="Thursday">Jueves</option>
+                                <option value="Friday">Viernes</option>
+                                <option value="Saturday">Sábado</option>
+                                <option value="Sunday">Domingo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="propiedad-select>">Propiedad:</label>
+                            <select id="propiedad-select">
+                                <option value="nivel_congestion">Nivel de congestión</option>
+                                <option value="velocidad">Velocidad</option>
+                                <option value="tiempo">Tiempo</option>
+                            </select>
+                        </div>    
                     </div>
 
                     <h2>Hora: <label id="hora-label">06:30</label></h2>
@@ -131,6 +142,7 @@
             
             </div>
         </div>    
+
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
             const map = new mapboxgl.Map({
@@ -144,12 +156,16 @@
             const slider = document.getElementById('slider');
             const display = document.getElementById('hora-label');
             const diaSelect = document.getElementById('dia-select');
+            const propiedadSelect = document.getElementById('propiedad-select');
 
             // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
 
             // Día seleccionado
             let diaActual = diaSelect.value;
+
+            // Propiedad seleccionada
+            let propiedadActual = propiedadSelect.value;
 
             // Función para transformar la cantidad de minutos que lleva el slider acumulados 
             // en el formato TimeField() de los datos
@@ -161,7 +177,60 @@
                 const mStr = m.toString().padStart(2, '0');
                 return `${hStr}:${mStr}:00`; // formato TimeField() (06:00:00)
             }
-            
+
+            // mayor valor de velocidad = 3,46
+            // menor valor de velocidad = 58,22
+
+            // menor valor de tiempo = 11,57
+            // mayor valor de tiempo = 477,83
+            function actualizarColores(columna){
+                let color;
+
+                if (columna == 'velocidad'){
+                    color = [
+                        'interpolate', ['linear'], ['get', columna],
+                        3.46, '#CC00CC',  
+                        10.0, '#E7180B',      
+                        18.0, '#FF8904',      
+                        25.0, '#FFDF20',      
+                        35.0, '#9AE630',      
+                        58.22, '#31C950'
+                    ];
+                }
+
+                else if (columna == 'tiempo'){
+                    color = [
+                        'interpolate', ['linear'], ['get', columna],
+                        11.57, '#31C950',     
+                        120.0, '#9AE630',     
+                        200.0, '#FFDF20',     
+                        280.0, '#FF8904',    
+                        350.0, '#E7180B',     
+                        477.83, '#CC00CC'     
+                    ];
+                } 
+                
+                else {
+                    color = [
+                        'match',
+                        ['get', 'nivel_congestion'],
+                            1, '#31C950',
+                            2, '#9AE630',
+                            3, '#FFDF20',
+                            4, '#FF8904',
+                            5, '#E7180B',
+                            6, '#CC00CC',
+                            '#D3D3D3'
+                    ];
+
+                }
+
+                if (map.getLayer('capa-aristas')) {
+                    map.setPaintProperty('capa-aristas', 'line-color', color);
+                }
+                
+            }
+
             // Función para displayear lo que corresponda según el slider y el día seleccionado
             // a través de filtros literales
             function actualizarMapa() {
@@ -171,10 +240,14 @@
                     'all',
                     ['==', ['get', 'dia'], diaActual],
                     ['==', ['get', 'hora'], hora],
+                    ['has', propiedadActual],
                 ];
 
                 if (map.getLayer('capa-aristas')) {
                     map.setFilter('capa-aristas', filtro);
+
+                    // Según la propiedad seleccionada, cambian los colores
+                    actualizarColores(propiedadActual);
                 }
                 
                 // Para actualizar la hora mostrada x el slider
@@ -182,6 +255,7 @@
                 const mVis = (minutosTotales % 60).toString().padStart(2, '0');
                 display.innerText = `${hVis}:${mVis}`;
             }
+
 
             // Listeners: Cuando el usuario toca algo
 
@@ -197,19 +271,25 @@
                 actualizarMapa();
             });
 
+            // Propiedad
+            propiedadSelect.addEventListener('change', (e) => {
+                propiedadActual = e.target.value;
+                actualizarMapa();
+            })
+
             // controles (zoom, direccion norte, etc)
             map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
             map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
             map.on('load', () => {
 
-                // 1. La fuente es la misma de antes
+                // La fuente es la misma de antes
                 map.addSource('datos-red', {
                     type: 'geojson',
                     data: '/api/traffic-data/' 
                 });
 
-                // 2. CAPA DE LÍNEAS (ARISTAS) con los colores dinámicos
+                // CAPA DE LÍNEAS (ARISTAS)
                 map.addLayer({
                     id: 'capa-aristas',
                     type: 'line',    
@@ -223,7 +303,7 @@
                         'line-offset': 5,
                         'line-color': [
                             'match',
-                            ['get', 'congestion'],
+                            ['get', 'nivel_congestion'],
                                 1, '#31C950',
                                 2, '#9AE630',
                                 3, '#FFDF20',
@@ -237,7 +317,7 @@
 
                 actualizarMapa();
 
-                // 3. CAPA DE PUNTOS (NODOS)
+                // CAPA DE PUNTOS (NODOS)
                 map.addLayer({
                     id: 'capa-nodos',
                     type: 'circle',
@@ -250,13 +330,13 @@
                     });
             });
 
-                // 1. Crear una instancia del Popup
+                // Crear una instancia del Popup
                 const popup = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: false
                 });
 
-                // 2. Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
+                // Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
                 map.on('mouseenter', 'capa-aristas', (e) => {
 
                     // Cambiar el cursor a una manito para indicar que es interactivo
@@ -273,7 +353,7 @@
                     const tiempo = propiedades.tiempo;
                     const velocidad = propiedades.velocidad;
                     const tiempo_entre_largo = propiedades.tiempo_entre_largo;
-                    const congestion = propiedades.congestion;
+                    const congestion = propiedades.nivel_congestion;
 
                     // Configurar el HTML del popup y mostrarlo
                     popup.setLngLat(coordinates)
@@ -291,7 +371,7 @@
                         .addTo(map);
                 });
 
-                // 3. Evento: Cuando el mouse SALE de la línea
+                // Evento: Cuando el mouse SALE de la línea
                 map.on('mouseleave', 'capa-aristas', () => {
                     map.getCanvas().style.cursor = '';
                     popup.remove();
