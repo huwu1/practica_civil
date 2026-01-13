@@ -58,18 +58,26 @@
                 border-radius: 5px;
             }
 
+            /* Estilos para la leyenda de congestión */
             .map-overlay-legend {
                     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
                     position: absolute;
                     bottom: 30px;  
                     right: 10px;   
-                    width: 175px;
                     background-color: #fff;
                     padding: 10px;
                     border-radius: 10px;
                     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
                     z-index: 100;
                 }
+
+            #leyenda-congestion{
+                width: 175px;
+            }
+
+            #leyenda-gradiente{
+                width: 300px;
+            }
 
                 .map-overlay-legend h3 {
                     margin: 0 0 10px;
@@ -91,6 +99,23 @@
                     border-radius: 50%;
                     margin-right: 8px;
                 }
+
+                /* Estilos para la leyenda de gradiente */
+                .gradient-bar {
+                    height: 15px;
+                    width: 100%;
+                    border-radius: 4px;
+                    margin: 8px 0;
+                    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+                }
+
+                .gradient-labels {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 10px;
+                    color: #333;
+                    margin-top: 2px;
+                }    
 
         </style>
     </head> 
@@ -131,7 +156,7 @@
 
             </div>
 
-            <div class="map-overlay-legend">
+            <div class="map-overlay-legend" id="leyenda-congestion">
                 <h3>Niveles de Congestión</h3>
                 <div class="legend-item"><div class="dot" style="background:#31C950;"></div>Flujo libre</div>
                 <div class="legend-item"><div class="dot" style="background:#9AE630;"></div>Interacción sin congestión</div>
@@ -141,7 +166,16 @@
                 <div class="legend-item"><div class="dot" style="background:#CC00CC;"></div>Saturación extrema</div>
             
             </div>
-        </div>    
+
+            <div class="map-overlay-legend" id="leyenda-gradiente" style="display: none;">
+                <h3 id="titulo-gradiente">Velocidad</h3>
+                <div class="gradient-bar" id="barra-color"></div>
+                <div class="gradient-labels">
+                <span id="min-val">3.46</span>
+                <span id="max-val">58.22</span>
+            </div>
+            
+        </div>  
 
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
@@ -157,6 +191,15 @@
             const display = document.getElementById('hora-label');
             const diaSelect = document.getElementById('dia-select');
             const propiedadSelect = document.getElementById('propiedad-select');
+            const leyendaCongestion =  document.getElementById('leyenda-congestion');
+
+            // Referencias al gradiente
+            const leyendaGradiente = document.getElementById('leyenda-gradiente');
+            const tituloGradiente = document.getElementById('titulo-gradiente');
+            const barraColor =  document.getElementById('barra-color');
+            const minVal = document.getElementById('min-val');
+            const maxVal = document.getElementById('max-val');
+
 
             // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
@@ -183,6 +226,8 @@
 
             // menor valor de tiempo = 11,57
             // mayor valor de tiempo = 477,83
+
+            // (interpolación por percentiles (0, 25, 50, 75, 90, 100))
             function actualizarColores(columna){
                 let color;
 
@@ -228,7 +273,33 @@
                 if (map.getLayer('capa-aristas')) {
                     map.setPaintProperty('capa-aristas', 'line-color', color);
                 }
-                
+            }
+
+            function actualizarInterfaz(propiedad){
+
+                if (propiedad == 'nivel_congestion'){
+                    leyendaCongestion.style.display = 'block';
+                    leyendaGradiente.style.display = 'none';
+                }
+
+                else{
+                    leyendaCongestion.style.display = 'none';
+                    leyendaGradiente.style.display = 'block';
+
+                    if(propiedad == 'velocidad'){
+                        tituloGradiente.innerText = 'Velocidad'
+                        minVal.innerText = '3.46'
+                        maxVal.innerText = '58.22'
+                        barraColor.style.background = 'linear-gradient(to right, #CC00CC, #E7180B, #FF8904, #FFDF20, #9AE630, #31C950)';
+                    }
+
+                    else if(propiedad == 'tiempo'){
+                        tituloGradiente.innerText = 'Tiempo'
+                        minVal.innerText = '11.57'
+                        maxVal.innerText = '477.83'
+                        barraColor.style.background = 'linear-gradient(to right, #31C950, #9AE630, #FFDF20, #FF8904, #E7180B, #CC00CC)';
+                    }
+                }
             }
 
             // Función para displayear lo que corresponda según el slider y el día seleccionado
@@ -274,8 +345,11 @@
             // Propiedad
             propiedadSelect.addEventListener('change', (e) => {
                 propiedadActual = e.target.value;
+
                 actualizarMapa();
-            })
+                actualizarInterfaz(propiedadActual);
+                
+            });
 
             // controles (zoom, direccion norte, etc)
             map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
