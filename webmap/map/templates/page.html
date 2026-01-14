@@ -456,6 +456,15 @@
                     const congestion = propiedades.nivel_congestion;
                     const dca = propiedades.dca;
 
+                    const procesar_dato = (label, valor) => {
+
+                        if (valor == null){
+                            return '';
+                        }
+
+                        return '${label}: ${valor} <br>';
+                    }
+
                     // Configurar el HTML del popup y mostrarlo
                     popup.setLngLat(coordinates)
                         .setHTML(`
