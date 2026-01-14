@@ -459,10 +459,14 @@
                     const procesar_dato = (label, valor) => {
 
                         if (valor == null){
+                            return 'No existe información para este arco en la hora seleccionada';
+                        }
+
+                        if (valor == 'NULL'){
                             return '';
                         }
 
-                        return '${label}: ${valor} <br>';
+                        return `${label}: ${valor} <br>`;
                     }
 
                     // Configurar el HTML del popup y mostrarlo
@@ -470,13 +474,13 @@
                         .setHTML(`
                             <div style= "text-align: left; line-height: 1.5;">
                                 <strong>ID: ${idTramo}</strong><br>
-                                    Calle: ${calle}<br>
-                                    Sentido: ${sentido}<br>
-                                    Tiempo: ${tiempo}<br>
-                                    Velocidad: ${velocidad}<br>
-                                    Tiempo/Largo: ${tiempo_entre_largo}<br>
-                                    Congestion: ${congestion}<br>
-                                    DCA: ${dca}<br>
+                                    ${procesar_dato('Calle', calle)}
+                                    ${procesar_dato('Sentido', sentido)}
+                                    ${procesar_dato('Tiempo', tiempo)}
+                                    ${procesar_dato('Velocidad', velocidad)}
+                                    ${procesar_dato('Tiempo/Largo', tiempo_entre_largo)}
+                                    ${procesar_dato('Congestión', congestion)}
+                                    ${procesar_dato('DCA', dca)}
                             </div>
                         `)
                         .addTo(map);
