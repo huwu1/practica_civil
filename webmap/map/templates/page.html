@@ -347,6 +347,11 @@
                     actualizarColores(propiedadActual);
                 }
                 
+                if (map.getLayer('capa-aristas-hitbox')) {
+                    map.setFilter('capa-aristas-hitbox', filtro);
+                }
+
+
                 // Para actualizar la hora mostrada x el slider
                 const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
                 const mVis = (minutosTotales % 60).toString().padStart(2, '0');
@@ -389,7 +394,7 @@
                     data: '/api/traffic-data/' 
                 });
 
-                // CAPA DE LÍNEAS (ARISTAS)
+                // CAPA DE LÍNEAS (ARCOS)
                 map.addLayer({
                     id: 'capa-aristas',
                     type: 'line',    
@@ -415,6 +420,17 @@
                     }
                 });
 
+                // CAPA DE HITBOX PARA LOS ARCOS
+                map.addLayer({
+                    id: 'capa-aristas-hitbox',
+                    type: 'line',
+                    source: 'datos-red',
+                    paint: {
+                        'line-width':10,
+                        'line-opacity':0
+                    }
+                });
+
                 actualizarMapa();
 
                 // CAPA DE PUNTOS (NODOS)
@@ -437,7 +453,7 @@
                 });
 
                 // Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
-                map.on('mouseenter', 'capa-aristas', (e) => {
+                map.on('mouseenter', 'capa-aristas-hitbox', (e) => {
 
                     // Cambiar el cursor a una manito para indicar que es interactivo
                     map.getCanvas().style.cursor = 'pointer';
@@ -493,7 +509,7 @@
                 });
 
                 // Evento: Cuando el mouse SALE de la línea
-                map.on('mouseleave', 'capa-aristas', () => {
+                map.on('mouseleave', 'capa-aristas-hitbox', () => {
                     map.getCanvas().style.cursor = '';
                     popup.remove();
                 });
