@@ -140,7 +140,7 @@
                         </div>
                         
                         <div class="control-group">
-                            <label for="propiedad-select>">Propiedad:</label>
+                            <label for="propiedad-select>">Variable:</label>
                             <select id="propiedad-select">
                                 <option value="nivel_congestion">Nivel de congestión</option>
                                 <option value="velocidad">Velocidad</option>
@@ -159,6 +159,7 @@
 
             <div class="map-overlay-legend" id="leyenda-congestion">
                 <h3>Niveles de Congestión</h3>
+                <div class="legend-item"><div class="dot" style="background:#000000;"></div>Sin datos</div>
                 <div class="legend-item"><div class="dot" style="background:#31C950;"></div>Flujo libre (1)</div>
                 <div class="legend-item"><div class="dot" style="background:#9AE630;"></div>Interacción sin congestión (2)</div>
                 <div class="legend-item"><div class="dot" style="background:#FFDF20;"></div>Congestión tolerable (3)</div>
@@ -500,7 +501,6 @@
                                     ${procesar_dato('Tiempo', tiempo)}
                                     ${procesar_dato('Velocidad', velocidad)}
                                     ${procesar_dato('Tiempo/Largo', tiempo_entre_largo)}
-                                    ${procesar_dato('Congestión', congestion)}
                                     ${procesar_dato('DCA', dca)}
 
                                     ${/* procesar_dato('Desde', desde) */ ''}

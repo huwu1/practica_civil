@@ -3,6 +3,20 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Arcs, Nodes, Traffic
 
+def limpiar_coordenada(valor):
+
+    # 1. Convertir a string y eliminar todos los puntos y comas
+    s = str(valor).replace('.', '').replace(',', '')
+    
+    n = float(s)
+
+    # Si el número es más grande (ej: -706089069), lo dividimos por 10 
+    #  hasta que encaje en el rango correcto.
+    while abs(n) > 180 and n != 0:
+        n /= 10.0
+        
+    return n
+
 def traffic_data_api(request):
     features = []
 
@@ -15,8 +29,8 @@ def traffic_data_api(request):
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [float(str(nodo.longitud).replace(',', '.')), 
-                                float(str(nodo.latitud).replace(',', '.'))]
+                "coordinates": [limpiar_coordenada(nodo.longitud), 
+                                limpiar_coordenada(nodo.latitud)]
             },
             "properties": {
                 "id": nodo.id_nodo,
@@ -41,8 +55,8 @@ def traffic_data_api(request):
 
         # 1. Obtenemos las coordenadas de inicio y fin
         # OJO: GeoJSON usa el orden [Longitud, Latitud] (al revés de Google)
-        start_coord = [float(str(arco.id_nodo1.longitud).replace(',', '.')), float((str(arco.id_nodo1.latitud).replace(',', '.')))]
-        end_coord   = [float(str(arco.id_nodo2.longitud).replace(',', '.')), float((str(arco.id_nodo2.latitud).replace(',', '.')))]
+        start_coord = [limpiar_coordenada(arco.id_nodo1.longitud), limpiar_coordenada(arco.id_nodo1.latitud)]
+        end_coord   = [limpiar_coordenada(arco.id_nodo2.longitud), limpiar_coordenada(arco.id_nodo2.latitud)]
 
         # 2. Creamos el objeto GeoJSON para este tramo
         feature = {
