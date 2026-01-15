@@ -1,129 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+
 <html>
     <head>
         <title>Mapa de Congestión</title>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
         <script src='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js'></script> <!-- mapbox-->
         <link href='https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.css' rel='stylesheet' /> <!-- mapbox-->
-        <style>
-            body { margin: 0; padding: 0; }
-            #map { position: absolute; top: 0; bottom:0; width: 100%;}
-
-            .map-overlay {
-                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-                position: absolute;
-                width: 25%; 
-                top: 0;
-                left: 0;
-                padding: 10px;
-                z-index: 100;
-            }
-            .map-overlay .map-overlay-inner {
-                background-color: #fff;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
-                border-radius: 10px;
-                padding: 10px;
-                text-align: center;
-                margin-bottom: 10px;
-                font-size: 14px; 
-                font-weight: bold;
-                
-            }    
-
-            /* Estilos para el contenedor del slider para darle espacio */
-            #slider {
-                width: 100%;
-                margin: 5px 0;
-                -webkit-appearance: none;
-                appearance: none;
-                background: rgb(200, 188, 188);
-            }
-
-            /* Para Chrome, Safari, Edge */
-            #slider::-webkit-slider-runnable-track {
-                width: 100%;
-                height: 20px;
-                cursor: pointer;
-                background:rgba(0, 0, 0, 0.05);
-                border-radius: 6px;
-            }    
-            
-            /* El Cuadrado Negro (Thumb) */
-            #slider::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                height: 30px;   
-                width: 45px;    
-                background: #111;
-                cursor: grab;
-                margin-top: -5px; 
-                border-radius: 5px;
-            }
-
-            /* Estilos para la leyenda de congestión */
-            .map-overlay-legend {
-                    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-                    position: absolute;
-                    bottom: 30px;  
-                    right: 10px;   
-                    background-color: #fff;
-                    padding: 10px;
-                    border-radius: 10px;
-                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
-                    z-index: 100;
-                }
-
-            #leyenda-congestion{
-                width: 220px;
-            }
-
-            #leyenda-gradiente{
-                width: 300px;
-            }
-
-            .map-overlay-legend h3 {
-                margin: 0 0 10px;
-                font-size: 13px;
-                font-weight: bold;
-                color: #333;
-            }
-
-            .legend-item {
-                display: flex;
-                align-items: center;
-                margin-bottom: 5px;
-                color: #555;
-            }
-
-            /* Estilo para el checkbox */
-            .filtro-congestion {
-                margin-right: 8px; 
-                cursor: pointer;
-            }
-
-            .dot {
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                margin-right: 8px;
-            }
-
-            /* Estilos para la leyenda de gradiente */
-            .gradient-bar {
-                height: 15px;
-                width: 100%;
-                border-radius: 4px;
-                margin: 8px 0;
-                box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-            }
-
-            .gradient-labels {
-                display: flex;
-                justify-content: space-between;
-                font-size: 10px;
-                color: #333;
-                margin-top: 2px;
-            }    
-
-        </style>
+        
+        <link rel="stylesheet" href="{% static 'estilos.css' %}">
     </head> 
     <body>
         
@@ -152,6 +37,7 @@
                                 <option value="velocidad">Velocidad</option>
                                 <option value="tiempo">Tiempo</option>
                                 <option value="dca">DCA</option>
+                                <option value="plan">Plan</option>
                             </select>
                         </div>    
                     </div>
@@ -207,8 +93,54 @@
                 <h3 id="titulo-gradiente">Velocidad</h3>
                 <div class="gradient-bar" id="barra-color"></div>
                 <div class="gradient-labels">
-                <span id="min-val">3.46</span>
-                <span id="max-val">58.22</span>
+                    <span id="min-val">3.46</span>
+                    <span id="max-val">58.22</span>
+                </div>
+            </div>    
+
+            <div class="map-overlay-legend" id="leyenda-planes" style="display: none;">
+                <h3 id="titulo-planes"> Planes disponibles:</h3>
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P1" checked>
+                    <div class="plan-indicator" style="background: #31C950;"></div> Plan 1
+                </div>
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P2" checked>
+                    <div class="plan-indicator" style="background: #9AE630;"></div> Plan 2
+                </div>
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P4" checked>
+                    <div class="plan-indicator" style="background: #FFDF20;"></div> Plan 4
+                </div>
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P5" checked>
+                    <div class="plan-indicator" style="background: #FF8904;"></div> Plan 5
+                </div>
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P6" checked>
+                    <div class="plan-indicator" style="background: #E7180B;"></div> Plan 6
+                </div>
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P7" checked>
+                    <div class="plan-indicator" style="background: #CC00CC;"></div> Plan 7
+                </div>  
+
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P8" checked>
+                    <div class="plan-indicator" style="background: #3498db;"></div> Plan 8
+                </div>
+                
+                <div class="plan-row">
+                    <input type="checkbox" class="filtro-planes" value="P31" checked>
+                    <div class="plan-indicator" style="background: #d8c8b8;"></div> Plan 31
+                </div>
+
             </div>
             
         </div>  
@@ -229,8 +161,11 @@
             const propiedadSelect = document.getElementById('propiedad-select');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
 
-            // Referencia a las checkboxes
-            const checkboxes = document.querySelectorAll('.filtro-congestion');
+            // Referencia a las checkboxes de la congestion
+            const checkboxes_congestion = document.querySelectorAll('.filtro-congestion');
+
+            // Referencia a las checkboxes de los planes
+            const checkboxes_planes = document.querySelectorAll('.filtro-planes')
 
             // Referencias al gradiente
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
@@ -239,6 +174,8 @@
             const minVal = document.getElementById('min-val');
             const maxVal = document.getElementById('max-val');
 
+            // Referencia a los planes
+            const leyendaPlanes = document.getElementById('leyenda-planes');
 
             // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
@@ -272,6 +209,9 @@
             // variable para las checkboxes
             let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
 
+            // variable para los planes
+            let planesSeleccionados = ['P1', 'P2', 'P4', 'P5', 'P6', 'P7', 'P8', 'P31'];
+
             // (interpolación por quintiles (0, 20, 40, 60, 80, 100))
             function actualizarColores(columna){
                 let color;
@@ -302,7 +242,8 @@
                     ];
                 } 
 
-                // el 60% de los datos de DCA eran 0's, por lo que se 
+                // el 60% de los datos de DCA eran 0's, por lo que se utilizó
+                // los percentiles 0, 65, 75, 85 y 95 respectivamente
                 else if (columna == 'dca'){
                     color = [
                         'interpolate', ['linear'], ['get', columna],
@@ -314,15 +255,35 @@
                         450.0, '#CC00CC'
                     ]
                 }
+
+                else if (columna == 'plan'){
+                    color = ['match', ['get', 'plan']];
+
+                    const mapeoPlanes = {
+                        'P1': '#31C950',
+                        'P2': '#9AE630',
+                        'P4': '#FFDF20',
+                        'P5': '#FF8904',
+                        'P6': '#E7180B',
+                        'P7': '#CC00CC',
+                        'P8': '#3498db',
+                        'P31': '#d8c8b8'
+                    }
+
+                    planesSeleccionados.forEach(plan => {
+                        if(mapeoPlanes[plan]){
+                            color.push(plan);
+                            color.push(mapeoPlanes[plan]);
+                        }
+                    });
+
+                    color.push('rgba(0,0,0,0)');
+                }
                 
                 else {
                     color = ['match', ['coalesce', ['get', 'nivel_congestion'], 0]];
-                    
 
-                    color.push(-1);
-                    color.push('#000000');
-
-                    const mapeoColores ={    
+                    const mapeoColores = {    
                         0: '#000000',
                         1: '#31C950',
                         2: '#9AE630',
@@ -353,11 +314,14 @@
                 if (propiedad == 'nivel_congestion'){
                     leyendaCongestion.style.display = 'block';
                     leyendaGradiente.style.display = 'none';
+                    leyendaPlanes.style.display = 'none';
                 }
 
-                else{
+                else if (propiedad == 'velocidad' || propiedad == 'tiempo' || propiedad == 'dca'){
+                
                     leyendaCongestion.style.display = 'none';
                     leyendaGradiente.style.display = 'block';
+                    leyendaPlanes.style.display = 'none';
 
                     if(propiedad == 'velocidad'){
                         tituloGradiente.innerText = 'Velocidad (km/h)'
@@ -380,6 +344,13 @@
                         barraColor.style.background =  'linear-gradient(to right, #31C950, #9AE630, #FFDF20, #FF8904, #E7180B, #CC00CC)'
                     }
                 }
+
+                else if(propiedad == 'plan'){
+                    leyendaCongestion.style.display = 'none';
+                    leyendaGradiente.style.display = 'none';
+                    leyendaPlanes.style.display = 'block';
+                }
+                
             }
 
             // Función para displayear lo que corresponda según el slider y el día seleccionado
@@ -438,15 +409,26 @@
 
             // Checkboxes
 
-            checkboxes.forEach(cb => {
+            // Para la congestión
+            checkboxes_congestion.forEach(cb => {
                 cb.addEventListener('change', () => {
-                    nivelesSeleccionados = Array.from(checkboxes)
+                    nivelesSeleccionados = Array.from(checkboxes_congestion)
                     .filter(i => i.checked)
                     .map(i => parseInt(i.value));
 
                     actualizarColores(propiedadActual);
                 });
             });
+
+            checkboxes_planes.forEach(cb => {
+                 cb.addEventListener('change', () => {
+                    planesSeleccionados = Array.from(checkboxes_planes)
+                    .filter(i => i.checked)
+                    .map(i => i.value);
+
+                    actualizarColores(propiedadActual);
+                });
+            })
 
             // controles (zoom, direccion norte, etc)
             map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
@@ -544,10 +526,6 @@
                     const hasta = propiedades.hasta;
 
                     const procesar_dato = (label, valor) => {
-
-                        if (valor == null){
-                            return 'No existe información para este arco en la hora seleccionada';
-                        }
 
                         if (valor == 'NULL'){
                             return '';
