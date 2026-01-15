@@ -72,50 +72,56 @@
                 }
 
             #leyenda-congestion{
-                width: 180px;
+                width: 220px;
             }
 
             #leyenda-gradiente{
                 width: 300px;
             }
 
-                .map-overlay-legend h3 {
-                    margin: 0 0 10px;
-                    font-size: 13px;
-                    font-weight: bold;
-                    color: #333;
-                }
+            .map-overlay-legend h3 {
+                margin: 0 0 10px;
+                font-size: 13px;
+                font-weight: bold;
+                color: #333;
+            }
 
-                .legend-item {
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 5px;
-                    color: #555;
-                }
+            .legend-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+                color: #555;
+            }
 
-                .dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    margin-right: 8px;
-                }
+            /* Estilo para el checkbox */
+            .filtro-congestion {
+                margin-right: 8px; 
+                cursor: pointer;
+            }
 
-                /* Estilos para la leyenda de gradiente */
-                .gradient-bar {
-                    height: 15px;
-                    width: 100%;
-                    border-radius: 4px;
-                    margin: 8px 0;
-                    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-                }
+            .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                margin-right: 8px;
+            }
 
-                .gradient-labels {
-                    display: flex;
-                    justify-content: space-between;
-                    font-size: 10px;
-                    color: #333;
-                    margin-top: 2px;
-                }    
+            /* Estilos para la leyenda de gradiente */
+            .gradient-bar {
+                height: 15px;
+                width: 100%;
+                border-radius: 4px;
+                margin: 8px 0;
+                box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+            }
+
+            .gradient-labels {
+                display: flex;
+                justify-content: space-between;
+                font-size: 10px;
+                color: #333;
+                margin-top: 2px;
+            }    
 
         </style>
     </head> 
@@ -159,14 +165,42 @@
 
             <div class="map-overlay-legend" id="leyenda-congestion">
                 <h3>Niveles de Congestión</h3>
-                <div class="legend-item"><div class="dot" style="background:#000000;"></div>Sin datos</div>
-                <div class="legend-item"><div class="dot" style="background:#31C950;"></div>Flujo libre (1)</div>
-                <div class="legend-item"><div class="dot" style="background:#9AE630;"></div>Interacción sin congestión (2)</div>
-                <div class="legend-item"><div class="dot" style="background:#FFDF20;"></div>Congestión tolerable (3)</div>
-                <div class="legend-item"><div class="dot" style="background:#FF8904;"></div>Congestión alta (4) </div>
-                <div class="legend-item"><div class="dot" style="background:#E7180B;"></div>Saturado (5)</div>
-                <div class="legend-item"><div class="dot" style="background:#CC00CC;"></div>Saturación extrema (6)</div>
-            
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="0" checked>
+                    <div class="dot" style="background:#000000;"></div>Sin datos
+                </div>
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="1" checked>
+                    <div class="dot" style="background:#31C950;"></div>Flujo libre (1)
+                </div>
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="2" checked>
+                    <div class="dot" style="background:#9AE630;"></div>Interacción sin congestión (2)
+                </div>
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="3" checked>
+                    <div class="dot" style="background:#FFDF20;"></div>Congestión tolerable (3)
+                </div>
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="4" checked>
+                    <div class="dot" style="background:#FF8904;"></div>Congestión alta (4)
+                </div>
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="5" checked>
+                    <div class="dot" style="background:#E7180B;"></div>Saturado (5)
+                </div>
+
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="6" checked>
+                    <div class="dot" style="background:#CC00CC;"></div>Saturación extrema (6)
+                </div>
+
             </div>
 
             <div class="map-overlay-legend" id="leyenda-gradiente" style="display: none;">
@@ -194,6 +228,9 @@
             const diaSelect = document.getElementById('dia-select');
             const propiedadSelect = document.getElementById('propiedad-select');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
+
+            // Referencia a las checkboxes
+            const checkboxes = document.querySelectorAll('.filtro-congestion');
 
             // Referencias al gradiente
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
@@ -232,6 +269,9 @@
             // menor valor DCA = 0.0
             // mayor valor DCA = 851.0
 
+            // variable para las checkboxes
+            let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
+
             // (interpolación por quintiles (0, 20, 40, 60, 80, 100))
             function actualizarColores(columna){
                 let color;
@@ -263,7 +303,7 @@
                 } 
 
                 // el 60% de los datos de DCA eran 0's, por lo que se 
-                else if (columna = 'dca'){
+                else if (columna == 'dca'){
                     color = [
                         'interpolate', ['linear'], ['get', columna],
                         0.0, '#31C950',
@@ -276,17 +316,30 @@
                 }
                 
                 else {
-                    color = [
-                        'match',
-                        ['get', 'nivel_congestion'],
-                            1, '#31C950',
-                            2, '#9AE630',
-                            3, '#FFDF20',
-                            4, '#FF8904',
-                            5, '#E7180B',
-                            6, '#CC00CC',
-                            '#D3D3D3'
-                    ];
+                    color = ['match', ['coalesce', ['get', 'nivel_congestion'], 0]];
+                    
+
+                    color.push(-1);
+                    color.push('#000000');
+
+                    const mapeoColores ={    
+                        0: '#000000',
+                        1: '#31C950',
+                        2: '#9AE630',
+                        3: '#FFDF20',
+                        4: '#FF8904',
+                        5: '#E7180B',
+                        6: '#CC00CC',
+                    }
+
+                    nivelesSeleccionados.forEach(nivel => {
+                        if (mapeoColores[nivel]) {
+                            color.push(nivel);
+                            color.push(mapeoColores[nivel]);
+                        }
+                    });
+
+                    color.push('rgba(0,0,0,0)');
 
                 }
 
@@ -383,6 +436,18 @@
                 
             });
 
+            // Checkboxes
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    nivelesSeleccionados = Array.from(checkboxes)
+                    .filter(i => i.checked)
+                    .map(i => parseInt(i.value));
+
+                    actualizarColores(propiedadActual);
+                });
+            });
+
             // controles (zoom, direccion norte, etc)
             map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
             map.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -416,7 +481,7 @@
                                 4, '#FF8904',
                                 5, '#E7180B',
                                 6, '#CC00CC',
-                                '#D3D3D3'
+                                '#000000'
                             ],
                     }
                 });
@@ -514,7 +579,7 @@
                 map.on('mouseleave', 'capa-aristas-hitbox', () => {
                     map.getCanvas().style.cursor = '';
                     popup.remove();
-                });
+                }); 
         </script>
     </body>
 </html>
