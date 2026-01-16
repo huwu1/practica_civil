@@ -38,6 +38,7 @@
                                 <option value="tiempo">Tiempo</option>
                                 <option value="dca">DCA</option>
                                 <option value="plan">Plan</option>
+                                <option value="infeccion">Modelo SIR</option>
                             </select>
                         </div>    
                     </div>
@@ -142,6 +143,27 @@
                 </div>
 
             </div>
+
+            <div class="map-overlay-legend" id="leyenda-SIR" style="display: none;">
+                <h3 id="titulo-SIR"> Estados:</h3>
+
+                <div class="SIR">
+                    <div class="SIR-indicator" style="background: #000000;"></div> Sin datos
+                </div>
+                
+                <div class="SIR">
+                    <div class="SIR-indicator" style="background: #31C950;"></div> Saludable
+                </div>
+                
+                <div class="SIR">
+                    <div class="SIR-indicator" style="background: #FF8904;"></div> Recuperado
+                </div>
+
+                <div class="SIR">
+                    <div class="SIR-indicator" style="background: #E7180B;"></div> Infectado
+                </div>                                
+
+            </div>
             
         </div>  
 
@@ -160,6 +182,7 @@
             const diaSelect = document.getElementById('dia-select');
             const propiedadSelect = document.getElementById('propiedad-select');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
+            const leyendaSIR = document.getElementById('leyenda-SIR');
 
             // Referencia a las checkboxes de la congestion
             const checkboxes_congestion = document.querySelectorAll('.filtro-congestion');
@@ -279,6 +302,23 @@
 
                     color.push('rgba(0,0,0,0)');
                 }
+
+                else if (columna == 'infeccion'){
+                    color = ['match', ['get', 'infeccion']];
+
+                    const mapeoSIR = {
+                        0: '#31C950',
+                        1: '#FF8904',
+                        2: '#E7180B'
+                    }
+
+                    Object.keys(mapeoSIR).forEach(key => {
+                        color.push(parseInt(key));
+                        color.push(mapeoSIR[key]);
+                    });
+
+                    color.push('#000000');
+                }
                 
                 else {
                     color = ['match', ['coalesce', ['get', 'nivel_congestion'], 0]];
@@ -315,6 +355,7 @@
                     leyendaCongestion.style.display = 'block';
                     leyendaGradiente.style.display = 'none';
                     leyendaPlanes.style.display = 'none';
+                    leyendaSIR.style.display = 'none';
                 }
 
                 else if (propiedad == 'velocidad' || propiedad == 'tiempo' || propiedad == 'dca'){
@@ -322,6 +363,7 @@
                     leyendaCongestion.style.display = 'none';
                     leyendaGradiente.style.display = 'block';
                     leyendaPlanes.style.display = 'none';
+                    leyendaSIR.style.display = 'none';
 
                     if(propiedad == 'velocidad'){
                         tituloGradiente.innerText = 'Velocidad (km/h)'
@@ -349,6 +391,14 @@
                     leyendaCongestion.style.display = 'none';
                     leyendaGradiente.style.display = 'none';
                     leyendaPlanes.style.display = 'block';
+                    leyendaSIR.style.display = 'none';
+                }
+
+                else if (propiedad == 'infeccion') {
+                    leyendaCongestion.style.display = 'none';
+                    leyendaGradiente.style.display = 'none';
+                    leyendaPlanes.style.display = 'none';
+                    leyendaSIR.style.display = 'block';
                 }
                 
             }
