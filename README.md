@@ -1,4 +1,4 @@
-\# Disclaimer representación cromática de datos:
+# Disclaimer representación cromática de datos:
 
 
 
