@@ -80,6 +80,8 @@ def traffic_data_api(request):
 
                 "desde": dato.desde_interseccion,
                 "hasta": dato.hasta_interseccion,
+
+                "infeccion": dato.infeccion,
             }
         }
 

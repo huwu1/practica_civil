@@ -41,6 +41,7 @@ class Traffic(models.Model):
     tiempo_entre_largo = models.FloatField()
     DCA = models.FloatField()
     nivel_congestion = models.IntegerField(null=True, blank=True)
+    infeccion = models.IntegerField()
 
 
 
