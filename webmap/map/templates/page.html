@@ -156,7 +156,7 @@
                 </div>
                 
                 <div class="SIR">
-                    <div class="SIR-indicator" style="background: #FF8904;"></div> Recuperado
+                    <div class="SIR-indicator" style="background: #FFDF20;"></div> Recuperado
                 </div>
 
                 <div class="SIR">
@@ -308,7 +308,7 @@
 
                     const mapeoSIR = {
                         0: '#31C950',
-                        1: '#FF8904',
+                        1: '#FFDF20',
                         2: '#E7180B'
                     }
 
@@ -563,7 +563,8 @@
                     
                     // Obtener las propiedades del tramo 
                     const propiedades = e.features[0].properties;
-                    const idTramo = propiedades.id; 
+
+                    const idArco = propiedades.id; 
                     const calle = propiedades.calle_principal;
                     const sentido = propiedades.sentido;
                     const tiempo = propiedades.tiempo;
@@ -571,9 +572,23 @@
                     const tiempo_entre_largo = propiedades.tiempo_entre_largo;
                     const congestion = propiedades.nivel_congestion;
                     const dca = propiedades.dca;
-
                     const desde = propiedades.desde;
                     const hasta = propiedades.hasta;
+
+                    const infeccion = propiedades.infeccion;
+                    const procesar_infeccion = (label, nivel) => {
+                        if (parseInt(nivel) == 0){
+                            return `${label}: Saludable <br>`;;
+                        }
+
+                        else if (parseInt(nivel) == 1){
+                            return `${label}: Recuperado <br>`;
+                        }
+
+                        else if (parseInt(nivel) == 2){
+                            return `${label}: Infectado  <br>`;
+                        }
+                    }
 
                     const procesar_dato = (label, valor) => {
 
@@ -588,13 +603,14 @@
                     popup.setLngLat(coordinates)
                         .setHTML(`
                             <div style= "text-align: left; line-height: 1.5;">
-                                <strong>ID: ${idTramo}</strong><br>
+                                <strong>ID: ${idArco}</strong><br>
                                     ${procesar_dato('Calle principal', calle)}
                                     ${procesar_dato('Sentido', sentido)}
                                     ${procesar_dato('Tiempo', tiempo)}
                                     ${procesar_dato('Velocidad', velocidad)}
                                     ${procesar_dato('Tiempo/Largo', tiempo_entre_largo)}
                                     ${procesar_dato('DCA', dca)}
+                                    ${procesar_infeccion('Estado', infeccion)}
 
                                     ${/* procesar_dato('Desde', desde) */ ''}
                                     ${/* procesar_dato('Hasta', hasta) */ ''}
