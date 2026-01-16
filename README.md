@@ -1,8 +1,8 @@
-\*\*Disclaimer representación cromática de datos:\*\*
+\# Disclaimer representación cromática de datos:
 
 
 
-Para la visualización de la variable del tiempo se limitó el valor máximo a 200 para una correcta representación en el gradiente de los colores.
+Para la visualización de la variable del tiempo se limitó el valor máximo a 200 \[km/h] para una correcta representación en el gradiente de los colores.
 
 
 
