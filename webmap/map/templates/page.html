@@ -506,16 +506,19 @@
             // Hora y Pop-up
             slider.addEventListener('input', (e) => {
                 minutosTotales = parseInt(e.target.value);
+
                 actualizarMapa();
 
-                if (puntoPantalla){
-                    const features = map.queryRenderedFeatures(puntoPantalla, {layers: ['capa-aristas-hitbox']});
+                map.once('idle', () => {
+                    if (puntoPantalla){
+                        const features = map.queryRenderedFeatures(puntoPantalla, {layers: ['capa-aristas-hitbox']});
 
-                    if (features.length > 0) {
-                        arcoActual = features[0]; 
-                        actualizarPopup();      
-                    }   
-                }
+                        if (features.length > 0) {
+                            arcoActual = features[0]; 
+                            actualizarPopup();      
+                        }   
+                    }
+                })
             });
 
             // Día
