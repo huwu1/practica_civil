@@ -164,7 +164,6 @@
                 </div>                                
 
             </div>
-            
         </div>  
 
         <script>
@@ -175,6 +174,8 @@
                 center: [-70.60317798251957, -33.45911872061706],  
                 zoom: 14.5
             });
+
+            // REFERENCIAS:
 
             // Referencias a los controles HTML
             const slider = document.getElementById('slider');
@@ -200,6 +201,14 @@
             // Referencia a los planes
             const leyendaPlanes = document.getElementById('leyenda-planes');
 
+            // Referenica a la navbar
+            const sidebar = document.getElementById('right-sidebar');
+            const openBtn = document.getElementById('open-sidebar');
+            const closeBtn = document.getElementById('close-sidebar');
+
+
+            // VARIABLES GLOBALES 
+
             // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
 
@@ -213,6 +222,14 @@
             let arcoActual = null;
             let coordenadasPopup = null;
             let puntoPantalla = null;
+
+            
+            // Variable para las checkboxes y planes respectivamente
+            let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
+            let planesSeleccionados = ['P1', 'P2', 'P4', 'P5', 'P6', 'P7', 'P8', 'P31'];
+
+
+            // FUNCIONES
 
             // Función para transformar la cantidad de minutos que lleva el slider acumulados 
             // en el formato TimeField() de los datos
@@ -233,12 +250,6 @@
 
             // menor valor DCA = 0.0
             // mayor valor DCA = 851.0
-
-            // variable para las checkboxes
-            let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
-
-            // variable para los planes
-            let planesSeleccionados = ['P1', 'P2', 'P4', 'P5', 'P6', 'P7', 'P8', 'P31'];
 
             // (interpolación por quintiles (0, 20, 40, 60, 80, 100))
             function actualizarColores(columna){
@@ -345,7 +356,7 @@
                         }
                     });
 
-                    color.push('rgba(0,0,0,0)');
+                    color.push('rgba(0,0,0,0)');    
 
                 }
 
@@ -439,7 +450,7 @@
 
             function actualizarPopup() {
 
-                    if (!arcoActual || !coordenadasPopup    ) return;
+                    if (!arcoActual || !coordenadasPopup) return;
                     
                     // Obtener las propiedades del tramo 
                     const propiedades = arcoActual.properties;
@@ -501,7 +512,8 @@
                             .addTo(map);
             }
 
-            // Listeners: Cuando el usuario toca algo
+
+            // LISTENERS (Cuando el usuario toca algo)
 
             // Hora y Pop-up
             slider.addEventListener('input', (e) => {
@@ -515,8 +527,25 @@
 
                         if (features.length > 0) {
                             arcoActual = features[0]; 
-                            actualizarPopup();      
+                            const propiedades = arcoActual.properties;
+                            
+                            if (propiedadActual == 'nivel_congestion'){
+                                if(!nivelesSeleccionados.includes(props.nivel_congestion)){
+                                    return;
+                                }
+                            }
+
+                            else if (propiedadActual == 'plan') {
+                                if(!planesSeleccionados.includes(props.plan)){
+                                    return;
+                                }
+                            }
+
+                            actualizarPopup();
                         }   
+                        else {
+                            popup.remove;
+                        }
                     }
                 })
             });
@@ -536,7 +565,8 @@
                 
             });
 
-            // Checkboxes
+
+            // CHECKBOXES
 
             // Para la congestión
             checkboxes_congestion.forEach(cb => {
@@ -549,6 +579,7 @@
                 });
             });
 
+            // Para los planes
             checkboxes_planes.forEach(cb => {
                  cb.addEventListener('change', () => {
                     planesSeleccionados = Array.from(checkboxes_planes)
@@ -623,7 +654,7 @@
                         'circle-color': '#FF0000'
                         }
                     });
-            });
+                });
 
                 // Crear una instancia del Popup
                 const popup = new mapboxgl.Popup({
@@ -635,6 +666,23 @@
                 map.on('mousemove', 'capa-aristas-hitbox', (e) => {
 
                     arcoActual = e.features[0];
+                    props = arcoActual.properties;
+
+                    if (propiedadActual == 'nivel_congestion'){
+                        if(!nivelesSeleccionados.includes(props.nivel_congestion)){
+                            map.getCanvas().style.cursor = '';
+                            popup.remove();
+                            return;
+                        }
+                    }
+
+                    else if (propiedadActual == 'plan') {
+                        if(!planesSeleccionados.includes(props.plan)){
+                            map.getCanvas().style.cursor = '';
+                            popup.remove();
+                            return;
+                        }
+                    }
 
                     coordenadasPopup = e.lngLat;
                     puntoPantalla = e.point;
@@ -654,6 +702,7 @@
                     map.getCanvas().style.cursor = '';
                     popup.remove();
                 }); 
+            
         </script>
     </body>
 </html>
