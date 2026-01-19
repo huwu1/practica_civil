@@ -209,6 +209,11 @@
             // Propiedad seleccionada
             let propiedadActual = propiedadSelect.value;
 
+            // Arco seleccionado y coordenadas del mopuse (para el pop-up de info)
+            let arcoActual = null;
+            let coordenadasPopup = null;
+            let puntoPantalla = null;
+
             // Función para transformar la cantidad de minutos que lleva el slider acumulados 
             // en el formato TimeField() de los datos
             function getHora(minutosInput) {
@@ -350,7 +355,6 @@
             }
 
             function actualizarInterfaz(propiedad){
-
                 if (propiedad == 'nivel_congestion'){
                     leyendaCongestion.style.display = 'block';
                     leyendaGradiente.style.display = 'none';
@@ -433,13 +437,85 @@
                 display.innerText = `${hVis}:${mVis}`;
             }
 
+            function actualizarPopup() {
+
+                    if (!arcoActual || !coordenadasPopup    ) return;
+                    
+                    // Obtener las propiedades del tramo 
+                    const propiedades = arcoActual.properties;
+
+                    const idArco = propiedades.id; 
+                    const calle = propiedades.calle_principal;
+                    const sentido = propiedades.sentido;
+                    const tiempo = propiedades.tiempo;
+                    const velocidad = propiedades.velocidad;
+                    const tiempo_entre_largo = propiedades.tiempo_entre_largo;
+                    const congestion = propiedades.nivel_congestion;
+                    const dca = propiedades.dca;
+                    const desde = propiedades.desde;
+                    const hasta = propiedades.hasta;
+
+                    const infeccion = propiedades.infeccion;
+                    const procesar_infeccion = (label, nivel) => {
+                        if (parseInt(nivel) == 0){
+                            return `${label}: Saludable <br>`;;
+                        }
+
+                        else if (parseInt(nivel) == 1){
+                            return `${label}: Recuperado <br>`;
+                        }
+
+                        else if (parseInt(nivel) == 2){
+                            return `${label}: Infectado  <br>`;
+                        }
+                    }
+
+                    const procesar_dato = (label, valor) => {
+
+                        if (valor == 'NULL'){
+                            return '';
+                        }
+
+                        return `${label}: ${valor} <br>`;
+                    }
+
+                    // Configurar el HTML del popup y mostrarlo
+                    const contenido = `
+                            <div style= "text-align: left; line-height: 1.5;">
+                                <strong>ID: ${idArco}</strong><br>
+                                    ${procesar_dato('Calle principal', calle)}
+                                    ${procesar_dato('Sentido', sentido)}
+                                    ${procesar_dato('Tiempo', tiempo)}
+                                    ${procesar_dato('Velocidad', velocidad)}
+                                    ${procesar_dato('Tiempo/Largo', tiempo_entre_largo)}
+                                    ${procesar_dato('DCA', dca)}
+                                    ${procesar_infeccion('Estado', infeccion)}
+
+                                    ${/* procesar_dato('Desde', desde) */ ''}
+                                    ${/* procesar_dato('Hasta', hasta) */ ''}
+                            </div>
+                        `;
+
+                        popup.setLngLat(coordenadasPopup)
+                            .setHTML(contenido)
+                            .addTo(map);
+            }
 
             // Listeners: Cuando el usuario toca algo
 
-            // Hora
+            // Hora y Pop-up
             slider.addEventListener('input', (e) => {
                 minutosTotales = parseInt(e.target.value);
                 actualizarMapa();
+
+                if (puntoPantalla){
+                    const features = map.queryRenderedFeatures(puntoPantalla, {layers: ['capa-aristas-hitbox']});
+
+                    if (features.length > 0) {
+                        arcoActual = features[0]; 
+                        actualizarPopup();      
+                    }   
+                }
             });
 
             // Día
@@ -553,74 +629,25 @@
                 });
 
                 // Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
-                map.on('mouseenter', 'capa-aristas-hitbox', (e) => {
+                map.on('mousemove', 'capa-aristas-hitbox', (e) => {
+
+                    arcoActual = e.features[0];
+
+                    coordenadasPopup = e.lngLat;
+                    puntoPantalla = e.point;
 
                     // Cambiar el cursor a una manito para indicar que es interactivo
                     map.getCanvas().style.cursor = 'pointer';
 
-                    // Obtener las coordenadas donde está el mouse
-                    const coordinates = e.lngLat;
+                    // Actualizar la info que muestra el popup
+                    actualizarPopup();
                     
-                    // Obtener las propiedades del tramo 
-                    const propiedades = e.features[0].properties;
-
-                    const idArco = propiedades.id; 
-                    const calle = propiedades.calle_principal;
-                    const sentido = propiedades.sentido;
-                    const tiempo = propiedades.tiempo;
-                    const velocidad = propiedades.velocidad;
-                    const tiempo_entre_largo = propiedades.tiempo_entre_largo;
-                    const congestion = propiedades.nivel_congestion;
-                    const dca = propiedades.dca;
-                    const desde = propiedades.desde;
-                    const hasta = propiedades.hasta;
-
-                    const infeccion = propiedades.infeccion;
-                    const procesar_infeccion = (label, nivel) => {
-                        if (parseInt(nivel) == 0){
-                            return `${label}: Saludable <br>`;;
-                        }
-
-                        else if (parseInt(nivel) == 1){
-                            return `${label}: Recuperado <br>`;
-                        }
-
-                        else if (parseInt(nivel) == 2){
-                            return `${label}: Infectado  <br>`;
-                        }
-                    }
-
-                    const procesar_dato = (label, valor) => {
-
-                        if (valor == 'NULL'){
-                            return '';
-                        }
-
-                        return `${label}: ${valor} <br>`;
-                    }
-
-                    // Configurar el HTML del popup y mostrarlo
-                    popup.setLngLat(coordinates)
-                        .setHTML(`
-                            <div style= "text-align: left; line-height: 1.5;">
-                                <strong>ID: ${idArco}</strong><br>
-                                    ${procesar_dato('Calle principal', calle)}
-                                    ${procesar_dato('Sentido', sentido)}
-                                    ${procesar_dato('Tiempo', tiempo)}
-                                    ${procesar_dato('Velocidad', velocidad)}
-                                    ${procesar_dato('Tiempo/Largo', tiempo_entre_largo)}
-                                    ${procesar_dato('DCA', dca)}
-                                    ${procesar_infeccion('Estado', infeccion)}
-
-                                    ${/* procesar_dato('Desde', desde) */ ''}
-                                    ${/* procesar_dato('Hasta', hasta) */ ''}
-                            </div>
-                        `)
-                        .addTo(map);
                 });
 
                 // Evento: Cuando el mouse SALE de la línea
                 map.on('mouseleave', 'capa-aristas-hitbox', () => {
+                    arcoActual = null;
+                    coordenadasPopup = null;
                     map.getCanvas().style.cursor = '';
                     popup.remove();
                 }); 
