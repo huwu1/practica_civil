@@ -161,10 +161,25 @@
 
                 <div class="SIR">
                     <div class="SIR-indicator" style="background: #E7180B;"></div> Infectado
-                </div>                                
-
-            </div>
+                </div>  
+            </div>                                  
         </div>  
+
+        <div id="barra-lateral" class="barra-lateral">
+            <button id="boton-barra-lateral" class="boton-barra-lateral">
+                ◀ </button>
+
+            <div class="contenido-barra-lateral">
+                <h2>Información contenida por los pop-up's:</h2>
+                <div id="tus-controles-existentes">
+
+                <div class="contenido-barra-lateral">
+                    <input type="checkbox" class="filtro-popup" value="0" checked> Plan 7
+                </div> 
+                
+                </div>
+            </div>
+        </div>
 
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
@@ -202,9 +217,9 @@
             const leyendaPlanes = document.getElementById('leyenda-planes');
 
             // Referenica a la navbar
-            const sidebar = document.getElementById('right-sidebar');
-            const openBtn = document.getElementById('open-sidebar');
-            const closeBtn = document.getElementById('close-sidebar');
+            const barraLateral = document.getElementById('barra-lateral');
+            const botonBarraLateral = document.getElementById('boton-barra-lateral');
+           //  const cerrarBarraLateral = document.getElementById('close-sidebar');
 
 
             // VARIABLES GLOBALES 
@@ -222,7 +237,6 @@
             let arcoActual = null;
             let coordenadasPopup = null;
             let puntoPantalla = null;
-
             
             // Variable para las checkboxes y planes respectivamente
             let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
@@ -564,6 +578,20 @@
                 actualizarInterfaz(propiedadActual);
                 
             });
+
+            // Barra lateral
+
+            botonBarraLateral.addEventListener('click', function() {
+
+                barraLateral.classList.toggle('abierto');
+
+                if (barraLateral.classList.contains('abierto')){
+                    botonBarraLateral.innerHTML = '▶';
+                }
+                else{
+                    botonBarraLateral.innerHTML = '◀';
+                }
+            })
 
 
             // CHECKBOXES

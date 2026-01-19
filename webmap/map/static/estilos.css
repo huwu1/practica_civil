@@ -134,7 +134,7 @@ body { margin: 0; padding: 0; }
     color: #333;
 }
 
-/* El indicador visual del plan*/
+/* El indicador visual del plan (colorcito) */
 .plan-indicator {
     width: 12px;
     height: 12px;
@@ -144,7 +144,6 @@ body { margin: 0; padding: 0; }
     border: 1px solid rgba(0,0,0,0.1); 
 }
 
-/* Hover para mejorar la experiencia de usuario */
 .plan-row:hover {
     background-color: #f0f0f0;
     border-radius: 4px;
@@ -160,7 +159,7 @@ body { margin: 0; padding: 0; }
     color: #333;
 }
 
-/* Indicador visual del estado */
+/* Indicador visual del estado (colorcito) */
 .SIR-indicator {
     width: 12px;
     height: 12px;
@@ -168,4 +167,60 @@ body { margin: 0; padding: 0; }
     margin-right: 8px;
     opacity: 0.8; 
     border: 1px solid rgba(0,0,0,0.1); 
+}
+
+/* ---------------------- */
+
+/* Side bar para la info mostrada por los pop-up's */
+.barra-lateral {
+    position: fixed;      
+    top: 37%;
+    transform: translateY(-37%);
+    right: -300px;         
+    width: 300px;
+    height: 350px;        
+    background-color: rgba(30, 30, 30, 0.95);
+    box-shadow: -2px 0 10px rgba(0,0,0,0.5);
+    transition: right 0.3s ease-in-out;     
+    z-index: 20000;       
+    color: white;
+    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.barra-lateral.abierto {
+    right: 0;             
+}
+
+/* Contenido interno */
+.contenido-barra-lateral {
+    padding-top: 0px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* El botón */
+.boton-barra-lateral {
+    position: absolute;   
+    right: 100%;          
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background-color: #31C950;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
+}
+
+.boton-barra-lateral:hover {
+    background-color: #28a745;
 }
