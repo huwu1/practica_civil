@@ -176,9 +176,9 @@ body { margin: 0; padding: 0; }
     position: fixed;      
     top: 37%;
     transform: translateY(-37%);
-    right: -300px;         
-    width: 300px;
-    height: 350px;        
+    right: -250px;         
+    width: 250px;
+    height: auto;        
     background-color: rgba(30, 30, 30, 0.95);
     box-shadow: -2px 0 10px rgba(0,0,0,0.5);
     transition: right 0.3s ease-in-out;     
@@ -193,12 +193,19 @@ body { margin: 0; padding: 0; }
 
 /* Contenido interno */
 .contenido-barra-lateral {
+    font-size: 14px;
+    text-align: center;
     padding-top: 0px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
     padding-right: 20px;
     padding-left: 20px;
     height: 100%;
     overflow-y: auto;
+}
+
+.contenido-barra-lateral h2 {
+    margin-top: 0 !important;  
+    padding-top: 8px;         
 }
 
 /* El botón */
@@ -213,7 +220,7 @@ body { margin: 0; padding: 0; }
     border-radius: 5px 0 0 5px;
     cursor: pointer;
     color: white;
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,4 +230,65 @@ body { margin: 0; padding: 0; }
 
 .boton-barra-lateral:hover {
     background-color: #28a745;
+}
+
+/* Checkboxes de los pop'ups*/
+.contenedor-grid {
+    display: grid;
+    grid-template-columns: 1fr;                      
+    align-items: center;
+}
+
+.control-item {
+    display: flex;            
+    align-items: center;     
+    justify-content: center;  
+    gap: 8px;                
+    width: 100%;              
+    margin-bottom: 5px;      
+    font-size: 16px;
+}
+
+/* Checkboxes mas bonitos */
+.control-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    
+    width: 16px;
+    height: 16px;
+    background-color: transparent; 
+    border: 2px solid #aaaaaa;    
+    border-radius: 4px;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    transition: 0.2s;
+}
+
+/* Cuando pasas el mouse por encima */
+.control-item input[type="checkbox"]:hover {
+    border-color: #ffffff;         
+}
+
+/* Estado ACTIVADO */
+.control-item input[type="checkbox"]:checked {
+    background-color: #31C950;     
+    border-color: #31C950;         
+}
+
+/* El "check" (la palomita) dibujada con CSS */
+.control-item input[type="checkbox"]::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    box-shadow: inset 1em 1em white; 
+    transform: scale(0);             
+    transition: 0.2s transform;
+    
+    /* Forma de palomita (clip-path) */
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.control-item input[type="checkbox"]:checked::before {
+    transform: scale(1);             
 }

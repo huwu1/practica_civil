@@ -171,13 +171,53 @@
 
             <div class="contenido-barra-lateral">
                 <h2>Información contenida por los pop-up's:</h2>
-                <div id="tus-controles-existentes">
 
-                <div class="contenido-barra-lateral">
-                    <input type="checkbox" class="filtro-popup" value="0" checked> Plan 7
-                </div> 
-                
-                </div>
+                <div id="contenido-popup">
+                    
+                    <div class="contenedor-grid">
+
+                        <div class="control-item">
+                            <label>Calle principal</label><input type="checkbox" class="filtro-popup" value="calle" checked>
+                        </div> 
+
+                        <div class="control-item">
+                            <label>Sentido</label><input type="checkbox" class="filtro-popup" value="sentido" checked>
+                        </div> 
+
+                        <div class="control-item">
+                            <label>Tiempo</label><input type="checkbox" class="filtro-popup" value="tiempo" checked>
+                        </div> 
+                        
+                        <div class="control-item">
+                            <label>Velocidad</label><input type="checkbox" class="filtro-popup" value="velocidad" checked>
+                        </div> 
+                        
+                        <div class="control-item">
+                            <label>Tiempo/Largo</label><input type="checkbox" class="filtro-popup" value="tiempo/largo" checked>
+                        </div> 
+                        
+                        <div class="control-item">
+                            <label>DCA</label><input type="checkbox" class="filtro-popup" value="dca" checked>
+                        </div> 
+                        
+                        <div class="control-item">
+                            <label>Nivel de congestión</label><input type="checkbox" class="filtro-popup" value="congestion" checked>
+                        </div>                  
+
+                        <div class="control-item">
+                            <label>Estado</label><input type="checkbox" class="filtro-popup" value="estado" checked>
+                        </div> 
+
+                        <div class="control-item">
+                            <label>Desde</label><input type="checkbox" class="filtro-popup" value="desde" checked>
+                        </div> 
+                        
+                        <div class="control-item">
+                            <label>Hasta</label><input type="checkbox" class="filtro-popup" value="hasta" checked>
+                        </div>                         
+
+                    </div>
+                </div>    
             </div>
         </div>
 
@@ -192,13 +232,15 @@
 
             // REFERENCIAS:
 
-            // Referencias a los controles HTML
+            // Referencias a los controles HTML y leyendas
             const slider = document.getElementById('slider');
             const display = document.getElementById('hora-label');
             const diaSelect = document.getElementById('dia-select');
             const propiedadSelect = document.getElementById('propiedad-select');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
             const leyendaSIR = document.getElementById('leyenda-SIR');
+            const leyendaGradiente = document.getElementById('leyenda-gradiente');
+            const leyendaPlanes = document.getElementById('leyenda-planes');
 
             // Referencia a las checkboxes de la congestion
             const checkboxes_congestion = document.querySelectorAll('.filtro-congestion');
@@ -206,21 +248,19 @@
             // Referencia a las checkboxes de los planes
             const checkboxes_planes = document.querySelectorAll('.filtro-planes')
 
+            // Referencia a las checkboxes de los pop-up's
+            const checkboxes_popup = document.querySelectorAll('.filtro-popup')
+
             // Referencias al gradiente
-            const leyendaGradiente = document.getElementById('leyenda-gradiente');
             const tituloGradiente = document.getElementById('titulo-gradiente');
             const barraColor =  document.getElementById('barra-color');
             const minVal = document.getElementById('min-val');
             const maxVal = document.getElementById('max-val');
 
-            // Referencia a los planes
-            const leyendaPlanes = document.getElementById('leyenda-planes');
-
             // Referenica a la navbar
             const barraLateral = document.getElementById('barra-lateral');
             const botonBarraLateral = document.getElementById('boton-barra-lateral');
-           //  const cerrarBarraLateral = document.getElementById('close-sidebar');
-
+            
 
             // VARIABLES GLOBALES 
 
@@ -233,14 +273,24 @@
             // Propiedad seleccionada
             let propiedadActual = propiedadSelect.value;
 
-            // Arco seleccionado y coordenadas del mopuse (para el pop-up de info)
+            // Arco seleccionado y coordenadas del mouse (para el pop-up de info)
             let arcoActual = null;
             let coordenadasPopup = null;
             let puntoPantalla = null;
+
+            // instancia del Pop-up actual
+            let popupActual = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false,
+                maxWidth: '300px'
+            });
             
-            // Variable para las checkboxes y planes respectivamente
+            // Variable para las checkboxes de los niveles de congestión, planes y pop-up's respectivamente
             let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
             let planesSeleccionados = ['P1', 'P2', 'P4', 'P5', 'P6', 'P7', 'P8', 'P31'];
+            let infoSeleccionada = Array.from(checkboxes_popup)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
 
 
             // FUNCIONES
@@ -455,7 +505,6 @@
                     map.setFilter('capa-aristas-hitbox', filtro);
                 }
 
-
                 // Para actualizar la hora mostrada x el slider
                 const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
                 const mVis = (minutosTotales % 60).toString().padStart(2, '0');
@@ -475,12 +524,12 @@
                     const tiempo = propiedades.tiempo;
                     const velocidad = propiedades.velocidad;
                     const tiempo_entre_largo = propiedades.tiempo_entre_largo;
-                    const congestion = propiedades.nivel_congestion;
                     const dca = propiedades.dca;
+                    const congestion = propiedades.nivel_congestion;
+                    const infeccion = propiedades.infeccion;                    
                     const desde = propiedades.desde;
                     const hasta = propiedades.hasta;
 
-                    const infeccion = propiedades.infeccion;
                     const procesar_infeccion = (label, nivel) => {
                         if (parseInt(nivel) == 0){
                             return `${label}: Saludable <br>`;;
@@ -503,27 +552,39 @@
 
                         return `${label}: ${valor} <br>`;
                     }
+                    
+                    const mapeoInfo = {
+                        'calle': () => procesar_dato('Calle principal', calle),
+                        'sentido': () => procesar_dato('Sentido', sentido),
+                        'tiempo': () => procesar_dato('Tiempo', tiempo),
+                        'velocidad': () => procesar_dato('Velocidad', velocidad),
+                        'tiempo/largo': () => procesar_dato('Tiempo/Largo', tiempo_entre_largo),
+                        'dca': () => procesar_dato('DCA', dca),
+                        'congestion': () => procesar_dato('Nivel de congestión', congestion),
+                        'estado': () => procesar_infeccion('Estado', infeccion),
+                        'desde': () => procesar_dato('Desde', desde),
+                        'hasta': () => procesar_dato('Hasta', hasta)
+                    };
 
-                    // Configurar el HTML del popup y mostrarlo
-                    const contenido = `
-                            <div style= "text-align: left; line-height: 1.5;">
-                                <strong>ID: ${idArco}</strong><br>
-                                    ${procesar_dato('Calle principal', calle)}
-                                    ${procesar_dato('Sentido', sentido)}
-                                    ${procesar_dato('Tiempo', tiempo)}
-                                    ${procesar_dato('Velocidad', velocidad)}
-                                    ${procesar_dato('Tiempo/Largo', tiempo_entre_largo)}
-                                    ${procesar_dato('DCA', dca)}
-                                    ${procesar_infeccion('Estado', infeccion)}
+                    let HTML = `<div style= "text-align: left; line-height: 1.5;">
+                                    <strong>ID: ${idArco}</strong><br>`
 
-                                    ${/* procesar_dato('Desde', desde) */ ''}
-                                    ${/* procesar_dato('Hasta', hasta) */ ''}
-                            </div>
-                        `;
+                                
+                    infoSeleccionada.forEach(variable => {
+                        if(mapeoInfo[variable]){
+                            const contenido = mapeoInfo[variable]();
+                            
+                            if(contenido !== ''){
+                                HTML += contenido;
+                            }
+                        }
+                    });
 
-                        popup.setLngLat(coordenadasPopup)
-                            .setHTML(contenido)
-                            .addTo(map);
+                    HTML += '</div>';
+
+                    popupActual.setLngLat(coordenadasPopup)
+                        .setHTML(HTML)
+                        .addTo(map);
             }
 
 
@@ -558,7 +619,7 @@
                             actualizarPopup();
                         }   
                         else {
-                            popup.remove;
+                            popupActual.remove;
                         }
                     }
                 })
@@ -580,7 +641,6 @@
             });
 
             // Barra lateral
-
             botonBarraLateral.addEventListener('click', function() {
 
                 barraLateral.classList.toggle('abierto');
@@ -616,6 +676,17 @@
 
                     actualizarColores(propiedadActual);
                 });
+            })
+
+            // Para los pop-up's
+            checkboxes_popup.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    infoSeleccionada = Array.from(checkboxes_popup)
+                    .filter(i => i.checked)
+                    .map(i => i.value);
+
+                    actualizarPopup();
+                })
             })
 
             // controles (zoom, direccion norte, etc)
@@ -684,12 +755,6 @@
                     });
                 });
 
-                // Crear una instancia del Popup
-                const popup = new mapboxgl.Popup({
-                    closeButton: false,
-                    closeOnClick: false
-                });
-
                 // Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
                 map.on('mousemove', 'capa-aristas-hitbox', (e) => {
 
@@ -699,7 +764,7 @@
                     if (propiedadActual == 'nivel_congestion'){
                         if(!nivelesSeleccionados.includes(props.nivel_congestion)){
                             map.getCanvas().style.cursor = '';
-                            popup.remove();
+                            popupActual.remove();
                             return;
                         }
                     }
@@ -707,7 +772,7 @@
                     else if (propiedadActual == 'plan') {
                         if(!planesSeleccionados.includes(props.plan)){
                             map.getCanvas().style.cursor = '';
-                            popup.remove();
+                            popupActual.remove();
                             return;
                         }
                     }
@@ -728,7 +793,7 @@
                     arcoActual = null;
                     coordenadasPopup = null;
                     map.getCanvas().style.cursor = '';
-                    popup.remove();
+                    popupActual.remove();
                 }); 
             
         </script>
