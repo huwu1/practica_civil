@@ -117,4 +117,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+# Para el server:
+
 CSRF_TRUSTED_ORIGINS = ['https://webmapnunoa.me', 'https://www.webmapnunoa.me']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
