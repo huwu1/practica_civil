@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1eyin_r=r00&9n_+4h#wh^$527xrf=w07**u!m2s7rmx(bz0y@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['webmapnunoa.me', 'www.webmapnunoa.me', 'localhost', '127.0.0.1'] 
 
 
 # Application definition
@@ -116,3 +116,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CSRF_TRUSTED_ORIGINS = ['https://webmapnunoa.me', 'https://www.webmapnunoa.me']
