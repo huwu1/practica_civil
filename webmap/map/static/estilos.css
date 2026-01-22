@@ -169,13 +169,10 @@ body { margin: 0; padding: 0; }
     border: 1px solid rgba(0,0,0,0.1); 
 }
 
-/* ---------------------- */
-
 /* Side bar para la info mostrada por los pop-up's */
 .barra-lateral {
     position: fixed;      
-    top: 37%;
-    transform: translateY(-37%);
+    top: 20px;
     right: -250px;         
     width: 250px;
     height: auto;        

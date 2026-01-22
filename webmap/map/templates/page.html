@@ -163,63 +163,65 @@
                     <div class="SIR-indicator" style="background: #E7180B;"></div> Infectado
                 </div>  
             </div>                                  
-        </div>  
+         
 
-        <div id="barra-lateral" class="barra-lateral">
-            <button id="boton-barra-lateral" class="boton-barra-lateral">
-                ◀ </button>
+            <div id="barra-lateral" class="barra-lateral">
+                <button id="boton-barra-lateral" class="boton-barra-lateral">
+                    ◀ </button>
 
-            <div class="contenido-barra-lateral">
-                <h2>Información contenida por los pop-up's:</h2>
+                <div class="contenido-barra-lateral">
+                    <h2>Información contenida por los pop-up's:</h2>
 
-                <div id="contenido-popup">
-                    
-                    <div class="contenedor-grid">
-
-                        <div class="control-item">
-                            <label>Calle principal</label><input type="checkbox" class="filtro-popup" value="calle" checked>
-                        </div> 
-
-                        <div class="control-item">
-                            <label>Sentido</label><input type="checkbox" class="filtro-popup" value="sentido" checked>
-                        </div> 
-
-                        <div class="control-item">
-                            <label>Tiempo</label><input type="checkbox" class="filtro-popup" value="tiempo" checked>
-                        </div> 
+                    <div id="contenido-popup">
                         
-                        <div class="control-item">
-                            <label>Velocidad</label><input type="checkbox" class="filtro-popup" value="velocidad" checked>
-                        </div> 
-                        
-                        <div class="control-item">
-                            <label>Tiempo/Largo</label><input type="checkbox" class="filtro-popup" value="tiempo/largo" checked>
-                        </div> 
-                        
-                        <div class="control-item">
-                            <label>DCA</label><input type="checkbox" class="filtro-popup" value="dca" checked>
-                        </div> 
-                        
-                        <div class="control-item">
-                            <label>Nivel de congestión</label><input type="checkbox" class="filtro-popup" value="congestion" checked>
-                        </div>                  
+                        <div class="contenedor-grid">
 
-                        <div class="control-item">
-                            <label>Estado</label><input type="checkbox" class="filtro-popup" value="estado" checked>
-                        </div> 
+                            <div class="control-item">
+                                <label>Calle principal</label><input type="checkbox" class="filtro-popup" value="calle" checked>
+                            </div> 
 
-                        <div class="control-item">
-                            <label>Desde</label><input type="checkbox" class="filtro-popup" value="desde" checked>
-                        </div> 
-                        
-                        <div class="control-item">
-                            <label>Hasta</label><input type="checkbox" class="filtro-popup" value="hasta" checked>
-                        </div>                         
+                            <div class="control-item">
+                                <label>Sentido</label><input type="checkbox" class="filtro-popup" value="sentido" checked>
+                            </div> 
 
-                    </div>
-                </div>    
+                            <div class="control-item">
+                                <label>Tiempo</label><input type="checkbox" class="filtro-popup" value="tiempo" checked>
+                            </div> 
+                            
+                            <div class="control-item">
+                                <label>Velocidad</label><input type="checkbox" class="filtro-popup" value="velocidad" checked>
+                            </div> 
+                            
+                            <div class="control-item">
+                                <label>Tiempo/Largo</label><input type="checkbox" class="filtro-popup" value="tiempo/largo" checked>
+                            </div> 
+                            
+                            <div class="control-item">
+                                <label>DCA</label><input type="checkbox" class="filtro-popup" value="dca" checked>
+                            </div> 
+                            
+                            <div class="control-item">
+                                <label>Nivel de congestión</label><input type="checkbox" class="filtro-popup" value="congestion" checked>
+                            </div>                  
+
+                            <div class="control-item">
+                                <label>Estado</label><input type="checkbox" class="filtro-popup" value="estado" checked>
+                            </div> 
+
+                            <div class="control-item">
+                                <label>Desde</label><input type="checkbox" class="filtro-popup" value="desde" checked>
+                            </div> 
+                            
+                            <div class="control-item">
+                                <label>Hasta</label><input type="checkbox" class="filtro-popup" value="hasta" checked>
+                            </div>                         
+
+                        </div>
+                    </div>    
+                </div>
             </div>
-        </div>
+
+        </div> 
 
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dSIsImEiOiJjbWpzdDhpc3czaTd1M2NvamlkNXVicWd6In0.cFdXVIOLckEUTYLHRC9uOQ'
@@ -689,8 +691,8 @@
             })
 
             // controles (zoom, direccion norte, etc)
-            map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-            map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+            map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
+            map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
             map.on('load', () => {
 
