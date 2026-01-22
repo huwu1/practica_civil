@@ -1,4 +1,4 @@
-id;calle_principal;id_arco_id;sentido;desde_interseccion;hasta_interseccion;n_interseccion;dia;hora;plan;tiempo;velocidad;tiempo_entre_largo;DCA;nivel_congestion;infeccion
+id;calle_principal;id_arco_id;sentido;desde_interseccion;hasta_interseccion;n_interseccion;dia;hora;plan;tiempo;velocidad;tiempo_entre_largo;DCA;nivel_congestion;infection
 1;Campo de Deportes;1;NS;Av. Irarrázaval;Dublé Almeyda;6;Monday;6:30;P8;59.06;20.8;173.2;0;2;0
 2;Campo de Deportes;1;NS;Av. Irarrázaval;Dublé Almeyda;6;Monday;6:45;P8;68.18;18.01;199.9;9.9;3;0
 3;Campo de Deportes;1;NS;Av. Irarrázaval;Dublé Almeyda;6;Monday;7:00;P31;68.14;18.02;199.8;9.8;3;0
@@ -1859,7 +1859,7 @@ id;calle_principal;id_arco_id;sentido;desde_interseccion;hasta_interseccion;n_in
 1858;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Tuesday;21:15;P6;48.5;22.71;158.5;0;2;1
 1859;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Tuesday;21:30;P6;40.33;27.31;131.8;0;2;1
 1860;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Tuesday;21:45;P6;45.67;24.12;149.2;0;2;1
-1861;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Wednesday;6:30;P8;NULL;NULL;NULL;NULL;;0
+1861;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Wednesday;6:30;P8;NULL;NULL;NULL;NULL;;
 1862;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Wednesday;6:45;P8;NULL;NULL;NULL;NULL;;
 1863;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Wednesday;7:00;P31;NULL;NULL;NULL;NULL;;
 1864;Campo de Deportes;5;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;Wednesday;7:15;P31;NULL;NULL;NULL;NULL;;
@@ -2293,7 +2293,7 @@ id;calle_principal;id_arco_id;sentido;desde_interseccion;hasta_interseccion;n_in
 2292;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Tuesday;21:15;P6;48.5;22.71;158.5;0;2;1
 2293;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Tuesday;21:30;P6;40.33;27.31;131.8;0;2;1
 2294;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Tuesday;21:45;P6;45.67;24.12;149.2;0;2;1
-2295;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Wednesday;6:30;P8;NULL;NULL;NULL;NULL;;0
+2295;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Wednesday;6:30;P8;NULL;NULL;NULL;NULL;;
 2296;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Wednesday;6:45;P8;NULL;NULL;NULL;NULL;;
 2297;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Wednesday;7:00;P31;NULL;NULL;NULL;NULL;;
 2298;Campo de Deportes;6;SN;José Domingo Cañas;Dublé Almeyda;6;Wednesday;7:15;P31;NULL;NULL;NULL;NULL;;
