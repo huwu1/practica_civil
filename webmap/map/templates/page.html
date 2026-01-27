@@ -16,8 +16,8 @@
 
             <div class="map-overlay top">
                 <div class="map-overlay-inner">
-                    <div class="selector-dia-container">
 
+                    <div class="selector-propiedad-container">
                         <div class="control-group">
                             <label for="propiedad-select">Mapa:</label>
                             <select id="propiedad-select">
@@ -29,8 +29,10 @@
                                 <!-- <option value="plan">Plan</option> -->
                                 <option value="infeccion">Cinemática de congestión</option>
                             </select>
-                        </div> 
+                        </div>
+                    </div>
 
+                    <div class="selector-dia-container">     
                         <div class="control-group">
                             <label for="dia-select">Día de la semana:</label>
                             <select id="dia-select">
@@ -43,7 +45,17 @@
                                 <option value="Sunday">Domingo</option>
                             </select>
                         </div>
-                       
+                    </div>    
+
+                    <div class="selector-sentido-container"> 
+                        <div class="control-group">
+                            <label for="sentido-select">Sentido:</label>
+                            <select id="sentido-select">
+                                <option value="NS-SN">NS - SN</option>
+                                <option value="OP-PO">OP - PO</option>
+                                <option value="ambos">Ambos</option>
+                            </select>
+                        </div>
                     </div>
 
                     <h2>Hora: <label id="hora-label">06:30</label></h2>

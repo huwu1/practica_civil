@@ -19,8 +19,26 @@ body { margin: 0; padding: 0; }
     margin-bottom: 10px;
     font-size: 14px; 
     font-weight: bold;
-    
 }    
+
+/* Contenedor de las filas */
+.control-group {
+    display: flex;              
+    align-items: center;      
+    justify-content: center;    
+    gap: 8px;                   
+    width: 100%;                
+    margin-bottom: 3px;        
+}
+
+/* El cuadro desplegable para el mapa, día de la semana y sentido */
+.control-group select {
+    width: auto;                
+    max-width: 60%;            
+    text-overflow: ellipsis;    
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 /* Estilos para el contenedor del slider para darle espacio */
 #slider {
@@ -77,7 +95,7 @@ body { margin: 0; padding: 0; }
 }
 
 #leyenda-SIR{
-    width: 120px;
+    width: 170px;
 }
 
 .map-overlay-legend h3 {
@@ -150,6 +168,7 @@ body { margin: 0; padding: 0; }
 
 /* Panel de los estados de 'infección*/
 .SIR {
+    width: 100%;
     display: flex;
     align-items: center;
     margin-bottom: 6px;
