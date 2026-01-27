@@ -32,6 +32,17 @@
                         </div>
                     </div>
 
+                    <div class="selector-sentido-container"> 
+                        <div class="control-group">
+                            <label for="sentido-select">Sentido:</label>
+                            <select id="sentido-select">
+                                <option value="NS,SN,OP,PO">Todos</option>                                
+                                <option value="NS,SN">NS - SN</option>
+                                <option value="OP,PO">OP - PO</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="selector-dia-container">     
                         <div class="control-group">
                             <label for="dia-select">Día de la semana:</label>
@@ -45,18 +56,7 @@
                                 <option value="Sunday">Domingo</option>
                             </select>
                         </div>
-                    </div>    
-
-                    <div class="selector-sentido-container"> 
-                        <div class="control-group">
-                            <label for="sentido-select">Sentido:</label>
-                            <select id="sentido-select">
-                                <option value="NS,SN,OP,PO">Todos</option>                                
-                                <option value="NS,SN">NS - SN</option>
-                                <option value="OP,PO">OP - PO</option>
-                            </select>
-                        </div>
-                    </div>
+                    </div>   
 
                     <h2>Hora: <label id="hora-label">06:30</label></h2>
                     <input id="slider" type="range" min="390" max="1310" step="15" value="0">
@@ -201,27 +201,44 @@
 
             <div class="map-overlay-legend" id="leyenda-SIR" style="display: none;">
                 <h3 id="titulo-SIR"> Estados:</h3>
-                
-                <div class="SIR">
+
+                <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="0" checked>
                     <div class="SIR-indicator" style="background: #31C950;"></div> Nunca congestionado
                 </div>
                 
-                <div class="SIR">
+                <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="1" checked>
                     <div class="SIR-indicator" style="background: #4A90E2;"></div> Recuperado
                 </div>
 
-                <div class="SIR">
+                <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="2" checked>
                     <div class="SIR-indicator" style="background: #E7180B;"></div> Congestionado
                 </div>  
 
-                <div class="SIR">
+                <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="3" checked>
                     <div class="SIR-indicator" style="background: #000000;"></div> Sin datos
                 </div>
 
+                <h3 id="titulo-SIR-2"> Período:</h3>
+
+                <div class="peaks-SIR">
+                    <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mañana" checked>
+                    <label>Peak mañana (06:30 - 09:45)</label> 
+                </div>
+                
+                <div class="peaks-SIR" id="viernes-only">
+                    <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mediodia">
+                    <label>Peak mediodia (11:30 - 15:00)</label> 
+                </div>                
+
+                <div class="peaks-SIR">
+                    <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="tarde">
+                    <label>Peak tarde (16:30 - 21:00)</label> 
+                </div>
+                
             </div>                                  
          
 
@@ -304,6 +321,7 @@
                 zoom: 14.5
             });
 
+
             // REFERENCIAS:
 
             // Referencias a los controles HTML y leyendas
@@ -324,13 +342,18 @@
             const checkboxes_congestion = document.querySelectorAll('.filtro-congestion');
 
             // Referencia a las checkboxes de los planes
-            const checkboxes_planes = document.querySelectorAll('.filtro-planes')
+            const checkboxes_planes = document.querySelectorAll('.filtro-planes');
 
             // Referencia a las checkboxes de los pop-up's
-            const checkboxes_popup = document.querySelectorAll('.filtro-popup')
+            const checkboxes_popup = document.querySelectorAll('.filtro-popup');
 
             // Referencia a las checkboxes del modelo SIR
-            const checkboxes_SIR = document.querySelectorAll('.filtro-SIR')
+            const checkboxes_SIR = document.querySelectorAll('.filtro-SIR');
+
+            // Referencia a los radio buttons del modelo SIR (peaks)
+            const peaks = document.querySelectorAll('.filtro-peaks-SIR');   
+            const peakSeleccionado = document.querySelectorAll('.filtro-peaks-SIR:checked');
+            const diaViernes = document.getElementById('viernes-only');
 
             // Referencias al gradiente
             const tituloGradiente = document.getElementById('titulo-gradiente');
@@ -338,7 +361,7 @@
             const minVal = document.getElementById('min-val');
             const maxVal = document.getElementById('max-val');
 
-            // Referenica a la navbar
+            // Referencia a la barra lateral
             const barraLateral = document.getElementById('barra-lateral');
             const botonBarraLateral = document.getElementById('boton-barra-lateral');
             
@@ -347,7 +370,6 @@
 
             // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
-
 
             // Mapa seleccionado
             let mapaActual = mapaSelect.value;
@@ -358,6 +380,9 @@
             // Sentido seleccionado
             let sentidoActual = sentidoSelect.value;
 
+            // Peak seleccionado
+            let peakActual = peakSeleccionado.value || 'mañana';
+
             // Arco seleccionado y coordenadas del mouse (para el pop-up de info)
             let arcoActual = null;
             let coordenadasPopup = null;
@@ -365,6 +390,11 @@
 
             // Nodo seleccionado
             let nodoActual = null;
+            
+            // Valores del slider para la congestión, peaks de mañana y tarde
+            let ultimo_valor_congestion = 390;
+            let ultimo_valor_mañana = 390; 
+            let ultimo_valor_tarde = 990;
 
             // instancia del Pop-up actual
             let popupActual = new mapboxgl.Popup({
@@ -372,7 +402,7 @@
                 closeOnClick: false,
             });
             
-            // Variable para las checkboxes de los niveles de congestión, planes* y pop-up's respectivamente
+            // Variable para las checkboxes/radio de los niveles de congestión, planes*, peaks y pop-up's respectivamente
             let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
             
             let diasSemana = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -380,12 +410,11 @@
             let planesSeleccionadosSabado = [ 'P6', 'P7', 'P8', 'P31'];
             let planesSeleccionadosDomingo = ['P6', 'P7', 'P8'];
 
-            let infoSeleccionada = Array.from(checkboxes_popup)
-                .filter(cb => cb.checked)
-                .map(cb => cb.value);
-
             let estadosSeleccionados = [0, 1, 2, 3];
 
+            let infoSeleccionada = Array.from(checkboxes_popup)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
 
             // FUNCIONES
 
@@ -492,14 +521,23 @@
                         1: '#4A90E2',
                         2: '#E7180B',
                         3: '#000000',
-                    }
-
+                    }          
+                    
                     estadosSeleccionados.forEach(estado => {
                         if (mapeoSIR[estado]){
                             color.push(estado)
                             color.push(mapeoSIR[estado]);
                         }
-                    })
+                    })    
+                
+
+                    // Para actualizar la hora mostrada x el slider
+                    // const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
+                    // const mVis = (minutosTotales % 60).toString().padStart(2, '0');
+                    // display.innerText = `${hVis}:${mVis}`;
+
+
+                    // <input id="slider" type="range" min="390" max="1310" step="15" value="0">
 
                     color.push('rgba(0,0,0,0)');
                 }
@@ -541,6 +579,12 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';
                     leyendaSIR.style.display = 'none';
+                    
+                    slider.min = 390;
+                    slider.max = 1439;
+                    slider.value = ultimo_valor_congestion;
+
+                    minutosTotales = parseInt(slider.value);
                 }
 
                 else if (mapa == 'velocidad' || mapa == 'tiempo' || mapa == 'dca'){
@@ -611,10 +655,37 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
-                }
-                
-            }
 
+                    if(diaActual == 'Friday'){
+                        diaViernes.style.display = 'flex';
+                    }
+                    else{
+                        diaViernes.style.display = 'none';
+                    }
+
+                    if(peakActual == 'mañana'){
+                        slider.min = 390;
+                        slider.max = 585;
+                        slider.value = ultimo_valor_mañana; 
+                    } 
+                    else if(peakActual == 'tarde'){
+                        slider.min = 990;
+                        slider.max = 1260;
+                        slider.value = ultimo_valor_tarde;
+                    }
+
+                    /*
+                    else if(peakActual == 'mediodia'){
+                        slider.min = 690;
+                        slider.max = 900;
+                        slider.value = ultimo_valor_mediodia; 
+                    }            
+                    */
+
+                    minutosTotales = parseInt(slider.value);
+                }
+            }
+                
             // Función para displayear lo que corresponda según el slider y el día seleccionado
             // a través de filtros literales
             function actualizarMapa() {
@@ -662,13 +733,13 @@
 
                         if (interseccionNodo == null){
                             HTML = `<div style= "text-align: left; line-height: 1.5;">
-                                    <strong>ID Nodo: ${nodoID}</strong><br>`
+                                    ID Nodo: ${nodoID}<br>`
                         }
 
                         else{
                             HTML = `<div style= "text-align: left; line-height: 1.5;">
-                                    <strong>ID Nodo: ${nodoID}</strong><br>
-                                    N° Intersección: ${interseccionNodo}<br>`
+                                    <strong>N° Intersección: ${interseccionNodo}</strong><br>
+                                    ID Nodo: ${nodoID}<br>`
                         }
 
                     }
@@ -762,8 +833,20 @@
 
             // Hora y Pop-up
             slider.addEventListener('input', (e) => {
-                minutosTotales = parseInt(e.target.value);
+                let valor = parseInt(e.target.value);
 
+                if(mapaActual == 'nivel_congestion'){
+                    ultimo_valor_congestion = valor;
+                }
+
+                else if(peakActual == 'mañana'){
+                    ultimo_valor_mañana = parseInt(e.target.value);
+                }
+                else if (peakActual == 'tarde'){
+                    ultimo_valor_tarde = parseInt(e.target.value);
+                }
+
+                minutosTotales = valor;
                 actualizarMapa();
 
                 map.once('idle', () => {
@@ -805,14 +888,16 @@
             mapaSelect.addEventListener('change', (e) => {
                 mapaActual = e.target.value;
 
-                actualizarMapa();
                 actualizarInterfaz(mapaActual);
+                actualizarMapa();
+
             });
 
             // Día
             diaSelect.addEventListener('change', (e) => {
                 diaActual = e.target.value;
                 actualizarMapa();
+                actualizarInterfaz(mapaActual);
             });
 
             // Sentido
@@ -821,7 +906,16 @@
                 actualizarMapa();
             })
 
+            // Peak congestión
+            peaks.forEach(boton => {
+                boton.addEventListener('change', (e) => {
+                    peakActual = e.target.value;;
 
+                    actualizarInterfaz('infeccion');
+
+                    actualizarMapa();
+                })
+            })
 
             // Barra lateral
             botonBarraLateral.addEventListener('click', function() {
@@ -942,7 +1036,7 @@
                     source: 'datos-red',
                     filter: ['==', '$type', 'Point'],
                     paint: {
-                        'circle-radius': 8,
+                        'circle-radius': 6,
                         'circle-color': '#d8c8b8'
                         }
                     });
