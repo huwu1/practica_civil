@@ -51,9 +51,9 @@
                         <div class="control-group">
                             <label for="sentido-select">Sentido:</label>
                             <select id="sentido-select">
-                                <option value="NS-SN">NS - SN</option>
-                                <option value="OP-PO">OP - PO</option>
-                                <option value="ambos">Ambos</option>
+                                <option value="NS,SN,OP,PO">Todos</option>                                
+                                <option value="NS,SN">NS - SN</option>
+                                <option value="OP,PO">OP - PO</option>
                             </select>
                         </div>
                     </div>
@@ -309,8 +309,9 @@
             // Referencias a los controles HTML y leyendas
             const slider = document.getElementById('slider');
             const display = document.getElementById('hora-label');
-            const diaSelect = document.getElementById('dia-select');
             const mapaSelect = document.getElementById('mapa-select');
+            const diaSelect = document.getElementById('dia-select');
+            const sentidoSelect = document.getElementById('sentido-select');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
             const leyendaSIR = document.getElementById('leyenda-SIR');
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
@@ -347,13 +348,15 @@
             // Minutos (totales) que trae el slider x debajo (múltiplos de 15)
             let minutosTotales = parseInt(slider.value);
 
-            // Día seleccionado
-            let diaActual = diaSelect.value;
 
             // Mapa seleccionado
             let mapaActual = mapaSelect.value;
 
-            //
+            // Día seleccionado
+            let diaActual = diaSelect.value;
+
+            // Sentido seleccionado
+            let sentidoActual = sentidoSelect.value;
 
             // Arco seleccionado y coordenadas del mouse (para el pop-up de info)
             let arcoActual = null;
@@ -621,6 +624,7 @@
                     'all',
                     ['==', ['get', 'dia'], diaActual],
                     ['==', ['get', 'hora'], hora],
+                    ['in', ['get', 'sentido'], ['literal', sentidoActual.split(',')]],
                     ['has', mapaActual],
                 ];
 
@@ -797,20 +801,27 @@
                 })
             });
 
-            // Día
-            diaSelect.addEventListener('change', (e) => {
-                diaActual = e.target.value;
-                actualizarMapa();
-            });
-
             // Mapa
             mapaSelect.addEventListener('change', (e) => {
                 mapaActual = e.target.value;
 
                 actualizarMapa();
                 actualizarInterfaz(mapaActual);
-                
             });
+
+            // Día
+            diaSelect.addEventListener('change', (e) => {
+                diaActual = e.target.value;
+                actualizarMapa();
+            });
+
+            // Sentido
+            sentidoSelect.addEventListener('change', (e) => {
+                sentidoActual = e.target.value;
+                actualizarMapa();
+            })
+
+
 
             // Barra lateral
             botonBarraLateral.addEventListener('click', function() {
