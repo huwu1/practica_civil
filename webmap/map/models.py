@@ -6,6 +6,7 @@ class Nodes(models.Model):
     nombre = models.CharField(max_length=100)
     latitud = models.FloatField()
     longitud = models.FloatField()
+    interseccion = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.id_nodo}: {self.latitud}, {self.longitud}"
@@ -20,6 +21,7 @@ class Arcs(models.Model):
     hasta_interseccion = models.CharField(max_length=100)
     id_nodo1 = models.ForeignKey(Nodes, on_delete=models.CASCADE, related_name='arcos_origen')
     id_nodo2 = models.ForeignKey(Nodes, on_delete=models.CASCADE, related_name='arcos_destino')
+    largo = models.IntegerField()
 
     def __str__(self):
         return f"Arco de {self.id_nodo1_id} a {self.id_nodo2_id}"
@@ -29,10 +31,6 @@ class Traffic(models.Model):
     id = models.IntegerField(primary_key=True)
     calle_principal = models.CharField(max_length=100)
     id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
-    sentido = models.CharField(max_length=100)
-    desde_interseccion = models.CharField(max_length=100)
-    hasta_interseccion = models.CharField(max_length=100)
-    n_interseccion = models.IntegerField()
     dia = models.CharField(max_length=100)
     hora = models.TimeField()
     plan = models.CharField(max_length=100)

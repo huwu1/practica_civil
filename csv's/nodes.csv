@@ -1,36 +1,36 @@
-id_nodo;nombre;latitud;longitud
-1;Avenida Campos de Deportes & Irarrázaval;-334,537,667;-706,089,069
-2;Avenida Campos de Deportes & José Domingo Cañas;-334,567,491;-706,094,491
-3;Avenida Campos de Deportes & Grecia;-3,346,201;-706,101,424
-4;Avenida Campos de Deportes & Eduardo Castillo Velasco;-334,578,666;-706,094,483
-5;Avenida Campos de Deportes & Dublé Almeyda;-334,551,993;-706,091,471
-6;Dublé Almeyda & Monseñor Eyzaguirre;-334,547,071;-706,137,942
-7;Dublé Almeyda & Pedro de Valdivia;-334,556,262;-706,052,114
-8;Dublé Almeyda & Los Tres Antonios;-334,559,043;-706,026,957
-9;Eduardo Castillo Velasco & Dr. Johow;-334,592,565;-70,593,921
-10;Eduardo Castillo Velasco & José Pedro Alessandri;-334,591,078;-705,980,568
-11;Eduardo Castillo Velasco & Los Tres Antonios;-33,458,513;-70,603,103
-12;Eduardo Castillo Velasco & Pedro de Valdivia;-334,582,517;-706,056,243
-13;Exequiel Fernández & Capitán Orella;-334,524,095;-706,002,334
-14;Exequiel Fernández & Irarrázaval;-334,547,267;-705,997,511
-15;Exequiel Fernández & José Domingo Cañas;-334,577,649;-705,998,607
-16;Irarrázaval & José Pedro Alessandri;-334,548,493;-705,979,552
-17;Irarrázaval & Los Tres Antonios;-334,543,519;-706,024,684
-18;Irarrázaval & Pedro de Valdivia;-334,541,791;-706,049,732
-19;Irarrázaval & Manuel Montt;-334,532,591;-706,124,562
-20;José Pedro Alessandri & Cervantes;-334,533,717;-705,985,174
-21;José Pedro Alessandri & José Domingo Cañas;-334,579,416;-70,597,879
-22;José Pedro Alessandri & Juán Gomez Millas;-33,461,773;-705,981,848
-23;José Pedro Alessandri & Las Palmeras;-334,684,149;-705,984,277
-24;José Pedro Alessandri & Grecia;-33,464,487;-705,983,438
-25;José Pedro Alessandri & Dublé Almeyda;-334,566,438;-705,978,312
-26;Pedro de Valdivia & Simón Bolivar;-334,503,758;-706,052,628
-27;Pedro de Valdivia & José Domingo Cañas;-33,457,172;-706,053,719
-28;Pedro de Valdivia & Dr. Luis Bisquert;-334,655,132;-706,067,398
-29;Pedro de Valdivia & Grecia;-334,621,851;-70,606,112
-30;José Domingo Cañas & Los Tres Antonios;-33,457,436;-706,029,312
-31;José Domingo Cañas & Monseñor Eyzaguirre;-334,562,474;-706,140,292
-32;Los Tres Antonios & Grecia;-334,632,295;-706,038,614
-33;Irarrázaval & Holanda;-334,549,873;-705,963,652
-34;Exequiel Fernández & Dublé Almeyda;-334,563,201;-705,996,957
-35;Exequiel Fernández & Eduardo Castillo Velasco;-334,590,380;-705,999,840
+id_nodo;nombre;latitud;longitud;interseccion
+1;Avenida Campos de Deportes & Irarrázaval;-334,537,667;-706,089,069;1
+2;Avenida Campos de Deportes & José Domingo Cañas;-334,567,491;-706,094,491;11
+3;Avenida Campos de Deportes & Grecia;-3,346,201;-706,101,424;
+4;Avenida Campos de Deportes & Eduardo Castillo Velasco;-334,578,666;-706,094,483;16
+5;Avenida Campos de Deportes & Dublé Almeyda;-334,551,993;-706,091,471;6
+6;Dublé Almeyda & Monseñor Eyzaguirre;-334,547,071;-706,137,942;
+7;Dublé Almeyda & Pedro de Valdivia;-334,556,262;-706,052,114;7
+8;Dublé Almeyda & Los Tres Antonios;-334,559,043;-706,026,957;8
+9;Eduardo Castillo Velasco & Dr. Johow;-334,592,565;-70,593,921;
+10;Eduardo Castillo Velasco & José Pedro Alessandri;-334,591,078;-705,980,568;20
+11;Eduardo Castillo Velasco & Los Tres Antonios;-33,458,513;-70,603,103;18
+12;Eduardo Castillo Velasco & Pedro de Valdivia;-334,582,517;-706,056,243;17
+13;Exequiel Fernández & Capitán Orella;-334,524,095;-706,002,334;
+14;Exequiel Fernández & Irarrázaval;-334,547,267;-705,997,511;4
+15;Exequiel Fernández & José Domingo Cañas;-334,577,649;-705,998,607;14
+16;Irarrázaval & José Pedro Alessandri;-334,548,493;-705,979,552;5
+17;Irarrázaval & Los Tres Antonios;-334,543,519;-706,024,684;3
+18;Irarrázaval & Pedro de Valdivia;-334,541,791;-706,049,732;2
+19;Irarrázaval & Manuel Montt;-334,532,591;-706,124,562;
+20;José Pedro Alessandri & Cervantes;-334,533,717;-705,985,174;
+21;José Pedro Alessandri & José Domingo Cañas;-334,579,416;-70,597,879;15
+22;José Pedro Alessandri & Juán Gomez Millas;-33,461,773;-705,981,848;21
+23;José Pedro Alessandri & Las Palmeras;-334,666,735;-705,983,478;
+24;José Pedro Alessandri & Grecia;-33,464,487;-705,983,438;22
+25;José Pedro Alessandri & Dublé Almeyda;-334,566,438;-705,978,312;10
+26;Pedro de Valdivia & Simón Bolivar;-334,503,758;-706,052,628;
+27;Pedro de Valdivia & José Domingo Cañas;-33,457,172;-706,053,719;12
+28;Pedro de Valdivia & Dr. Luis Bisquert;-334,655,132;-706,067,398;
+29;Pedro de Valdivia & Grecia;-334,621,851;-70,606,112;23
+30;José Domingo Cañas & Los Tres Antonios;-33,457,436;-706,029,312;13
+31;José Domingo Cañas & Monseñor Eyzaguirre;-334,562,474;-706,140,292;
+32;Los Tres Antonios & Grecia;-334,632,295;-706,038,614;
+33;Irarrázaval & Holanda;-334,549,873;-705,963,652;
+34;Exequiel Fernández & Dublé Almeyda;-334,563,201;-705,996,957;9
+35;Exequiel Fernández & Eduardo Castillo Velasco;-334,590,380;-705,999,840;19

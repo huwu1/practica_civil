@@ -1,66 +1,66 @@
-id_arco;intersection;calle_principal;sentido;desde_interseccion;hasta_interseccion;id_nodo1_id;id_nodo2_id
-1;6;Avenida Campos de Deportes;NS;Irarrázaval;Dublé Almeyda;1;5
-2;11;Avenida Campos de Deportes;NS;Dublé Almeyda;José Domingo Cañas;5;2
-3;16;Avenida Campos de Deportes;NS;José Domingo Cañas;Eduardo Castillo Velasco;2;4
-4;16;Avenida Campos de Deportes;SN;Grecia;Eduardo Castillo Velasco;3;4
-5;11;Avenida Campos de Deportes;SN;Eduardo Castillo Velasco;José Domingo Cañas;4;2
-6;6;Avenida Campos de Deportes;SN;José Domingo Cañas;Dublé Almeyda;2;5
-7;1;Avenida Campos de Deportes;SN;Dublé Almeyda;Irarrázaval;5;1
-8;6;Dublé Almeyda;PO;Monseñor Eyzaguirre;Avenida Campos de Deportes;6;5
-9;7;Dublé Almeyda;PO;Avenida Campos de Deportes;Pedro de Valdivia;5;7
-10;8;Dublé Almeyda;PO;Pedro de Valdivia;Los Tres Antonios;7;8
-11;9;Dublé Almeyda;PO;Los Tres Antonios;Exequiel Fernández;8;34
-12;10;Dublé Almeyda;PO;Exequiel Fernández;José Pedro Alessandri;34;25
-13;20;Eduardo Castillo Velasco;OP;Dr. Johow;José Pedro Alessandri;9;10
-14;19;Eduardo Castillo Velasco;OP;José Pedro Alessandri;Exequiel Fernández;10;35
-15;18;Eduardo Castillo Velasco;OP;Exequiel Fernández;Los Tres Antonios;35;11
-16;17;Eduardo Castillo Velasco;OP;Los Tres Antonios;Pedro de Valdivia;11;12
-17;16;Eduardo Castillo Velasco;OP;Pedro de Valdivia;Avenida Campos de Deportes;12;4
-18;4;Exequiel Fernández;NS;Capitán Orella;Irarrázaval;13;14
-19;9;Exequiel Fernández;NS;Irarrázaval;Dublé Almeyda;14;34
-20;14;Exequiel Fernández;NS;Dublé Almeyda;José Domingo Cañas;34;15
-21;19;Exequiel Fernández;NS;José Domingo Cañas;Eduardo Castillo Velasco;15;35
-22;5;Irarrázaval;OP;Holanda;José Pedro Alessandri;33;16
-23;4;Irarrázaval;OP;José Pedro Alessandri;Exequiel Fernández;16;14
-24;3;Irarrázaval;OP;Exequiel Fernández;Los Tres Antonios;14;17
-25;2;Irarrázaval;OP;Los Tres Antonios;Pedro de Valdivia;17;18
-26;1;Irarrázaval;OP;Pedro de Valdivia;Avenida Campos de Deportes;18;1
-27;1;Irarrázaval;PO;Manuel Montt;Avenida Campos de Deportes;19;1
-28;2;Irarrázaval;PO;Avenida Campos de Deportes;Pedro de Valdivia;1;18
-29;3;Irarrázaval;PO;Pedro de Valdivia;Los Tres Antonios;18;17
-30;4;Irarrázaval;PO;Los Tres Antonios;Exequiel Fernández;17;14
-31;5;Irarrázaval;PO;Exequiel Fernández;José Pedro Alessandri;14;16
-32;5;José Pedro Alessandri;NS;Cervantes;Irarrázaval;20;16
-33;10;José Pedro Alessandri;NS;Irarrázaval;Dublé Almeyda;16;25
-34;15;José Pedro Alessandri;NS;Dublé Almeyda;José Domingo Cañas;25;21
-35;20;José Pedro Alessandri;NS;José Domingo Cañas;Eduardo Castillo Velasco;21;10
-36;21;José Pedro Alessandri;NS;Eduardo Castillo Velasco;Juán Gomez Millas;10;22
-37;22;José Pedro Alessandri;NS;Juán Gomez Millas;Grecia;22;24
-38;22;José Pedro Alessandri;SN;Las Palmeras;Grecia;23;24
-39;21;José Pedro Alessandri;SN;Grecia;Juán Gomez Millas;24;22
-40;20;José Pedro Alessandri;SN;Juán Gomez Millas;Eduardo Castillo Velasco;22;10
-41;15;José Pedro Alessandri;SN;Eduardo Castillo Velasco;José Domingo Cañas;10;21
-42;10;José Pedro Alessandri;SN;José Domingo Cañas;Dublé Almeyda;21;25
-43;5;José Pedro Alessandri;SN;Dublé Almeyda;Irarrázaval;25;16
-44;2;Pedro de Valdivia;NS;Simón Bolivar;Irarrázaval;26;18
-45;7;Pedro de Valdivia;NS;Irarrázaval;Dublé Almeyda;18;7
-46;12;Pedro de Valdivia;NS;Dublé Almeyda;José Domingo Cañas;7;27
-47;17;Pedro de Valdivia;NS;José Domingo Cañas;Eduardo Castillo Velasco;27;12
-48;23;Pedro de Valdivia;NS;Eduardo Castillo Velasco;Grecia;12;29
-49;23;Pedro de Valdivia;SN;Dr. Luis Bisquert;Grecia;28;29
-50;17;Pedro de Valdivia;SN;Grecia;Eduardo Castillo Velasco;29;12
-51;12;Pedro de Valdivia;SN;Eduardo Castillo Velasco;José Domingo Cañas;12;27
-52;7;Pedro de Valdivia;SN;José Domingo Cañas;Dublé Almeyda;27;7
-53;2;Pedro de Valdivia;SN;Dublé Almeyda;Irarrázaval;7;18
-54;14;José Domingo Cañas;OP;José Pedro Alessandri;Exequiel Fernández;21;15
-55;13;José Domingo Cañas;OP;Exequiel Fernández;Los Tres Antonios;15;30
-56;12;José Domingo Cañas;OP;Los Tres Antonios;Pedro de Valdivia;30;27
-57;11;José Domingo Cañas;OP;Pedro de Valdivia;Avenida Campos de Deportes;27;2
-58;11;José Domingo Cañas;PO;Monseñor Eyzaguirre;Avenida Campos de Deportes;31;2
-59;12;José Domingo Cañas;PO;Avenida Campos de Deportes;Pedro de Valdivia;2;27
-60;13;José Domingo Cañas;PO;Pedro de Valdivia;Los Tres Antonios;27;30
-61;14;José Domingo Cañas;PO;Los Tres Antonios;Exequiel Fernández;30;15
-62;15;José Domingo Cañas;PO;Exequiel Fernández;José Pedro Alessandri;15;21
-63;18;Los Tres Antonios;SN;Grecia;Eduardo Castillo Velasco;32;11
-64;3;Los Tres Antonios;SN;Eduardo Castillo Velasco;José Domingo Cañas;11;30
-65;8;Los Tres Antonios;SN;José Domingo Cañas;Dublé Almeyda;30;8
+id_arco;interseccion;calle_principal;sentido;desde_interseccion;hasta_interseccion;largo;id_nodo1_id;id_nodo2_id
+1;6;Avenida Campos de Deportes;NS;Irarrázaval;Dublé Almeyda;160;1;5
+2;11;Avenida Campos de Deportes;NS;Dublé Almeyda;José Domingo Cañas;181;5;2
+3;16;Avenida Campos de Deportes;NS;José Domingo Cañas;Eduardo Castillo Velasco;125;2;4
+4;16;Avenida Campos de Deportes;SN;Grecia;Eduardo Castillo Velasco;457;3;4
+5;11;Avenida Campos de Deportes;SN;Eduardo Castillo Velasco;José Domingo Cañas;125;4;2
+6;6;Avenida Campos de Deportes;SN;José Domingo Cañas;Dublé Almeyda;181;2;5
+7;1;Avenida Campos de Deportes;SN;Dublé Almeyda;Irarrázaval;160;5;1
+8;6;Dublé Almeyda;PO;Monseñor Eyzaguirre;Avenida Campos de Deportes;434;6;5
+9;7;Dublé Almeyda;PO;Avenida Campos de Deportes;Pedro de Valdivia;372;5;7
+10;8;Dublé Almeyda;PO;Pedro de Valdivia;Los Tres Antonios;221;7;8
+11;9;Dublé Almeyda;PO;Los Tres Antonios;Exequiel Fernández;282;8;34
+12;10;Dublé Almeyda;PO;Exequiel Fernández;José Pedro Alessandri;177;34;25
+13;20;Eduardo Castillo Velasco;OP;Dr. Johow;José Pedro Alessandri;393;9;10
+14;19;Eduardo Castillo Velasco;OP;José Pedro Alessandri;Exequiel Fernández;180;10;35
+15;18;Eduardo Castillo Velasco;OP;Exequiel Fernández;Los Tres Antonios;294;35;11
+16;17;Eduardo Castillo Velasco;OP;Los Tres Antonios;Pedro de Valdivia;222;11;12
+17;16;Eduardo Castillo Velasco;OP;Pedro de Valdivia;Avenida Campos de Deportes;374;12;4
+18;4;Exequiel Fernández;NS;Capitán Orella;Irarrázaval;257;13;14
+19;9;Exequiel Fernández;NS;Irarrázaval;Dublé Almeyda;180;14;34
+20;14;Exequiel Fernández;NS;Dublé Almeyda;José Domingo Cañas;158;34;15
+21;19;Exequiel Fernández;NS;José Domingo Cañas;Eduardo Castillo Velasco;140;15;35
+22;5;Irarrázaval;OP;Holanda;José Pedro Alessandri;150;33;16
+23;4;Irarrázaval;OP;José Pedro Alessandri;Exequiel Fernández;180;16;14
+24;3;Irarrázaval;OP;Exequiel Fernández;Los Tres Antonios;258;14;17
+25;2;Irarrázaval;OP;Los Tres Antonios;Pedro de Valdivia;234;17;18
+26;1;Irarrázaval;OP;Pedro de Valdivia;Avenida Campos de Deportes;373;18;1
+27;1;Irarrázaval;PO;Manuel Montt;Avenida Campos de Deportes;349;19;1
+28;2;Irarrázaval;PO;Avenida Campos de Deportes;Pedro de Valdivia;366;1;18
+29;3;Irarrázaval;PO;Pedro de Valdivia;Los Tres Antonios;229;18;17
+30;4;Irarrázaval;PO;Los Tres Antonios;Exequiel Fernández;260;17;14
+31;5;Irarrázaval;PO;Exequiel Fernández;José Pedro Alessandri;185;14;16
+32;5;José Pedro Alessandri;NS;Cervantes;Irarrázaval;175;20;16
+33;10;José Pedro Alessandri;NS;Irarrázaval;Dublé Almeyda;191;16;25
+34;15;José Pedro Alessandri;NS;Dublé Almeyda;José Domingo Cañas;128;25;21
+35;20;José Pedro Alessandri;NS;José Domingo Cañas;Eduardo Castillo Velasco;132;21;10
+36;21;José Pedro Alessandri;NS;Eduardo Castillo Velasco;Juán Gomez Millas;288;10;22
+37;22;José Pedro Alessandri;NS;Juán Gomez Millas;Grecia;303;22;24
+38;22;José Pedro Alessandri;SN;Las Palmeras;Grecia;272;23;24
+39;21;José Pedro Alessandri;SN;Grecia;Juán Gomez Millas;290;24;22
+40;20;José Pedro Alessandri;SN;Juán Gomez Millas;Eduardo Castillo Velasco;288;22;10
+41;15;José Pedro Alessandri;SN;Eduardo Castillo Velasco;José Domingo Cañas;132;10;21
+42;10;José Pedro Alessandri;SN;José Domingo Cañas;Dublé Almeyda;128;21;25
+43;5;José Pedro Alessandri;SN;Dublé Almeyda;Irarrázaval;229;25;16
+44;2;Pedro de Valdivia;NS;Simón Bolivar;Irarrázaval;437;26;18
+45;7;Pedro de Valdivia;NS;Irarrázaval;Dublé Almeyda;144;18;7
+46;12;Pedro de Valdivia;NS;Dublé Almeyda;José Domingo Cañas;165;7;27
+47;17;Pedro de Valdivia;NS;José Domingo Cañas;Eduardo Castillo Velasco;127;27;12
+48;23;Pedro de Valdivia;NS;Eduardo Castillo Velasco;Grecia;359;12;29
+49;23;Pedro de Valdivia;SN;Dr. Luis Bisquert;Grecia;310;28;29
+50;17;Pedro de Valdivia;SN;Grecia;Eduardo Castillo Velasco;312;29;12
+51;12;Pedro de Valdivia;SN;Eduardo Castillo Velasco;José Domingo Cañas;127;12;27
+52;7;Pedro de Valdivia;SN;José Domingo Cañas;Dublé Almeyda;165;27;7
+53;2;Pedro de Valdivia;SN;Dublé Almeyda;Irarrázaval;144;7;18
+54;14;José Domingo Cañas;OP;José Pedro Alessandri;Exequiel Fernández;185;21;15
+55;13;José Domingo Cañas;OP;Exequiel Fernández;Los Tres Antonios;277;15;30
+56;12;José Domingo Cañas;OP;Los Tres Antonios;Pedro de Valdivia;223;30;27
+57;11;José Domingo Cañas;OP;Pedro de Valdivia;Avenida Campos de Deportes;380;27;2
+58;11;José Domingo Cañas;PO;Monseñor Eyzaguirre;Avenida Campos de Deportes;443;31;2
+59;12;José Domingo Cañas;PO;Avenida Campos de Deportes;Pedro de Valdivia;356;2;27
+60;13;José Domingo Cañas;PO;Pedro de Valdivia;Los Tres Antonios;223;27;30
+61;14;José Domingo Cañas;PO;Los Tres Antonios;Exequiel Fernández;277;30;15
+62;15;José Domingo Cañas;PO;Exequiel Fernández;José Pedro Alessandri;185;15;21
+63;18;Los Tres Antonios;SN;Grecia;Eduardo Castillo Velasco;477;32;11
+64;3;Los Tres Antonios;SN;Eduardo Castillo Velasco;José Domingo Cañas;120;11;30
+65;8;Los Tres Antonios;SN;José Domingo Cañas;Dublé Almeyda;176;30;8

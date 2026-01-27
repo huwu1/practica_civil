@@ -17,6 +17,20 @@
             <div class="map-overlay top">
                 <div class="map-overlay-inner">
                     <div class="selector-dia-container">
+
+                        <div class="control-group">
+                            <label for="propiedad-select">Mapa:</label>
+                            <select id="propiedad-select">
+                                <option value="nivel_congestion">Demora por congestión</option>
+                                <!-- Des-comentar para visualizar estas variables: -->
+                                <!-- <option value="velocidad">Velocidad</option> -->
+                                <!-- <option value="tiempo">Tiempo</option> -->
+                                <!-- <option value="dca">DCA</option> -->
+                                <!-- <option value="plan">Plan</option> -->
+                                <option value="infeccion">Cinemática de congestión</option>
+                            </select>
+                        </div> 
+
                         <div class="control-group">
                             <label for="dia-select">Día de la semana:</label>
                             <select id="dia-select">
@@ -29,18 +43,7 @@
                                 <option value="Sunday">Domingo</option>
                             </select>
                         </div>
-                        
-                        <div class="control-group">
-                            <label for="propiedad-select>">Variable:</label>
-                            <select id="propiedad-select">
-                                <option value="nivel_congestion">Nivel de congestión</option>
-                                <option value="velocidad">Velocidad</option>
-                                <option value="tiempo">Tiempo</option>
-                                <option value="dca">DCA</option>
-                                <option value="plan">Plan</option>
-                                <option value="infeccion">Modelo SIR</option>
-                            </select>
-                        </div>    
+                       
                     </div>
 
                     <h2>Hora: <label id="hora-label">06:30</label></h2>
@@ -51,16 +54,11 @@
             </div>
 
             <div class="map-overlay-legend" id="leyenda-congestion">
-                <h3>Niveles de Congestión</h3>
-
-                <div class="legend-item">
-                    <input type="checkbox" class="filtro-congestion" value="0" checked>
-                    <div class="dot" style="background:#000000;"></div>Sin datos
-                </div>
+                <h3>Condición de circulación</h3>
 
                 <div class="legend-item">
                     <input type="checkbox" class="filtro-congestion" value="1" checked>
-                    <div class="dot" style="background:#31C950;"></div>Flujo libre (1)
+                    <div class="dot" style="background:#1F9D55;"></div>Flujo libre (1)
                 </div>
 
                 <div class="legend-item">
@@ -88,6 +86,11 @@
                     <div class="dot" style="background:#CC00CC;"></div>Saturación extrema (6)
                 </div>
 
+                <div class="legend-item">
+                    <input type="checkbox" class="filtro-congestion" value="0" checked>
+                    <div class="dot" style="background:#000000;"></div>Sin datos
+                </div>
+
             </div>
 
             <div class="map-overlay-legend" id="leyenda-gradiente" style="display: none;">
@@ -99,69 +102,114 @@
                 </div>
             </div>    
 
-            <div class="map-overlay-legend" id="leyenda-planes" style="display: none;">
+            <div class="map-overlay-legend" id="leyenda-planes-semana" style="display: none;">
                 <h3 id="titulo-planes"> Planes disponibles:</h3>
 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P1" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P1" checked>
                     <div class="plan-indicator" style="background: #31C950;"></div> Plan 1
                 </div>
 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P2" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P2">
                     <div class="plan-indicator" style="background: #9AE630;"></div> Plan 2
                 </div>
 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P4" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P4">
                     <div class="plan-indicator" style="background: #FFDF20;"></div> Plan 4
                 </div>
 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P5" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P5">
                     <div class="plan-indicator" style="background: #FF8904;"></div> Plan 5
                 </div>
 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P6" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P6">
                     <div class="plan-indicator" style="background: #E7180B;"></div> Plan 6
                 </div>
 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P7" checked>
-                    <div class="plan-indicator" style="background: #CC00CC;"></div> Plan 7
-                </div>  
-
-                <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P8" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P8">
                     <div class="plan-indicator" style="background: #3498db;"></div> Plan 8
                 </div>
                 
                 <div class="plan-row">
-                    <input type="checkbox" class="filtro-planes" value="P31" checked>
+                    <input type="radio" name= "planes" class="filtro-planes" value="P31">
                     <div class="plan-indicator" style="background: #d8c8b8;"></div> Plan 31
                 </div>
 
             </div>
 
+            <div class="map-overlay-legend" id="leyenda-planes-sabado" style="display: none;">
+                <h3 id="titulo-planes"> Planes disponibles:</h3>
+
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P6">
+                    <div class="plan-indicator" style="background: #E7180B;"></div> Plan 6
+                </div>
+
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P7">
+                    <div class="plan-indicator" style="background: #CC00CC;"></div> Plan 7
+                </div> 
+
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P8">
+                    <div class="plan-indicator" style="background: #3498db;"></div> Plan 8
+                </div>
+                
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P31">
+                    <div class="plan-indicator" style="background: #d8c8b8;"></div> Plan 31
+                </div>
+
+            </div>
+            
+            <div class="map-overlay-legend" id="leyenda-planes-domingo" style="display: none;">
+                <h3 id="titulo-planes"> Planes disponibles:</h3>
+
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P6">
+                    <div class="plan-indicator" style="background: #E7180B;"></div> Plan 6
+                </div>
+
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P7">
+                    <div class="plan-indicator" style="background: #CC00CC;"></div> Plan 7
+                </div> 
+
+                <div class="plan-row">
+                    <input type="radio" name= "planes" class="filtro-planes" value="P8">
+                    <div class="plan-indicator" style="background: #3498db;"></div> Plan 8
+                </div>
+
+            </div>              
+
             <div class="map-overlay-legend" id="leyenda-SIR" style="display: none;">
                 <h3 id="titulo-SIR"> Estados:</h3>
+                
+                <div class="SIR">
+                    <input type="checkbox" class="filtro-SIR" value="0" checked>
+                    <div class="SIR-indicator" style="background: #31C950;"></div> Nunca congestionado
+                </div>
+                
+                <div class="SIR">
+                    <input type="checkbox" class="filtro-SIR" value="1" checked>
+                    <div class="SIR-indicator" style="background: #4A90E2;"></div> Recuperado
+                </div>
 
                 <div class="SIR">
+                    <input type="checkbox" class="filtro-SIR" value="2" checked>
+                    <div class="SIR-indicator" style="background: #E7180B;"></div> Congestionado
+                </div>  
+
+                <div class="SIR">
+                    <input type="checkbox" class="filtro-SIR" value="3" checked>
                     <div class="SIR-indicator" style="background: #000000;"></div> Sin datos
                 </div>
-                
-                <div class="SIR">
-                    <div class="SIR-indicator" style="background: #31C950;"></div> Saludable
-                </div>
-                
-                <div class="SIR">
-                    <div class="SIR-indicator" style="background: #FFDF20;"></div> Recuperado
-                </div>
 
-                <div class="SIR">
-                    <div class="SIR-indicator" style="background: #E7180B;"></div> Infectado
-                </div>  
             </div>                                  
          
 
@@ -177,13 +225,18 @@
                         <div class="contenedor-grid">
 
                             <div class="control-item">
-                                <label>Calle principal</label><input type="checkbox" class="filtro-popup" value="calle" checked>
+                                <label>Nodo de control</label><input type="checkbox" class="filtro-popup" value="interseccion" checked>
+                            </div>
+
+                            <div class="control-item">
+                                <label>Calle</label><input type="checkbox" class="filtro-popup" value="calle" checked>
                             </div> 
 
                             <div class="control-item">
                                 <label>Sentido</label><input type="checkbox" class="filtro-popup" value="sentido" checked>
                             </div> 
 
+                            <!-- 
                             <div class="control-item">
                                 <label>Tiempo</label><input type="checkbox" class="filtro-popup" value="tiempo" checked>
                             </div> 
@@ -196,25 +249,32 @@
                                 <label>Tiempo/Largo</label><input type="checkbox" class="filtro-popup" value="tiempo/largo" checked>
                             </div> 
                             
-                            <div class="control-item">
-                                <label>DCA</label><input type="checkbox" class="filtro-popup" value="dca" checked>
-                            </div> 
-                            
+
                             <div class="control-item">
                                 <label>Nivel de congestión</label><input type="checkbox" class="filtro-popup" value="congestion" checked>
-                            </div>                  
+                            </div>       
 
                             <div class="control-item">
                                 <label>Estado</label><input type="checkbox" class="filtro-popup" value="estado" checked>
                             </div> 
 
+                            -->
+                            
                             <div class="control-item">
                                 <label>Desde</label><input type="checkbox" class="filtro-popup" value="desde" checked>
                             </div> 
                             
                             <div class="control-item">
                                 <label>Hasta</label><input type="checkbox" class="filtro-popup" value="hasta" checked>
-                            </div>                         
+                            </div>           
+                            
+                            <div class="control-item">
+                                <label>Longitud (m)</label><input type="checkbox" class="filtro-popup" value="largo" checked>
+                            </div>    
+                            
+                            <div class="control-item">
+                                <label>Demora por congestión (s/km)</label><input type="checkbox" class="filtro-popup" value="dca" checked>
+                            </div>                             
 
                         </div>
                     </div>    
@@ -242,7 +302,10 @@
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
             const leyendaSIR = document.getElementById('leyenda-SIR');
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
-            const leyendaPlanes = document.getElementById('leyenda-planes');
+            const leyendaPlanesSemana = document.getElementById('leyenda-planes-semana');
+            const leyendaPlanesSabado = document.getElementById('leyenda-planes-sabado');
+            const leyendaPlanesDomingo = document.getElementById('leyenda-planes-domingo');
+
 
             // Referencia a las checkboxes de la congestion
             const checkboxes_congestion = document.querySelectorAll('.filtro-congestion');
@@ -252,6 +315,9 @@
 
             // Referencia a las checkboxes de los pop-up's
             const checkboxes_popup = document.querySelectorAll('.filtro-popup')
+
+            // Referencia a las checkboxes del modelo SIR
+            const checkboxes_SIR = document.querySelectorAll('.filtro-SIR')
 
             // Referencias al gradiente
             const tituloGradiente = document.getElementById('titulo-gradiente');
@@ -280,18 +346,28 @@
             let coordenadasPopup = null;
             let puntoPantalla = null;
 
+            // Nodo seleccionado
+            let nodoActual = null;
+
             // instancia del Pop-up actual
             let popupActual = new mapboxgl.Popup({
                 closeButton: false,
                 closeOnClick: false,
             });
             
-            // Variable para las checkboxes de los niveles de congestión, planes y pop-up's respectivamente
+            // Variable para las checkboxes de los niveles de congestión, planes* y pop-up's respectivamente
             let nivelesSeleccionados = [0, 1, 2, 3, 4, 5, 6];
-            let planesSeleccionados = ['P1', 'P2', 'P4', 'P5', 'P6', 'P7', 'P8', 'P31'];
+            
+            let diasSemana = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            let planesSeleccionadosSemana = ['P1', 'P2', 'P4', 'P5', 'P6', 'P8', 'P31'];
+            let planesSeleccionadosSabado = [ 'P6', 'P7', 'P8', 'P31'];
+            let planesSeleccionadosDomingo = ['P6', 'P7', 'P8'];
+
             let infoSeleccionada = Array.from(checkboxes_popup)
                 .filter(cb => cb.checked)
                 .map(cb => cb.value);
+
+            let estadosSeleccionados = [0, 1, 2, 3];
 
 
             // FUNCIONES
@@ -362,22 +438,29 @@
 
                 else if (columna == 'plan'){
                     color = ['match', ['get', 'plan']];
+                    //const minutos = Int;
+                    //const horas = Int;
 
                     const mapeoPlanes = {
-                        'P1': '#31C950',
-                        'P2': '#9AE630',
-                        'P4': '#FFDF20',
-                        'P5': '#FF8904',
-                        'P6': '#E7180B',
-                        'P7': '#CC00CC',
-                        'P8': '#3498db',
-                        'P31': '#d8c8b8'
+                        'P1': ['#31C950', 0],
+                        'P2': ['#9AE630', 1],
+                        'P4': ['#FFDF20', 2],
+                        'P5': ['#FF8904', 3],
+                        'P6': ['#E7180B', 4],
+                        'P7': ['#CC00CC', 5],
+                        'P8': ['#3498db', 6],
+                        'P31': ['#d8c8b8', 7]
                     }
 
-                    planesSeleccionados.forEach(plan => {
+                    // Para actualizar la hora mostrada x el slider
+                    // const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
+                    // const mVis = (minutosTotales % 60).toString().padStart(2, '0');
+                    // display.innerText = `${hVis}:${mVis}`;
+
+                    planesSeleccionadosSemana.forEach(plan => {
                         if(mapeoPlanes[plan]){
                             color.push(plan);
-                            color.push(mapeoPlanes[plan]);
+                            color.push(mapeoPlanes[plan][0]);
                         }
                     });
 
@@ -385,20 +468,23 @@
                 }
 
                 else if (columna == 'infeccion'){
-                    color = ['match', ['get', 'infeccion']];
+                    color = ['match', ['coalesce', ['get', 'infeccion'], 3]];
 
                     const mapeoSIR = {
                         0: '#31C950',
-                        1: '#FFDF20',
-                        2: '#E7180B'
+                        1: '#4A90E2',
+                        2: '#E7180B',
+                        3: '#000000',
                     }
 
-                    Object.keys(mapeoSIR).forEach(key => {
-                        color.push(parseInt(key));
-                        color.push(mapeoSIR[key]);
-                    });
+                    estadosSeleccionados.forEach(estado => {
+                        if (mapeoSIR[estado]){
+                            color.push(estado)
+                            color.push(mapeoSIR[estado]);
+                        }
+                    })
 
-                    color.push('#000000');
+                    color.push('rgba(0,0,0,0)');
                 }
                 
                 else {
@@ -406,7 +492,7 @@
 
                     const mapeoColores = {    
                         0: '#000000',
-                        1: '#31C950',
+                        1: '#1F9D55',
                         2: '#9AE630',
                         3: '#FFDF20',
                         4: '#FF8904',
@@ -434,7 +520,9 @@
                 if (propiedad == 'nivel_congestion'){
                     leyendaCongestion.style.display = 'block';
                     leyendaGradiente.style.display = 'none';
-                    leyendaPlanes.style.display = 'none';
+                    leyendaPlanesSemana.style.display = 'none';
+                    leyendaPlanesSabado.style.display = 'none';
+                    leyendaPlanesDomingo.style.display = 'none';
                     leyendaSIR.style.display = 'none';
                 }
 
@@ -442,7 +530,9 @@
                 
                     leyendaCongestion.style.display = 'none';
                     leyendaGradiente.style.display = 'block';
-                    leyendaPlanes.style.display = 'none';
+                    leyendaPlanesSemana.style.display = 'none';
+                    leyendaPlanesSabado.style.display = 'none';
+                    leyendaPlanesDomingo.style.display = 'none';                    
                     leyendaSIR.style.display = 'none';
 
                     if(propiedad == 'velocidad'){
@@ -468,16 +558,41 @@
                 }
 
                 else if(propiedad == 'plan'){
-                    leyendaCongestion.style.display = 'none';
-                    leyendaGradiente.style.display = 'none';
-                    leyendaPlanes.style.display = 'block';
-                    leyendaSIR.style.display = 'none';
+
+                    if (diasSemana.includes(diaActual)){
+                        leyendaCongestion.style.display = 'none';
+                        leyendaGradiente.style.display = 'none';
+                        leyendaPlanesSemana.style.display = 'block';
+                        leyendaPlanesSabado.style.display = 'none';
+                        leyendaPlanesDomingo.style.display = 'none';                        
+                        leyendaSIR.style.display = 'none';
+                    }
+
+                    else if (diaActual == 'Saturday'){
+                        leyendaCongestion.style.display = 'none';
+                        leyendaGradiente.style.display = 'none';
+                        leyendaPlanesSemana.style.display = 'none';
+                        leyendaPlanesSabado.style.display = 'block';
+                        leyendaPlanesDomingo.style.display = 'none';                        
+                        leyendaSIR.style.display = 'none';                        
+                    }
+
+                    else if (diaActual == 'Sunday'){
+                        leyendaCongestion.style.display = 'none';
+                        leyendaGradiente.style.display = 'none';
+                        leyendaPlanesSemana.style.display = 'none';
+                        leyendaPlanesSabado.style.display = 'none';
+                        leyendaPlanesDomingo.style.display = 'block';                        
+                        leyendaSIR.style.display = 'none';                             
+                    }
                 }
 
                 else if (propiedad == 'infeccion') {
                     leyendaCongestion.style.display = 'none';
                     leyendaGradiente.style.display = 'none';
-                    leyendaPlanes.style.display = 'none';
+                    leyendaPlanesSemana.style.display = 'none';
+                    leyendaPlanesSabado.style.display = 'none';
+                    leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
                 }
                 
@@ -514,78 +629,114 @@
 
             function actualizarPopup() {
 
-                    if (!arcoActual || !coordenadasPopup) return;
-                    
-                    // Obtener las propiedades del tramo 
-                    const propiedades = arcoActual.properties;
-
-                    const idArco = propiedades.id; 
-                    const calle = propiedades.calle_principal;
-                    const sentido = propiedades.sentido;
-                    const tiempo = propiedades.tiempo;
-                    const velocidad = propiedades.velocidad;
-                    const tiempo_entre_largo = propiedades.tiempo_entre_largo;
-                    const dca = propiedades.dca;
-                    const congestion = propiedades.nivel_congestion;
-                    const infeccion = propiedades.infeccion;                    
-                    const desde = propiedades.desde;
-                    const hasta = propiedades.hasta;
-
-                    const procesar_infeccion = (label, nivel) => {
-                        if (parseInt(nivel) == 0){
-                            return `${label}: Saludable <br>`;;
-                        }
-
-                        else if (parseInt(nivel) == 1){
-                            return `${label}: Recuperado <br>`;
-                        }
-
-                        else if (parseInt(nivel) == 2){
-                            return `${label}: Infectado  <br>`;
-                        }
+                    if (!coordenadasPopup) {
+                        popupActual.remove();
+                        return;
                     }
 
-                    const procesar_dato = (label, valor) => {
+                    let HTML = '';
 
-                        if (valor == 'NULL'){
-                            return '';
+                    if (nodoActual){
+                        const propiedadesNodo = nodoActual.properties;
+
+                        const nodoID = propiedadesNodo.id;
+                        const interseccionNodo = propiedadesNodo.interseccion;
+
+                        if (interseccionNodo == null){
+                            HTML = `<div style= "text-align: left; line-height: 1.5;">
+                                    <strong>ID Nodo: ${nodoID}</strong><br>`
                         }
 
-                        return `${label}: ${valor} <br>`;
+                        else{
+                            HTML = `<div style= "text-align: left; line-height: 1.5;">
+                                    <strong>ID Nodo: ${nodoID}</strong><br>
+                                    N° Intersección: ${interseccionNodo}<br>`
+                        }
+
                     }
-                    
-                    const mapeoInfo = {
-                        'calle': () => procesar_dato('Calle principal', calle),
-                        'sentido': () => procesar_dato('Sentido', sentido),
-                        'tiempo': () => procesar_dato('Tiempo', tiempo),
-                        'velocidad': () => procesar_dato('Velocidad', velocidad),
-                        'tiempo/largo': () => procesar_dato('Tiempo/Largo', tiempo_entre_largo),
-                        'dca': () => procesar_dato('DCA', dca),
-                        'congestion': () => procesar_dato('Nivel de congestión', congestion),
-                        'estado': () => procesar_infeccion('Estado', infeccion),
-                        'desde': () => procesar_dato('Desde', desde),
-                        'hasta': () => procesar_dato('Hasta', hasta)
-                    };
 
-                    let HTML = `<div style= "text-align: left; line-height: 1.5;">
-                                    <strong>ID: ${idArco}</strong><br>`
+                    else if (arcoActual){
 
-                                
-                    infoSeleccionada.forEach(variable => {
-                        if(mapeoInfo[variable]){
-                            const contenido = mapeoInfo[variable]();
-                            
-                            if(contenido !== ''){
-                                HTML += contenido;
+                        // Obtener las propiedades del arco
+                        const propiedadesArco = arcoActual.properties;
+
+                        const idArco = propiedadesArco.id; 
+                        const calle = propiedadesArco.calle_principal;
+                        const sentido = propiedadesArco.sentido;
+                        const tiempo = propiedadesArco.tiempo;
+                        const velocidad = propiedadesArco.velocidad;
+                        const tiempo_entre_largo = propiedadesArco.tiempo_entre_largo;
+                        const dca = propiedadesArco.dca;
+                        const congestion = propiedadesArco.nivel_congestion;
+                        const infeccion = propiedadesArco.infeccion;                    
+                        const desde = propiedadesArco.desde;
+                        const hasta = propiedadesArco.hasta;
+                        const interseccion = propiedadesArco.interseccion;
+                        const largo = propiedadesArco.largo;
+
+                        const procesar_infeccion = (label, nivel) => {
+                            if (parseInt(nivel) == 0){
+                                return `${label}: Saludable <br>`;;
+                            }
+
+                            else if (parseInt(nivel) == 1){
+                                return `${label}: Recuperado <br>`;
+                            }
+
+                            else if (parseInt(nivel) == 2){
+                                return `${label}: Infectado  <br>`;
                             }
                         }
-                    });
 
-                    HTML += '</div>';
+                        const procesar_dato = (label, valor) => {
 
-                    popupActual.setLngLat(coordenadasPopup)
-                        .setHTML(HTML)
-                        .addTo(map);
+                            if (valor == 'NULL'){
+                                return '';
+                            }
+
+                            return `${label}: ${valor} <br>`;
+                        }
+                        
+                        const mapeoInfo = {
+                            'calle': () => procesar_dato('Calle', calle),
+                            'sentido': () => procesar_dato('Sentido', sentido),
+                            // 'tiempo': () => procesar_dato('Tiempo', tiempo),
+                            // 'velocidad': () => procesar_dato('Velocidad', velocidad),
+                            // 'tiempo/largo': () => procesar_dato('Tiempo/Largo', tiempo_entre_largo),
+                            // 'congestion': () => procesar_dato('Nivel de congestión', congestion),
+                            'dca': () => procesar_dato('Demora por congestión (s/km)', dca),
+                            'estado': () => procesar_infeccion('Estado', infeccion),
+                            'desde': () => procesar_dato('Desde', desde),
+                            'hasta': () => procesar_dato('Hasta', hasta),
+                            'interseccion': () => procesar_dato('Nodo de control', interseccion),
+                            'largo': () => procesar_dato('Longitud (m)', largo)
+                        };
+
+                        HTML = `<div style= "text-align: left; line-height: 1.5;">
+                                        <strong>ID: ${idArco}</strong><br>`
+
+                                    
+                        infoSeleccionada.forEach(variable => {
+                            if(mapeoInfo[variable]){
+                                const contenido = mapeoInfo[variable]();
+                                
+                                if(contenido !== ''){
+                                    HTML += contenido;
+                                }
+                            }
+                        });
+
+                        HTML += '</div>';
+                    }
+
+                    else{
+                        popupActual.remove();
+                        return;
+                    }
+
+                popupActual.setLngLat(coordenadasPopup)
+                    .setHTML(HTML)
+                    .addTo(map);
             }
 
 
@@ -613,6 +764,12 @@
 
                             else if (propiedadActual == 'plan') {
                                 if(!planesSeleccionados.includes(props.plan)){
+                                    return;
+                                }
+                            }
+
+                            else if (propiedadActual == 'infeccion'){
+                                if(!estadosSeleccionados.includes(props.infeccion)){
                                     return;
                                 }
                             }
@@ -690,6 +847,17 @@
                 })
             })
 
+            // Para los estados (SIR)
+            checkboxes_SIR.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    estadosSeleccionados = Array.from(checkboxes_SIR)
+                    .filter(i => i.checked)
+                    .map(i => parseInt(i.value));
+
+                    actualizarColores(propiedadActual);
+                })
+            })
+
             // controles (zoom, direccion norte, etc)
             map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
             map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
@@ -717,7 +885,7 @@
                         'line-color': [
                             'match',
                             ['get', 'nivel_congestion'],
-                                1, '#31C950',
+                                1, '#1F9D55',
                                 2, '#9AE630',
                                 3, '#FFDF20',
                                 4, '#FF8904',
@@ -737,7 +905,6 @@
                         'line-width':11,
                         'line-opacity':0,
                         'line-offset': 6
-
                     }
                 });
 
@@ -750,17 +917,20 @@
                     source: 'datos-red',
                     filter: ['==', '$type', 'Point'],
                     paint: {
-                        'circle-radius': 7,
-                        'circle-color': '#FF0000'
+                        'circle-radius': 8,
+                        'circle-color': '#d8c8b8'
                         }
                     });
                 });
 
-                // Evento: Cuando el mouse ENTRA en una línea de 'capa-aristas'
+                // EvENTOS
+                
+                // Cuando el mouse ENTRA en una línea de 'capa-aristas-hitbox'
                 map.on('mousemove', 'capa-aristas-hitbox', (e) => {
 
                     arcoActual = e.features[0];
                     props = arcoActual.properties;
+
 
                     if (propiedadActual == 'nivel_congestion'){
                         if(!nivelesSeleccionados.includes(props.nivel_congestion)){
@@ -769,9 +939,17 @@
                             return;
                         }
                     }
-
+                    
                     else if (propiedadActual == 'plan') {
                         if(!planesSeleccionados.includes(props.plan)){
+                            map.getCanvas().style.cursor = '';
+                            popupActual.remove();
+                            return;
+                        }
+                    }
+                    
+                    else if (propiedadActual == 'infeccion'){
+                        if(!estadosSeleccionados.includes(props.infeccion)){
                             map.getCanvas().style.cursor = '';
                             popupActual.remove();
                             return;
@@ -789,7 +967,26 @@
                     
                 });
 
-                // Evento: Cuando el mouse SALE de la línea
+                // Cuando el mouse ENTRA a un nodo de 'capa-nodos'
+                map.on('mousemove', 'capa-nodos', (e) => {
+                    map.getCanvas().style.cursor = 'pointer';
+
+                    nodoActual= e.features[0];
+                    coordenadasPopup = e.lngLat;
+                    arcoActual = null;
+                    
+                    actualizarPopup();
+                })
+
+                // Cuando el mouse SALE del nodo
+                map.on('mouseleave', 'capa-nodos', () =>{
+                    map.getCanvas().style.cursor = '';
+
+                    nodoActual = null
+                    popupActual.remove();
+                })
+
+                // Cuando el mouse SALE de la línea
                 map.on('mouseleave', 'capa-aristas-hitbox', () => {
                     arcoActual = null;
                     coordenadasPopup = null;

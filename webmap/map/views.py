@@ -34,7 +34,8 @@ def traffic_data_api(request):
             },
             "properties": {
                 "id": nodo.id_nodo,
-                "nombre": nodo.nombre
+                "nombre": nodo.nombre,
+                "interseccion": nodo.interseccion
             }
 
         }
@@ -66,9 +67,16 @@ def traffic_data_api(request):
                 "coordinates": [start_coord, end_coord]
             },
             "properties": {
+                # propiedadades del archivo arcs.csv
                 "id": arco.id_arco,
+                "interseccion": dato.id_arco.interseccion,
                 "calle_principal": arco.calle_principal,
                 "sentido": arco.sentido,
+                "desde": dato.id_arco.desde_interseccion,
+                "hasta": dato.id_arco.hasta_interseccion,
+                "largo": arco.largo,
+
+                # propiedades del archivo traffic.csv
                 "dia": dato.dia,
                 "hora": str(dato.hora),
                 "plan": dato.plan,
@@ -77,10 +85,6 @@ def traffic_data_api(request):
                 "tiempo_entre_largo": dato.tiempo_entre_largo,
                 "dca": dato.DCA,
                 "nivel_congestion": dato.nivel_congestion,
-
-                "desde": dato.desde_interseccion,
-                "hasta": dato.hasta_interseccion,
-
                 "infeccion": dato.infeccion,
             }
         }
