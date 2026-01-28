@@ -62,8 +62,8 @@
                                 <option value="Wednesday">Miércoles</option>
                                 <option value="Thursday">Jueves</option>
                                 <option value="Friday">Viernes</option>
-                                <option value="Saturday">Sábado</option>
-                                <option value="Sunday">Domingo</option>
+                                <option value="Saturday" id="sabado">Sábado</option>
+                                <option value="Sunday" id="domingo">Domingo</option>
                             </select>
                         </div>
                     </div>   
@@ -349,6 +349,9 @@
             const leyendaPlanesSabado = document.getElementById('leyenda-planes-sabado');
             const leyendaPlanesDomingo = document.getElementById('leyenda-planes-domingo');
 
+            const diaSabado = document.getElementById('sabado');
+            const diaDomingo = document.getElementById('domingo');
+
 
             // Referencia a las checkboxes de la congestion
             const checkboxes_congestion = document.querySelectorAll('.filtro-congestion');
@@ -406,11 +409,15 @@
             // Nodo seleccionado
             let nodoActual = null;
             
-            // Valores del slider para la congestión, peaks de mañana y tarde
+            // Valores del slider para la congestión, peaks de mañana y tarde (recordatorios)
             let ultimo_valor_congestion = 390;
             let ultimo_valor_mañana = 390; 
             let ultimo_valor_tarde = 990;
             let ultimo_valor_mediodia = 690;
+
+            // Valores del select del día (recordatorio)
+            let ultimo_valor_dia_congestion = "Monday";
+            let ultimo_valor_dia_cinematica = "Monday";
 
             // instancia del Pop-up actual
             let popupActual = new mapboxgl.Popup({
@@ -641,6 +648,8 @@
                     leyendaPlanesDomingo.style.display = 'none';
                     leyendaSIR.style.display = 'none';
                     nivelRefInfeccionSelectContainer.style.display = 'none';
+                    diaSabado.style.display = 'block';
+                    diaDomingo.style.display = 'block';
 
                     
                     slider.min = 390;
@@ -719,6 +728,8 @@
                     leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
                     nivelRefInfeccionSelectContainer.style.display = 'block';
+                    diaSabado.style.display = 'none';
+                    diaDomingo.style.display = 'none';
 
                     if(diaActual == 'Friday'){
                         diaViernes.style.display = 'flex';
