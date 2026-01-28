@@ -349,8 +349,8 @@
             const leyendaPlanesSabado = document.getElementById('leyenda-planes-sabado');
             const leyendaPlanesDomingo = document.getElementById('leyenda-planes-domingo');
 
-            const diaSabado = document.getElementById('sabado');
-            const diaDomingo = document.getElementById('domingo');
+            const diaSabadoSelect = document.getElementById('sabado');
+            const diaDomingoSelect = document.getElementById('domingo');
 
 
             // Referencia a las checkboxes de la congestion
@@ -368,7 +368,7 @@
             // Referencia a los radio buttons del modelo SIR (peaks)
             const peaks = document.querySelectorAll('.filtro-peaks-SIR');   
             const peakSeleccionado = document.querySelector('.filtro-peaks-SIR:checked');
-            const diaViernes = document.getElementById('viernes-only');
+            const diaViernesRadioButton = document.getElementById('viernes-only');
 
             // Referencias al gradiente
             const tituloGradiente = document.getElementById('titulo-gradiente');
@@ -648,8 +648,8 @@
                     leyendaPlanesDomingo.style.display = 'none';
                     leyendaSIR.style.display = 'none';
                     nivelRefInfeccionSelectContainer.style.display = 'none';
-                    diaSabado.style.display = 'block';
-                    diaDomingo.style.display = 'block';
+                    diaSabadoSelect.style.display = 'block';
+                    diaDomingoSelect.style.display = 'block';
 
                     
                     slider.min = 390;
@@ -728,15 +728,19 @@
                     leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
                     nivelRefInfeccionSelectContainer.style.display = 'block';
-                    diaSabado.style.display = 'none';
-                    diaDomingo.style.display = 'none';
+                    diaSabadoSelect.style.display = 'none';
+                    diaDomingoSelect.style.display = 'none';
 
                     if(diaActual == 'Friday'){
-                        diaViernes.style.display = 'flex';
+                        diaViernesRadioButton.style.display = 'flex';
                     }
                     else{
-                        diaViernes.style.display = 'none';
-
+                        diaViernesRadioButton.style.display = 'none';
+                        
+                        if(diaActual == 'Saturday' || diaActual == 'Sunday'){
+                            diaActual = 'Monday';
+                        }
+                    
                         if(peakActual == 'mediodia'){
                             peakActual = 'mañana';
                             const mañana = document.querySelector('input[name="peaks"][value="mañana"]');
@@ -974,9 +978,13 @@
             mapaSelect.addEventListener('change', (e) => {
                 mapaActual = e.target.value;
 
+                if ((diaActual == 'Saturday' || diaActual == 'Sunday') && mapaActual == 'infeccion'){
+                    diaActual = 'Monday';
+                    diaSelect.value = 'Monday';
+                }
+                
                 actualizarInterfaz(mapaActual);
                 actualizarMapa();
-
             });
 
             // Día
