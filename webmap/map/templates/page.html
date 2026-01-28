@@ -445,6 +445,33 @@
                 return `${hStr}:${mStr}:00`; // formato TimeField() (06:00:00)
             }
 
+            function getColumnaPeriodoSIR() {
+                if (nivelRefInfeccionActual == 'nivel_4'){
+                    if (peakActual == 'mañana'){
+                        return 'infeccion_global_nivel_4';
+                    }
+
+                    else if (peakActual == 'tarde'){
+                        return 'infeccion_punta_tarde_nivel_4';
+                    }
+
+                    return 'infeccion_punta_mediodia_nivel_4';
+                }
+
+                else if (nivelRefInfeccionActual == 'nivel_5'){
+                    if (peakActual == 'mañana'){
+                        return 'infeccion_global_nivel_5';
+                    }
+
+                    else if (peakActual == 'tarde'){
+                        return 'infeccion_punta_tarde_nivel_5';
+                    }
+
+                    return 'infeccion_punta_mediodia_nivel_5';
+                }
+            }
+
+
             // mayor valor de velocidad = 3,46
             // menor valor de velocidad = 58,22
 
@@ -895,10 +922,10 @@
 
                         if (features.length > 0) {
                             arcoActual = features[0]; 
-                            const propiedades = arcoActual.properties;
+                            const propsArcoActual = arcoActual.properties;
                             
                             if (mapaActual == 'nivel_congestion'){
-                                if(!nivelesSeleccionados.includes(props.nivel_congestion)){
+                                if(!nivelesSeleccionados.includes(propsArcoActual.nivel_congestion)){
                                     return;
                                 }
                             }
@@ -910,7 +937,15 @@
                             }
 
                             else if (mapaActual == 'infeccion'){
-                                if(!estadosSeleccionados.includes(props.infeccion)){
+
+                                const que_columna = getColumnaPeriodoSIR();
+                                const valor = parseInt([que_columna]);
+                                if(!estadosSeleccionados.includes(valor)){
+                                    
+                                    if (popupActual){
+                                        popupActual.remove();
+                                    }
+
                                     return;
                                 }
                             }
@@ -918,7 +953,7 @@
                             actualizarPopup();
                         }   
                         else {
-                            popupActual.remove;
+                            popupActual.remove();
                         }
                     }
                 })
@@ -1116,9 +1151,17 @@
                     }
                     
                     else if (mapaActual == 'infeccion'){
-                        if(!estadosSeleccionados.includes(propsArcoActual.infeccion)){
+
+                        que_columna = getColumnaPeriodoSIR();
+                        valor = parseInt(propsArcoActual[que_columna]);
+
+                        if(!estadosSeleccionados.includes(valor)){
                             map.getCanvas().style.cursor = '';
-                            popupActual.remove();
+
+                            if (popupActual) {
+                                popupActual.remove();
+                            }
+
                             return;
                         }
                     }
@@ -1159,22 +1202,7 @@
                     coordenadasPopup = null;
                     map.getCanvas().style.cursor = '';
                     popupActual.remove();
-                }); 
-
-                map.on('mousemove', 'capa-aristas-hitbox', (e) => {
-                    const arco = e.features[0];
-                    const props = arco.properties;
-
-                    // --- CONSOLE LOG DE DEPURACIÓN ---
-                    console.log("--- Depurando Infección ---");
-                    console.log("Columna buscada: infeccion_global_nivel_4");
-                    console.log("Valor obtenido:", props.infeccion_global_nivel_4);
-                    console.log("Tipo de dato:", typeof props.infeccion_global_nivel_4);
-                    console.log("Todas las propiedades disponibles:", props);
-                    // ---------------------------------
-
-                    
-                });                
+                });              
             
         </script>
     </body>
