@@ -40,6 +40,10 @@ body { margin: 0; padding: 0; }
     overflow: hidden;
 }
 
+.selector_nivel_ref_infeccion_container {
+    display: none;
+}
+
 /* Estilos para el contenedor del slider para darle espacio */
 #slider {
     width: 100%;
@@ -112,14 +116,6 @@ body { margin: 0; padding: 0; }
     color: #555;
 }
 
-/* Estilo para el checkbox de la leyenda del mapa de congestion y cinemática */
-.filtro-congestion,
-.filtro-SIR{
-    margin-right: 8px; 
-    cursor: pointer;
-}
-
-
 .dot {
     width: 12px;
     height: 12px;
@@ -182,6 +178,13 @@ body { margin: 0; padding: 0; }
     cursor: pointer;    
     margin-top: 0;     
     margin-left: 4px;
+}
+
+/* Estilo para el checkbox de la leyenda del mapa de congestion y cinemática */
+.filtro-congestion,
+.filtro-SIR{
+    margin-right: 8px; 
+    cursor: pointer;
 }
 
 #titulo-SIR-2{

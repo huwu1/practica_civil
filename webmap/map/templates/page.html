@@ -32,6 +32,16 @@
                         </div>
                     </div>
 
+                    <div class="selector_nivel_ref_infeccion_container">
+                        <div class="control-group">
+                            <label for="nivel-select">Nivel de referencia:</label>
+                            <select id="nivel-select">
+                                <option value="nivel_infeccion_4">Nivel 4</option>
+                                <option value="nivel_infeccion_5">Nivel 5</option>
+                            </select>
+                        </div>                        
+                    </div>
+
                     <div class="selector-sentido-container"> 
                         <div class="control-group">
                             <label for="sentido-select">Sentido:</label>
@@ -100,7 +110,7 @@
 
                 <div class="legend-item">
                     <input type="checkbox" class="filtro-congestion" value="0" checked>
-                    <div class="dot" style="background:#000000;"></div>Sin datos
+                    <div class="dot" style="background:#8A8D91;"></div>Sin datos
                 </div>
 
             </div>
@@ -206,11 +216,6 @@
                     <input type="checkbox" class="filtro-SIR" value="0" checked>
                     <div class="SIR-indicator" style="background: #31C950;"></div> Nunca congestionado
                 </div>
-                
-                <div class="legend-item">
-                    <input type="checkbox" class="filtro-SIR" value="1" checked>
-                    <div class="SIR-indicator" style="background: #4A90E2;"></div> Recuperado
-                </div>
 
                 <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="2" checked>
@@ -218,25 +223,30 @@
                 </div>  
 
                 <div class="legend-item">
+                    <input type="checkbox" class="filtro-SIR" value="1" checked>
+                    <div class="SIR-indicator" style="background: #4A90E2;"></div> Recuperado
+                </div>                
+
+                <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="3" checked>
-                    <div class="SIR-indicator" style="background: #000000;"></div> Sin datos
+                    <div class="SIR-indicator" style="background: #8A8D91;"></div> Sin datos
                 </div>
 
                 <h3 id="titulo-SIR-2"> Período:</h3>
 
                 <div class="peaks-SIR">
                     <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mañana" checked>
-                    <label>Peak mañana (06:30 - 09:45)</label> 
+                    <label>Punta mañana (06:30 - 09:45)</label> 
                 </div>
                 
                 <div class="peaks-SIR" id="viernes-only">
                     <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mediodia">
-                    <label>Peak mediodia (11:30 - 15:00)</label> 
+                    <label>Punta mediodia (11:30 - 15:00)</label> 
                 </div>                
 
                 <div class="peaks-SIR">
                     <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="tarde">
-                    <label>Peak tarde (16:30 - 21:00)</label> 
+                    <label>Punta tarde (16:30 - 21:00)</label> 
                 </div>
                 
             </div>                                  
@@ -330,6 +340,7 @@
             const mapaSelect = document.getElementById('mapa-select');
             const diaSelect = document.getElementById('dia-select');
             const sentidoSelect = document.getElementById('sentido-select');
+            const nivelRefInfeccionSelect = document.querySelector('.selector_nivel_ref_infeccion_container');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
             const leyendaSIR = document.getElementById('leyenda-SIR');
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
@@ -516,7 +527,7 @@
                         0: '#31C950',
                         1: '#4A90E2',
                         2: '#E7180B',
-                        3: '#000000',
+                        3: '#8A8D91',
                     }          
                     
                     estadosSeleccionados.forEach(estado => {
@@ -533,7 +544,7 @@
                     color = ['match', ['coalesce', ['get', 'nivel_congestion'], 0]];
 
                     const mapeoColores = {    
-                        0: '#000000',
+                        0: '#8A8D91',
                         1: '#1F9D55',
                         2: '#9AE630',
                         3: '#FFDF20',
@@ -566,6 +577,8 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';
                     leyendaSIR.style.display = 'none';
+                    nivelRefInfeccionSelect.style.display = 'none';
+
                     
                     slider.min = 390;
                     slider.max = 1439;
@@ -642,6 +655,7 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
+                    nivelRefInfeccionSelect.style.display = 'block';
 
                     if(diaActual == 'Friday'){
                         diaViernes.style.display = 'flex';
@@ -662,7 +676,7 @@
 
                     if(peakActual == 'mañana'){
                         slider.min = 390;
-                        slider.max = 585;
+                        slider.max = 630;
                         slider.value = ultimo_valor_mañana; 
                     } 
                     else if(peakActual == 'tarde'){
@@ -1008,7 +1022,7 @@
                                 4, '#FF8904',
                                 5, '#E7180B',
                                 6, '#CC00CC',
-                                '#000000'
+                                '#8A8D91'
                             ],
                     }
                 });
