@@ -85,7 +85,13 @@ def traffic_data_api(request):
                 "tiempo_entre_largo": dato.tiempo_entre_largo,
                 "dca": dato.DCA,
                 "nivel_congestion": dato.nivel_congestion,
-                "infeccion": dato.infeccion,
+
+                "infeccion_global_nivel_4": dato.infeccion_global_nivel_4,
+                "infeccion_global_nivel_5": dato.infeccion_global_nivel_5,
+                "infeccion_punta_tarde_nivel_4": dato.infeccion_punta_tarde_nivel_4,
+                "infeccion_punta_tarde_nivel_5": dato.infeccion_punta_tarde_nivel_5,
+                "infeccion_punta_mediodia_nivel_4": dato.infeccion_punta_mediodia_nivel_4,
+                "infeccion_punta_mediodia_nivel_5": dato.infeccion_punta_mediodia_nivel_5,
             }
         }
 

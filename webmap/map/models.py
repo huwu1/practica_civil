@@ -30,7 +30,6 @@ class Arcs(models.Model):
 class Traffic(models.Model):
     id = models.IntegerField(primary_key=True)
     calle_principal = models.CharField(max_length=100)
-    id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
     dia = models.CharField(max_length=100)
     hora = models.TimeField()
     plan = models.CharField(max_length=100)
@@ -39,8 +38,13 @@ class Traffic(models.Model):
     tiempo_entre_largo = models.FloatField()
     DCA = models.FloatField()
     nivel_congestion = models.IntegerField(null=True, blank=True)
-    infeccion = models.IntegerField(null=True, blank=True)
-
+    infeccion_global_nivel_4 = models.IntegerField(null=True, blank=True)
+    infeccion_global_nivel_5 = models.IntegerField(null=True, blank=True)
+    infeccion_punta_tarde_nivel_4 = models.IntegerField(null=True, blank=True)
+    infeccion_punta_tarde_nivel_5 = models.IntegerField(null=True, blank=True)
+    infeccion_punta_mediodia_nivel_4 = models.IntegerField(null=True, blank=True)
+    infeccion_punta_mediodia_nivel_5 = models.IntegerField(null=True, blank=True)
+    id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
 
 
 

@@ -36,8 +36,8 @@
                         <div class="control-group">
                             <label for="nivel-select">Nivel de referencia:</label>
                             <select id="nivel-select">
-                                <option value="nivel_infeccion_4">Nivel 4</option>
-                                <option value="nivel_infeccion_5">Nivel 5</option>
+                                <option value="nivel_4">Nivel 4</option>
+                                <option value="nivel_5">Nivel 5</option>
                             </select>
                         </div>                        
                     </div>
@@ -236,7 +236,7 @@
 
                 <div class="peaks-SIR">
                     <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mañana" checked>
-                    <label>Punta mañana (06:30 - 09:45)</label> 
+                    <label>Punta mañana (06:30 - 10:30)</label> 
                 </div>
                 
                 <div class="peaks-SIR" id="viernes-only">
@@ -340,7 +340,8 @@
             const mapaSelect = document.getElementById('mapa-select');
             const diaSelect = document.getElementById('dia-select');
             const sentidoSelect = document.getElementById('sentido-select');
-            const nivelRefInfeccionSelect = document.querySelector('.selector_nivel_ref_infeccion_container');
+            const nivelRefInfeccionSelect = document.getElementById('nivel-select'); 
+            const nivelRefInfeccionSelectContainer = document.querySelector('.selector_nivel_ref_infeccion_container');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
             const leyendaSIR = document.getElementById('leyenda-SIR');
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
@@ -393,6 +394,9 @@
 
             // Peak seleccionado
             let peakActual = peakSeleccionado.value || 'mañana';
+
+            // Nivel de referencia de infección seleccionado
+            let nivelRefInfeccionActual = nivelRefInfeccionSelect.value;
 
             // Arco seleccionado y coordenadas del mouse (para el pop-up de info)
             let arcoActual = null;
@@ -451,12 +455,12 @@
             // mayor valor DCA = 851.0
 
             // (interpolación por quintiles (0, 20, 40, 60, 80, 100))
-            function actualizarColores(columna){
+            function actualizarColores(mapa){
                 let color;
 
-                if (columna == 'velocidad'){
+                if (mapa == 'velocidad'){
                     color = [
-                        'interpolate', ['linear'], ['get', columna],
+                        'interpolate', ['linear'], ['get', mapa],
                         3.46, '#CC00CC',  
                         10.0, '#E7180B',      
                         18.0, '#FF8904',      
@@ -468,9 +472,9 @@
 
                 // en el tiempo habian 319 datos sobre 200, para evitar outlayers en la
                 // representación visual, se redujo el cap a 200
-                else if (columna == 'tiempo'){
+                else if (mapa == 'tiempo'){
                     color = [
-                        'interpolate', ['linear'], ['get', columna],
+                        'interpolate', ['linear'], ['get', mapa],
                         11.57, '#31C950',     
                         39.39, '#9AE630',     
                         51.2, '#FFDF20',     
@@ -482,9 +486,9 @@
 
                 // el 60% de los datos de DCA eran 0's, por lo que se utilizó
                 // los percentiles 0, 65, 75, 85 y 95 respectivamente
-                else if (columna == 'dca'){
+                else if (mapa == 'dca'){
                     color = [
-                        'interpolate', ['linear'], ['get', columna],
+                        'interpolate', ['linear'], ['get', mapa],
                         0.0, '#31C950',
                         5.0, '#9AE630',
                         30, '#FFDF20',
@@ -494,7 +498,7 @@
                     ]
                 }
 
-                else if (columna == 'plan'){
+                else if (mapa == 'plan'){
                     color = ['match', ['get', 'plan']];
                     //const minutos = Int;
                     //const horas = Int;
@@ -520,20 +524,52 @@
                     color.push('rgba(0,0,0,0)');
                 }
 
-                else if (columna == 'infeccion'){
-                    color = ['match', ['coalesce', ['get', 'infeccion'], 3]];
+                else if (mapa == 'infeccion'){
+
+                    let columnaCSV = '';
 
                     const mapeoSIR = {
                         0: '#31C950',
                         1: '#4A90E2',
                         2: '#E7180B',
                         3: '#8A8D91',
-                    }          
+                    }      
+                    
+                    if(nivelRefInfeccionActual== 'nivel_4'){
+                        if (peakActual == 'mañana'){
+                            columnaCSV = 'infeccion_global_nivel_4';
+                        }      
+                        
+                        else if (peakActual == 'tarde'){
+                            columnaCSV = 'infeccion_punta_tarde_nivel_4';
+                        }                        
+
+                        else if (peakActual == 'mediodia'){
+                            columnaCSV = 'infeccion_punta_mediodia_nivel_4';
+                        }
+                    }
+
+                    else if(nivelRefInfeccionActual == 'nivel_5'){
+                        if (peakActual == 'mañana'){
+                            columnaCSV = 'infeccion_global_nivel_5';
+                        }      
+                        
+                        else if (peakActual == 'tarde'){
+                            columnaCSV = 'infeccion_punta_tarde_nivel_5';
+                        }                        
+
+                        else if (peakActual == 'mediodia'){
+                            columnaCSV = 'infeccion_punta_mediodia_nivel_5';
+                        }
+                    }
+
+                    color = ['match', ['coalesce', ['get', columnaCSV], 3]];
                     
                     estadosSeleccionados.forEach(estado => {
-                        if (mapeoSIR[estado]){
-                            color.push(estado)
-                            color.push(mapeoSIR[estado]);
+                        const entero = parseInt(estado)
+                        if (mapeoSIR[entero]){
+                            color.push(entero)
+                            color.push(mapeoSIR[entero]);
                         }
                     })    
 
@@ -577,7 +613,7 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';
                     leyendaSIR.style.display = 'none';
-                    nivelRefInfeccionSelect.style.display = 'none';
+                    nivelRefInfeccionSelectContainer.style.display = 'none';
 
                     
                     slider.min = 390;
@@ -655,7 +691,7 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
-                    nivelRefInfeccionSelect.style.display = 'block';
+                    nivelRefInfeccionSelectContainer.style.display = 'block';
 
                     if(diaActual == 'Friday'){
                         diaViernes.style.display = 'flex';
@@ -705,7 +741,15 @@
                     ['==', ['get', 'dia'], diaActual],
                     ['==', ['get', 'hora'], hora],
                     ['in', ['get', 'sentido'], ['literal', sentidoActual.split(',')]],
-                    ['has', mapaActual],
+                    ['any',
+                        ['has', 'nivel_congestion'],
+                        ['has', 'infeccion_global_nivel_4'],
+                        ['has', 'infeccion_global_nivel_5'],
+                        ['has', 'infeccion_punta_tarde_nivel_4'],
+                        ['has', 'infeccion_punta_tarde_nivel_5'],
+                        ['has', 'infeccion_punta_mediodia_nivel_4'],
+                        ['has', 'infeccion_punta_mediodia_nivel_5'],
+                    ]
                 ];
 
                 if (map.getLayer('capa-aristas')) {
@@ -765,26 +809,11 @@
                         const velocidad = propiedadesArco.velocidad;
                         const tiempo_entre_largo = propiedadesArco.tiempo_entre_largo;
                         const dca = propiedadesArco.dca;
-                        const congestion = propiedadesArco.nivel_congestion;
-                        const infeccion = propiedadesArco.infeccion;                    
+                        const congestion = propiedadesArco.nivel_congestion;               
                         const desde = propiedadesArco.desde;
                         const hasta = propiedadesArco.hasta;
                         const interseccion = propiedadesArco.interseccion;
                         const largo = propiedadesArco.largo;
-
-                        const procesar_infeccion = (label, nivel) => {
-                            if (parseInt(nivel) == 0){
-                                return `${label}: Saludable <br>`;;
-                            }
-
-                            else if (parseInt(nivel) == 1){
-                                return `${label}: Recuperado <br>`;
-                            }
-
-                            else if (parseInt(nivel) == 2){
-                                return `${label}: Infectado  <br>`;
-                            }
-                        }
 
                         const procesar_dato = (label, valor) => {
 
@@ -803,7 +832,6 @@
                             // 'tiempo/largo': () => procesar_dato('Tiempo/Largo', tiempo_entre_largo),
                             // 'congestion': () => procesar_dato('Nivel de congestión', congestion),
                             'dca': () => procesar_dato('Demora por congestión (s/km)', dca),
-                            'estado': () => procesar_infeccion('Estado', infeccion),
                             'desde': () => procesar_dato('Desde', desde),
                             'hasta': () => procesar_dato('Hasta', hasta),
                             'interseccion': () => procesar_dato('Nodo de control', interseccion),
@@ -927,6 +955,14 @@
 
                     actualizarMapa();
                 })
+            })
+
+            // Nivel de referencia para la infección
+            nivelRefInfeccionSelect.addEventListener('change', (e) => {
+                nivelRefInfeccionActual = e.target.value;
+
+                actualizarColores('infeccion');
+                actualizarMapa();
             })
 
             // Barra lateral
@@ -1124,6 +1160,21 @@
                     map.getCanvas().style.cursor = '';
                     popupActual.remove();
                 }); 
+
+                map.on('mousemove', 'capa-aristas-hitbox', (e) => {
+                    const arco = e.features[0];
+                    const props = arco.properties;
+
+                    // --- CONSOLE LOG DE DEPURACIÓN ---
+                    console.log("--- Depurando Infección ---");
+                    console.log("Columna buscada: infeccion_global_nivel_4");
+                    console.log("Valor obtenido:", props.infeccion_global_nivel_4);
+                    console.log("Tipo de dato:", typeof props.infeccion_global_nivel_4);
+                    console.log("Todas las propiedades disponibles:", props);
+                    // ---------------------------------
+
+                    
+                });                
             
         </script>
     </body>
