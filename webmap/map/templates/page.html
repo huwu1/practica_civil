@@ -352,7 +352,7 @@
 
             // Referencia a los radio buttons del modelo SIR (peaks)
             const peaks = document.querySelectorAll('.filtro-peaks-SIR');   
-            const peakSeleccionado = document.querySelectorAll('.filtro-peaks-SIR:checked');
+            const peakSeleccionado = document.querySelector('.filtro-peaks-SIR:checked');
             const diaViernes = document.getElementById('viernes-only');
 
             // Referencias al gradiente
@@ -395,6 +395,7 @@
             let ultimo_valor_congestion = 390;
             let ultimo_valor_mañana = 390; 
             let ultimo_valor_tarde = 990;
+            let ultimo_valor_mediodia = 690;
 
             // instancia del Pop-up actual
             let popupActual = new mapboxgl.Popup({
@@ -498,11 +499,6 @@
                         'P31': ['#d8c8b8', 7]
                     }
 
-                    // Para actualizar la hora mostrada x el slider
-                    // const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
-                    // const mVis = (minutosTotales % 60).toString().padStart(2, '0');
-                    // display.innerText = `${hVis}:${mVis}`;
-
                     planesSeleccionadosSemana.forEach(plan => {
                         if(mapeoPlanes[plan]){
                             color.push(plan);
@@ -529,15 +525,6 @@
                             color.push(mapeoSIR[estado]);
                         }
                     })    
-                
-
-                    // Para actualizar la hora mostrada x el slider
-                    // const hVis = Math.floor(minutosTotales / 60).toString().padStart(2, '0');
-                    // const mVis = (minutosTotales % 60).toString().padStart(2, '0');
-                    // display.innerText = `${hVis}:${mVis}`;
-
-
-                    // <input id="slider" type="range" min="390" max="1310" step="15" value="0">
 
                     color.push('rgba(0,0,0,0)');
                 }
@@ -661,6 +648,16 @@
                     }
                     else{
                         diaViernes.style.display = 'none';
+
+                        if(peakActual == 'mediodia'){
+                            peakActual = 'mañana';
+                            const mañana = document.querySelector('input[name="peaks"][value="mañana"]');
+                            
+                            if(mañana){
+                                mañana.checked = true;
+                            }
+
+                        }
                     }
 
                     if(peakActual == 'mañana'){
@@ -674,13 +671,11 @@
                         slider.value = ultimo_valor_tarde;
                     }
 
-                    /*
                     else if(peakActual == 'mediodia'){
                         slider.min = 690;
                         slider.max = 900;
                         slider.value = ultimo_valor_mediodia; 
                     }            
-                    */
 
                     minutosTotales = parseInt(slider.value);
                 }
@@ -845,6 +840,9 @@
                 else if (peakActual == 'tarde'){
                     ultimo_valor_tarde = parseInt(e.target.value);
                 }
+                else if (peakActual == 'mediodia'){
+                    ultimo_valor_mediodia = parseInt(e.target.value);
+                }
 
                 minutosTotales = valor;
                 actualizarMapa();
@@ -896,8 +894,8 @@
             // Día
             diaSelect.addEventListener('change', (e) => {
                 diaActual = e.target.value;
-                actualizarMapa();
                 actualizarInterfaz(mapaActual);
+                actualizarMapa();
             });
 
             // Sentido
@@ -909,7 +907,7 @@
             // Peak congestión
             peaks.forEach(boton => {
                 boton.addEventListener('change', (e) => {
-                    peakActual = e.target.value;;
+                    peakActual = e.target.value;
 
                     actualizarInterfaz('infeccion');
 
