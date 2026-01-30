@@ -87,3 +87,7 @@ También mencionar que por temas de tiempo la funcionalidad de la visualización
 
 Dentro del HTML se encuentra un *disclaimer* al respecto del gradiente utilizado para la visualización de los mapas anteriormente mencionados.
 
+
+
+La página se actualiza con el contenido de la rama 'main' del repositorio, donde cada 10 segundos a través de un archivo '.bat' lo hace automáticamente.
+
