@@ -6,6 +6,8 @@ Primero, se debe clonar este repositorio; una vez ubicado en el directorio en el
 
 git clone https://github.com/huwu1/practica\_civil.git
 
+```bash
+
 
 
 Una vez clonado, dentro del mismo directorio se tiene que crear un ambiente virtual para poder instalar las dependencias necesarias contenidas dentro del archivo 'requirements.txt'. El siguiente comando creará uno llamado 'venv', y el siguiente lo activará:
