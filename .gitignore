@@ -7,7 +7,10 @@ local_settings.py
 db.sqlite3
 media/
 
-# --- Entornos Virtuales (¡Lo más importante!) ---
+# --- Carpeta con los datos ---
+csv's/
+
+# --- Entornos Virtuales ---
 myenv/
 venv/
 env/
