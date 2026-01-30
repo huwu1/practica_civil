@@ -2,11 +2,9 @@
 
 Primero, se debe clonar este repositorio; una vez ubicado en el directorio en el que se desee alojar el proyecto, escribe el siguiente comando:
 
-`
+```bash
 
 git clone https://github.com/huwu1/practica\_civil.git
-
-` 
 
 
 
@@ -82,6 +80,7 @@ Cabe recalcar que existen otros mapas visualizables en la página, como el de la
 
 
 También mencionar que por temas de tiempo la funcionalidad de la visualización de los mapas quedo inconclusa. Se sugiere si en el futuro se desea analizar este mapa, seguir la misma lógica para el slider que con el mapa de cinemática.
+
 
 
 Dentro del HTML se encuentra un *disclaimer* al respecto del gradiente utilizado para la visualización de los mapas anteriormente mencionados.
