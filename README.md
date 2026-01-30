@@ -16,45 +16,45 @@ Una vez clonado, dentro del mismo directorio se tiene que crear un ambiente virt
 
 En Windows:
 
-`
+```bash
 
 python -m venv venv
 
 venv\\Scripts\\activate
 
-`
+```
 
 
 
 En Mac / Linux:
 
-`
+```bash
 
 python -m venv venv
 
 source venv/bin/activate
 
-`
+```
 
 
 
 Con esto, ya se puede descargar lo necesario con la siguiente línea:
 
-`
+```bash
 
 pip install -r requirements.txt
 
-`
+```
 
 
 
 ¡Listo! Ya tienes el proyecto en tu dispositivo, ahora, para hacer válida la base de datos, se debe hacer saber a la misma los cambios y estructura contenida dentro de 'models.py'. Para esto, ubícate dentro del directorio '/webmap' (donde se encuentra 'manage.py') y aplica la siguiente linea:
 
-`
+```bash
 
 python manage.py migrate
 
-`
+```
 
 
 
@@ -64,10 +64,10 @@ python manage.py migrate
 
 Y listo, ya tienes todo lo necesario para poder ver cambios localmente y hacer testeo antes de comittearlos a la página web webampnunoa.me. Se recomienda de todas formas crear *branches* para diferenciar. Con el siguiente comando puedes correr localmente el servidor (ubicado en el mismo directorio que el paso anterior):
 
-`
+```bash
 
 python manage.py runserver
-`
+```
 
 
 
