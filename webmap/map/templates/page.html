@@ -225,13 +225,15 @@
                 <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="1" checked>
                     <div class="SIR-indicator" style="background: #4A90E2;"></div> Recuperado
-                </div>                
+                </div>  
 
                 <div class="legend-item">
                     <input type="checkbox" class="filtro-SIR" value="3" checked>
                     <div class="SIR-indicator" style="background: #8A8D91;"></div> Sin datos
                 </div>
+            </div>
 
+            <div class="map-overlay-left-legend" id="radiobuttons-SIR" style="display: none;">
                 <h3 id="titulo-SIR-2"> Período:</h3>
 
                 <div class="peaks-SIR">
@@ -248,7 +250,6 @@
                     <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="tarde">
                     <label>Punta tarde (16:30 - 21:00)</label> 
                 </div>
-                
             </div>                                  
          
 
@@ -344,6 +345,7 @@
             const nivelRefInfeccionSelectContainer = document.querySelector('.selector_nivel_ref_infeccion_container');
             const leyendaCongestion =  document.getElementById('leyenda-congestion');
             const leyendaSIR = document.getElementById('leyenda-SIR');
+            const botonesPeriodosSIR = document.getElementById('radiobuttons-SIR');
             const leyendaGradiente = document.getElementById('leyenda-gradiente');
             const leyendaPlanesSemana = document.getElementById('leyenda-planes-semana');
             const leyendaPlanesSabado = document.getElementById('leyenda-planes-sabado');
@@ -646,12 +648,13 @@
                     leyendaPlanesSemana.style.display = 'none';
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';
-                    leyendaSIR.style.display = 'none';
+                    leyendaSIR.style.display = 'none';  
+                    botonesPeriodosSIR.style.display = 'none';
+
                     nivelRefInfeccionSelectContainer.style.display = 'none';
                     diaSabadoSelect.style.display = 'block';
                     diaDomingoSelect.style.display = 'block';
 
-                    
                     slider.min = 390;
                     slider.max = 1439;
                     slider.value = ultimo_valor_congestion;
@@ -727,6 +730,8 @@
                     leyendaPlanesSabado.style.display = 'none';
                     leyendaPlanesDomingo.style.display = 'none';                     
                     leyendaSIR.style.display = 'block';
+                    botonesPeriodosSIR.style.display = 'block';
+
                     nivelRefInfeccionSelectContainer.style.display = 'block';
                     diaSabadoSelect.style.display = 'none';
                     diaDomingoSelect.style.display = 'none';
