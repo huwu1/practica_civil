@@ -6,7 +6,7 @@ Primero, se debe clonar este repositorio; una vez ubicado en el directorio en el
 
 git clone https://github.com/huwu1/practica\_civil.git
 
-```bash
+```
 
 
 
