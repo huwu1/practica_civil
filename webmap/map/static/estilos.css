@@ -78,12 +78,20 @@ body { margin: 0; padding: 0; }
 .map-overlay-left-legend{
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     position: absolute;
-    bottom: 30px;    
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
     z-index: 100;
+}
+
+.map-overlay-legend{
+    bottom: 30px;    
+}
+
+.map-overlay-left-legend{
+    top: 50px;
+    bottom: auto;
 }
 
 .map-overlay-legend h3,
@@ -99,8 +107,8 @@ body { margin: 0; padding: 0; }
 }
 
 .map-overlay-left-legend{
-    left: 50px;
-    bottom:36px;
+    left: 10px;
+    top: 27%;
 }
 
 #leyenda-congestion{
