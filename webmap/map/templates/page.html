@@ -72,8 +72,26 @@
                     <input id="slider" type="range" min="390" max="1310" step="15" value="0">
 
                 </div>
+            
+                <div class="map-overlay-left-legend" id="radiobuttons-SIR" style="display: none;">
+                    <h3 id="titulo-SIR-2"> Período:</h3>
 
-            </div>
+                    <div class="peaks-SIR">
+                        <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mañana" checked>
+                        <label>Punta mañana (06:30 - 10:30)</label> 
+                    </div>
+                    
+                    <div class="peaks-SIR" id="viernes-only">
+                        <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mediodia">
+                        <label>Punta mediodia (11:30 - 15:00)</label> 
+                    </div>                
+
+                    <div class="peaks-SIR">
+                        <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="tarde">
+                        <label>Punta tarde (16:30 - 21:00)</label> 
+                    </div>
+                </div>  
+            </div>  
 
             <div class="map-overlay-legend" id="leyenda-congestion">
                 <h3>Condición de circulación</h3>
@@ -231,27 +249,7 @@
                     <input type="checkbox" class="filtro-SIR" value="3" checked>
                     <div class="SIR-indicator" style="background: #8A8D91;"></div> Sin datos
                 </div>
-            </div>
-
-            <div class="map-overlay-left-legend" id="radiobuttons-SIR" style="display: none;">
-                <h3 id="titulo-SIR-2"> Período:</h3>
-
-                <div class="peaks-SIR">
-                    <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mañana" checked>
-                    <label>Punta mañana (06:30 - 10:30)</label> 
-                </div>
-                
-                <div class="peaks-SIR" id="viernes-only">
-                    <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="mediodia">
-                    <label>Punta mediodia (11:30 - 15:00)</label> 
-                </div>                
-
-                <div class="peaks-SIR">
-                    <input type="radio" name= "peaks" class="filtro-peaks-SIR" value="tarde">
-                    <label>Punta tarde (16:30 - 21:00)</label> 
-                </div>
-            </div>                                  
-         
+            </div>                              
 
             <div id="barra-lateral" class="barra-lateral">
                 <button id="boton-barra-lateral" class="boton-barra-lateral">
