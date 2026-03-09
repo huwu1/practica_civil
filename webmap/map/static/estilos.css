@@ -87,15 +87,6 @@ body { margin: 0; padding: 0; }
     z-index: 100;
 }
 
-.map-overlay-legend{
-    bottom: 30px;    
-}
-
-.map-overlay-left-legend{
-    top: 50px;
-    bottom: auto;
-}
-
 .map-overlay-legend h3,
 .map-overlay-left-legend h3 {
     margin: 0 0 10px;
