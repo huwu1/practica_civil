@@ -9,6 +9,9 @@ body { margin: 0; padding: 0; }
     left: 0;
     padding: 10px;
     z-index: 100;
+
+    display: flex;
+    flex-direction: column;
 }
 .map-overlay .map-overlay-inner {
     background-color: #fff;
@@ -77,7 +80,6 @@ body { margin: 0; padding: 0; }
 .map-overlay-legend,
 .map-overlay-left-legend{
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    position: absolute;
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
@@ -97,18 +99,35 @@ body { margin: 0; padding: 0; }
 .map-overlay-legend h3,
 .map-overlay-left-legend h3 {
     margin: 0 0 10px;
-    font-size: 13px;
     font-weight: bold;
     color: #333;
 }
 
+.map-overlay-legend h3{
+    font-size: 13px;
+}
+
+.map-overlay-left-legend h3{
+    font-size: 13px;
+}
+
 .map-overlay-legend{
+    position: absolute;
+    bottom: 30px;    
     right: 10px; 
 }
 
-.map-overlay-left-legend{
-    left: 10px;
-    top: 27%;
+.map-overlay-left-legend {
+    position: relative;
+    margin-top: -3px;   
+    width: 60%;        
+    box-sizing: border-box; 
+    left: auto;           
+    bottom: auto;
+}
+
+.map-overlay-legend{
+    right: 10px; 
 }
 
 #leyenda-congestion{
