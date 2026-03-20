@@ -46,5 +46,14 @@ class Traffic(models.Model):
     infeccion_punta_mediodia_nivel_5 = models.IntegerField(null=True, blank=True)
     id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_hora_x')
 
+class Average(models.Model):
+    id = models.IntegerField(primary_key=True)
+    hora = models.TimeField()
+    tiempo_entre_largo_promedio = models.FloatField(null=True, blank=True)
+    dca_promedio = models.FloatField(null=True, blank=True)
+    nivel_promedio = models.IntegerField(null=True, blank=True)
+    id_arco = models.ForeignKey(Arcs, on_delete=models.CASCADE, related_name='arco_promedio_x')
+
+
 
 

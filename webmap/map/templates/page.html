@@ -64,6 +64,7 @@
                                 <option value="Friday">Viernes</option>
                                 <option value="Saturday" id="sabado">Sábado</option>
                                 <option value="Sunday" id="domingo">Domingo</option>
+                                <option value="Promedio" id="promedio">Promedio laboral</option>
                             </select>
                         </div>
                     </div>   
@@ -311,7 +312,7 @@
                             </div>    
                             
                             <div class="control-item">
-                                <label>Demora por congestión (s/km)</label><input type="checkbox" class="filtro-popup" value="dca" checked>
+                                <label id="texto_lateral_dca">Demora por congestión (s/km)</label><input type="checkbox" class="filtro-popup" value="dca" checked>
                             </div>                             
 
                         </div>
@@ -351,6 +352,7 @@
 
             const diaSabadoSelect = document.getElementById('sabado');
             const diaDomingoSelect = document.getElementById('domingo');
+            const diaPromedioSelect = document.getElementById('promedio');
 
 
             // Referencia a las checkboxes de la congestion
@@ -379,6 +381,7 @@
             // Referencia a la barra lateral
             const barraLateral = document.getElementById('barra-lateral');
             const botonBarraLateral = document.getElementById('boton-barra-lateral');
+            const texto_lateral_dca = document.getElementById('texto_lateral_dca');
             
 
             // VARIABLES GLOBALES 
@@ -505,6 +508,7 @@
 
             // (interpolación por quintiles (0, 20, 40, 60, 80, 100))
             function actualizarColores(mapa){
+                           
                 let color;
 
                 if (mapa == 'velocidad'){
@@ -626,7 +630,11 @@
                 }
                 
                 else {
-                    color = ['match', ['coalesce', ['get', 'nivel_congestion'], 0]];
+ 
+                    color = [
+                        'match', 
+                        ['coalesce', ['get', 'nivel_congestion'], ['get', 'nivel_promedio'], 0]
+                    ];
 
                     const mapeoColores = {    
                         0: '#8A8D91',
@@ -667,6 +675,7 @@
                     nivelRefInfeccionSelectContainer.style.display = 'none';
                     diaSabadoSelect.style.display = 'block';
                     diaDomingoSelect.style.display = 'block';
+                    diaPromedioSelect.style.display = 'block';
 
                     slider.min = 390;
                     slider.max = 1439;
@@ -741,22 +750,29 @@
                     leyendaGradiente.style.display = 'none';
                     leyendaPlanesSemana.style.display = 'none';
                     leyendaPlanesSabado.style.display = 'none';
-                    leyendaPlanesDomingo.style.display = 'none';                     
+                    leyendaPlanesDomingo.style.display = 'none';                  
                     leyendaSIR.style.display = 'block';
                     botonesPeriodosSIR.style.display = 'block';
 
                     nivelRefInfeccionSelectContainer.style.display = 'block';
                     diaSabadoSelect.style.display = 'none';
                     diaDomingoSelect.style.display = 'none';
+                    diaPromedioSelect.style.display = 'none'; 
 
                     if(diaActual == 'Friday'){
                         diaViernesRadioButton.style.display = 'flex';
                     }
+
                     else{
                         diaViernesRadioButton.style.display = 'none';
                         
                         if(diaActual == 'Saturday' || diaActual == 'Sunday'){
                             diaActual = 'Monday';
+                        }
+
+                        if(diaActual == 'Promedio'){
+                            diaActual = 'Monday';
+                            document.getElementById('dia-select').value = 'Monday';
                         }
                     
                         if(peakActual == 'mediodia'){
@@ -798,19 +814,28 @@
 
                 const filtro = [
                     'all',
-                    ['==', ['get', 'dia'], diaActual],
                     ['==', ['get', 'hora'], hora],
-                    ['in', ['get', 'sentido'], ['literal', sentidoActual.split(',')]],
-                    ['any',
+                    ['in', ['get', 'sentido'], ['literal', sentidoActual.split(',')]]
+                ];  
+
+                if (diaActual == 'Promedio'){
+                    filtro.push(['==', ['get', 'tipo_feature'], 'Promedio']);
+                }
+                else{
+                    filtro.push(['==', ['get', 'tipo_feature'], 'Trafico']);
+                    filtro.push(['==', ['get', 'dia'], diaActual]);
+                }
+
+                filtro.push(['any',
                         ['has', 'nivel_congestion'],
+                        ['has', 'nivel_promedio'],
                         ['has', 'infeccion_global_nivel_4'],
                         ['has', 'infeccion_global_nivel_5'],
                         ['has', 'infeccion_punta_tarde_nivel_4'],
                         ['has', 'infeccion_punta_tarde_nivel_5'],
                         ['has', 'infeccion_punta_mediodia_nivel_4'],
-                        ['has', 'infeccion_punta_mediodia_nivel_5'],
-                    ]
-                ];
+                        ['has', 'infeccion_punta_mediodia_nivel_5']
+                ]);
 
                 if (map.getLayer('capa-aristas')) {
                     map.setFilter('capa-aristas', filtro);
@@ -861,19 +886,23 @@
 
                         // Obtener las propiedades del arco
                         const propiedadesArco = arcoActual.properties;
+                        const dca_correcto = propiedadesArco.tipo_feature == "Promedio" ? propiedadesArco.dca_promedio : propiedadesArco.dca
 
                         const idArco = propiedadesArco.id; 
                         const calle = propiedadesArco.calle_principal;
                         const sentido = propiedadesArco.sentido;
-                        const tiempo = propiedadesArco.tiempo;
-                        const velocidad = propiedadesArco.velocidad;
-                        const tiempo_entre_largo = propiedadesArco.tiempo_entre_largo;
-                        const dca = propiedadesArco.dca;
-                        const congestion = propiedadesArco.nivel_congestion;               
+            
                         const desde = propiedadesArco.desde;
                         const hasta = propiedadesArco.hasta;
                         const interseccion = propiedadesArco.interseccion;
                         const largo = propiedadesArco.largo;
+
+                        const texto_popup_dca = propiedadesArco.tipo_feature == "Promedio" ? 'Demora por congestión promediada (s/km)' : 'Demora por congestión';
+
+                        // const tiempo = propiedadesArco.tiempo;
+                        // const velocidad = propiedadesArco.velocidad;
+                        // const tiempo_entre_largo = propiedadesArco.tiempo_entre_largo;
+                        // const congestion = propiedadesArco.nivel_congestion; 
 
                         const procesar_dato = (label, valor) => {
 
@@ -887,15 +916,16 @@
                         const mapeoInfo = {
                             'calle': () => procesar_dato('Calle', calle),
                             'sentido': () => procesar_dato('Sentido', sentido),
-                            // 'tiempo': () => procesar_dato('Tiempo', tiempo),
-                            // 'velocidad': () => procesar_dato('Velocidad', velocidad),
-                            // 'tiempo/largo': () => procesar_dato('Tiempo/Largo', tiempo_entre_largo),
-                            // 'congestion': () => procesar_dato('Nivel de congestión', congestion),
-                            'dca': () => procesar_dato('Demora por congestión (s/km)', dca),
+                            'dca': () => procesar_dato(texto_popup_dca, dca_correcto),
                             'desde': () => procesar_dato('Desde', desde),
                             'hasta': () => procesar_dato('Hasta', hasta),
                             'interseccion': () => procesar_dato('Nodo de control', interseccion),
                             'largo': () => procesar_dato('Longitud (m)', largo)
+
+                            // 'tiempo': () => procesar_dato('Tiempo', tiempo),
+                            // 'velocidad': () => procesar_dato('Velocidad', velocidad),
+                            // 'tiempo/largo': () => procesar_dato('Tiempo/Largo', tiempo_entre_largo),
+                            // 'congestion': () => procesar_dato('Nivel de congestión', congestion),                            
                         };
 
                         HTML = `<div style= "text-align: left; line-height: 1.5;">
@@ -958,7 +988,8 @@
                             const propsArcoActual = arcoActual.properties;
                             
                             if (mapaActual == 'nivel_congestion'){
-                                if(!nivelesSeleccionados.includes(propsArcoActual.nivel_congestion)){
+                                let que_nivel = propsArcoActual.nivel_congestion ?? propsArcoActual.nivel_promedio;
+                                if(!nivelesSeleccionados.includes(que_nivel)){
                                     return;
                                 }
                             }
@@ -1008,6 +1039,14 @@
             // Día
             diaSelect.addEventListener('change', (e) => {
                 diaActual = e.target.value;
+
+                if (diaActual == 'Promedio'){
+                    texto_lateral_dca.innerText = 'Demora por congestión promediada (s/km)';
+                }
+                else{
+                    texto_lateral_dca.innerText = 'Demora por congestión (s/km)';
+                }
+                                
                 actualizarInterfaz(mapaActual);
                 actualizarMapa();
             });
@@ -1172,7 +1211,9 @@
 
 
                     if (mapaActual == 'nivel_congestion'){
-                        if(!nivelesSeleccionados.includes(propsArcoActual.nivel_congestion)){
+                        let que_nivel = propsArcoActual.nivel_congestion ?? propsArcoActual.nivel_promedio;
+
+                        if(!nivelesSeleccionados.includes(que_nivel)){
                             map.getCanvas().style.cursor = '';
                             popupActual.remove();
                             return;
@@ -1240,7 +1281,7 @@
                     map.getCanvas().style.cursor = '';
                     popupActual.remove();
                 });              
-            
+
         </script>
     </body>
 </html>

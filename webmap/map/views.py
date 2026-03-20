@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.http import JsonResponse
-from .models import Arcs, Nodes, Traffic
+from .models import Arcs, Nodes, Traffic, Average
 
 def limpiar_coordenada(valor):
 
@@ -69,6 +69,7 @@ def traffic_data_api(request):
             "properties": {
                 # propiedadades del archivo arcs.csv
                 "id": arco.id_arco,
+                "tipo_feature": "Trafico",
                 "interseccion": dato.id_arco.interseccion,
                 "calle_principal": arco.calle_principal,
                 "sentido": arco.sentido,
@@ -85,13 +86,48 @@ def traffic_data_api(request):
                 "tiempo_entre_largo": dato.tiempo_entre_largo,
                 "dca": dato.DCA,
                 "nivel_congestion": dato.nivel_congestion,
-
                 "infeccion_global_nivel_4": dato.infeccion_global_nivel_4,
                 "infeccion_global_nivel_5": dato.infeccion_global_nivel_5,
                 "infeccion_punta_tarde_nivel_4": dato.infeccion_punta_tarde_nivel_4,
                 "infeccion_punta_tarde_nivel_5": dato.infeccion_punta_tarde_nivel_5,
                 "infeccion_punta_mediodia_nivel_4": dato.infeccion_punta_mediodia_nivel_4,
                 "infeccion_punta_mediodia_nivel_5": dato.infeccion_punta_mediodia_nivel_5,
+            }
+        }
+
+        features.append(feature)
+
+    # PARA LOS DATOS PROMEDIO
+    datos_promedio = Average.objects.select_related('id_arco__id_nodo1', 'id_arco__id_nodo2').all()
+
+    for dato in datos_promedio:
+
+        arco = dato.id_arco
+
+        start_coord = [limpiar_coordenada(arco.id_nodo1.longitud), limpiar_coordenada(arco.id_nodo1.latitud)]
+        end_coord   = [limpiar_coordenada(arco.id_nodo2.longitud), limpiar_coordenada(arco.id_nodo2.latitud)]
+
+        feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [start_coord, end_coord]
+            },
+            "properties": {
+                # propiedades del archivo arcs.csv
+                "id": arco.id_arco,
+                "tipo_feature": "Promedio", 
+                "hora": str(dato.hora),
+                "interseccion": dato.id_arco.interseccion,
+                "calle_principal": arco.calle_principal,
+                "sentido": arco.sentido,
+                "desde": dato.id_arco.desde_interseccion,
+                "hasta": dato.id_arco.hasta_interseccion,
+                "largo": arco.largo,
+
+                # propiedades del archivo average.csv
+                "dca_promedio": dato.dca_promedio,
+                "nivel_promedio": dato.nivel_promedio,
             }
         }
 
